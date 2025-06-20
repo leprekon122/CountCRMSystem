@@ -1,0 +1,34 @@
+body {
+      background-color: black;
+}
+.login_block {
+              height: 95vh;
+              width: 100%;
+              display: flex;
+              flex-direction: center;
+              justify-content:center;
+              align-items: center;
+}
+
+
+.user_and_pass {
+               border: 0.5px solid #fff;
+               padding: 1%;
+
+}
+
+.user_and_pass  button {
+                        width: 100%;
+                        margin-top: 15px;
+                        background: transparent;
+                        }
+
+.user_and_pass  input {
+                       margin-top: 10px;
+}
+
+.user_and_pass  button:hover {
+                              background-color: #255e1e;
+                              transition-delay: 1s;
+
+}

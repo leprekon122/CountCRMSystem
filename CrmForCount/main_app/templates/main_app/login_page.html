@@ -1,0 +1,19 @@
+{%extends 'main_app/layout_login.html' %}
+
+{%block title%}Count CRM{%endblock%}
+
+{%block content%}
+<div class="container-fluent">
+    <div class="login_block">
+        <form method="post">
+            {%csrf_token%}
+            <div class="user_and_pass">
+                <input type="text" placeholder="username" class="form-control" name="username">
+                <input type="password" placeholder="password" class="form-control" name="password">
+                <button class="btn btn-success" type="submit">login</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+{%endblock%}

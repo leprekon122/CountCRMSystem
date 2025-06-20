@@ -1,0 +1,60 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyBroadExceptionInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyPep8Inspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="E501" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="Educate_Platform.main.models.Books.*" />
+          <option value="Educate_Platform.main.models.Conversation1.*" />
+          <option value="Educate_Platform.main.models.EducateCollection.*" />
+          <option value="Educate_Platform.main.models.Motivation.*" />
+          <option value="Educate_Platform.send_message.models.MessageNew.*" />
+          <option value="synergy.main.models.CreatedGroup.*" />
+          <option value="synergy.main.models.CreatedUsers.*" />
+          <option value="smartfield.prod_settings" />
+          <option value="Shop.main.models.ProductCart.objects" />
+          <option value="Shop.main.models.NotebooksList.*" />
+          <option value="Shop.main.models.CommentsUsers.*" />
+          <option value="Shop.main.models.QuestionUsers.*" />
+          <option value="Shop.main.models.Videocards.*" />
+          <option value="Shop.main.models.Monitors_list.*" />
+          <option value="Shop.main.models.CommentsUserMonitor.*" />
+          <option value="Shop.main.models.Memory_list.*" />
+          <option value="Shop.main.models.CommentsUserMemory.*" />
+          <option value="Shop.main.models.LikeListModel.objects" />
+          <option value="inter_shop.main.models.ProductCart.objects" />
+          <option value="inter_shop.main.models.LikeListModel.objects" />
+          <option value="inter_shop.main.models.NotebooksList.objects" />
+          <option value="inter_shop.main.models.CommentsUsers.objects" />
+          <option value="inter_shop.main.models.QuestionUsers.objects" />
+          <option value="inter_shop.main.models.Videocards.objects" />
+          <option value="inter_shop.main.models.CommentsUsersVideocard.objects" />
+          <option value="inter_shop.main.models.Monitors_list.objects" />
+          <option value="inter_shop.main.models.QuestionUsersVideocard.objects" />
+          <option value="inter_shop.main.models.Memory_list.objects" />
+          <option value="inter_shop.main.models.QuestionUsersMonitor.objects" />
+          <option value="inter_shop.main.models.HardDiskLists.objects" />
+          <option value="inter_shop.main.models.CommentsUserMemory.objects" />
+          <option value="inter_shop.main.models.QuestionUsersMemory.objects" />
+          <option value="inter_shop.main.models.OrderList.objects" />
+          <option value="inter_shop.main.models.CommentsUserMonitor.objects" />
+          <option value="inter_shop.main.models.CommentsUserHardDisk.objects" />
+          <option value="inter_shop.main.models.DocumentOfSold.objects" />
+          <option value="inter_shop.main.models.QuestionUsersHardDisk.objects" />
+          <option value="DjmilApps.djmil.main_djmil.models.SecondOrdersModel.objects" />
+          <option value="DjmilApps.djmil.main_djmil.models.MainOrders.objects" />
+          <option value="DjmilApps.djmil.main_djmil.tasks.djmil" />
+          <option value="datetime.date.today" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

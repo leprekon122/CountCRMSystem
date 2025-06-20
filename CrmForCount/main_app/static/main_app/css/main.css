@@ -1,0 +1,45 @@
+body {
+      background-color: black;
+}
+
+.main {width: 100%;
+       height: 95vh;
+       padding: 3%;
+
+            }
+
+.add_data_block {
+                 width: 100%;
+                 padding: 1%;
+                 display:flex;
+                 flex-direction: row;
+                 justify-content: space-between;
+}
+
+.add_fpv_total {
+                width: 35%;
+                display: flex;
+                flex-wrap: wrap;
+                border: .5px solid yellow;
+                padding: 1%;
+}
+
+
+.add_fpv_title {
+                display: flex;
+                justify-content: center
+                width: 100%;
+}
+
+.add_fpv_total_mini_div{
+                        display: flex;
+                        flex-direction: column
+}
+
+.add_mavic_total{
+                width: 35%;
+                display: flex;
+                flex-wrap: wrap;
+                border: .5px solid yellow;
+                padding: 1%;
+}

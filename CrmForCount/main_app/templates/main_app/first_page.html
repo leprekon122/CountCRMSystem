@@ -1,0 +1,82 @@
+{% extends 'main_app/layout_main.html' %}
+
+
+{%block title%}Count CRM{%endblock%}
+
+{%block content%}
+<div class="container-fluid main">
+    <form method="get">
+        <div class="add_data_block">
+            <div class="add_fpv_total">
+                <div class="add_fpv_title">
+                    <h5 class="text-light"> add FPV flow in Storage</h5>
+                </div>
+                <input type="text" placeholder="dron_name" name="dron_name">
+                <input type="text" placeholder="diagonal" name="diagonal">
+                <div class="add_fpv_total_mini_div">
+                    <label for="serial" class="text-light">serial</label>
+                    <input type="text" placeholder="serial" name="serial" id="serial">
+                </div>
+                <div class="add_fpv_total_mini_div">
+                    <label for="dron_num" class="text-light">dron number</label>
+                    <input type="text" placeholder="dron_num" name="dron_num" id="dron_num">
+                </div>
+                <div class="add_fpv_total_mini_div">
+                    <label for="dron_in" class="text-light">dron in</label>
+                    <input type="date" placeholder="date_in" name="date_in" id="dron_in">
+                </div>
+                <div class="add_fpv_total_mini_div">
+                    <label for="dron_out" class="text-light">dron out</label>
+                    <input type="date" placeholder="date_out" name="date_out" id="dron_out">
+                </div>
+                <div class="add_fpv_total_mini_div">
+                    <label for="who_took" class="text-light">who took</label>
+                    <input type="text" placeholder="who taking" name="who_took" id="who_took">
+                </div>
+                <div class="add_fpv_total_mini_div">
+                    <label for="position_name" class="text-light">position_name</label>
+                    <input type="text" placeholder="position_name" name="position_name" id="position_name">
+                </div>
+                <button class="btn btn-success " style="width: 100%; background: transparent; margin-top: 10px;"
+                        name="add_fpv_storage" type="submit" value="1">add data
+                </button>
+            </div>
+
+
+            <div class="add_mavic_total">
+                <div class="add_fpv_title">
+                    <h5 class="text-light"> add Mavic/Autel flow in Storage</h5>
+                </div>
+                <div class="add_fpv_total_mini_div">
+                    <label for="dron_name" class="text-light">dron name</label>
+                    <input type="text" placeholder="dron name" name="dron_name1" id="dron_name">
+                </div>
+                <div class="add_fpv_total_mini_div">
+                    <label for="dron_num1" class="text-light">dron number</label>
+                    <input type="text" placeholder="dron num" name="dron_num1" id="dron_num1">
+                </div>
+                <div class="add_fpv_total_mini_div">
+                    <label for="dron_in1" class="text-light">dron in</label>
+                    <input type="date" placeholder="date_in" name="date_in1" id="dron_in1">
+                </div>
+                <div class="add_fpv_total_mini_div">
+                    <label for="dron_out1" class="text-light">dron out</label>
+                    <input type="date" placeholder="date_out" name="date_out1" id="dron_out1">
+                </div>
+                <div class="add_fpv_total_mini_div">
+                    <label for="who_took1" class="text-light">who took</label>
+                    <input type="text" placeholder="who taking" name="who_took1" id="who_took1">
+                </div>
+                <div class="add_fpv_total_mini_div">
+                    <label for="position_name1" class="text-light">position_name</label>
+                    <input type="text" placeholder="position_name" name="position_name1" id="position_name1">
+                </div>
+                <button class="btn btn-success " style="width: 100%; background: transparent; margin-top: 10px;">add
+                    data
+                </button>
+            </div>
+
+        </div>
+    </form>
+</div>
+{%endblock%}
