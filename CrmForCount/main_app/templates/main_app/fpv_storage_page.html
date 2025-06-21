@@ -1,0 +1,100 @@
+{% extends 'main_app/layout_main.html'%}
+
+{%block title%} Fpv Storage Page {%endblock%}
+
+{%block content%}
+<div class="container-fluid order_main" style="width: 100%">
+    <div class="side_panel">
+        <div class="filter_panel">
+            <div class="title_filter_panel">
+                <h5 class="text-light">Filter</h5>
+            </div>
+            <div>
+                <select class="form-control">
+                    <option>filter by operator</option>
+                    <option>filter by position</option>
+                    <option>filter by dron name</option>
+                </select>
+            </div>
+            <br>
+            <button class="btn btn-warning text-light" style="background: transparent; width: 100%">
+                filter
+            </button>
+            <br>
+
+        </div>
+    </div>
+    <div class="orders_block">
+        <table class="table table-dark">
+            <thead>
+            <form method="get">
+                <tr>
+                    <th scope="col">dron_name</th>
+                    <th scope="col">serial</th>
+                    <th scope="col">diagonal</th>
+                    <th scope="col">dron_number</th>
+                    <th scope="col">
+                        dron_in
+                        {%if status == 2%}
+                        <button type="submit" name="date_low" value="1" class="btn btn-danger"
+                                style="background: transparent; border: none;"><i
+                                class="fa-solid fa-arrow-down"></i></button>
+                        {%elif stat == 1 %}
+                        <button type="submit" name="date_up" value="1" class="btn btn-danger"
+                                style="background: transparent; border: none;"><i class="fa-solid fa-arrow-up"></i>
+                        </button>
+                        {%else%}
+                        <button type="submit" name="date_low" value="1" class="btn btn-danger"
+                                style="background: transparent; border: none;"><i
+                                class="fa-solid fa-arrow-down"></i></button>
+                        {%endif%}
+
+                    </th>
+                    </button>
+                    <th scope="col">dron_out</th>
+                    <th scope="col">who_took</th>
+                    <th scope="col">position_name</th>
+                    <th scope="col">delete</th>
+                </tr>
+            </form>
+            </thead>
+            <tbody>
+            {%for el in model%}
+            <tr>
+                {%if el.status == 1%}
+                <form method="post">
+                    <td style="background-color: green">{{el.dron_name}}</td>
+                    <td style="background-color: green">{{el.serial}}</td>
+                    <td style="background-color: green">{{el.diagonal}}</td>
+                    <td style="background-color: green">{{el.dron_number}}</td>
+                    <td style="background-color: green">{{el.dron_in}}</td>
+                    <td style="background-color: green">{{el.dron_out}}</td>
+                    <td style="background-color: green"><input class="form-control" placeholder="name" type="text"
+                                                               name="who"></td>
+                    <td style="background-color: green"><input class="form-control" placeholder="position" type="text"
+                                                               name="position"></td>
+                    <td>
+                        {%csrf_token%}
+                        <button class="btn btn-danger" type="submit" name="delete_btn" value="{{el.id}}"
+                                style="background: transparent; ">delete
+                        </button>
+                    </td>
+                </form>
+                {%else%}
+                <td style="background-color: red">{{el.dron_name}}</td>
+                <td style="background-color: red">{{el.serial}}</td>
+                <td style="background-color: red">{{el.diagonal}}</td>
+                <td style="background-color: red">{{el.dron_number}}</td>
+                <td style="background-color: red">{{el.dron_in}}</td>
+                <td style="background-color: red">{{el.dron_out}}</td>
+                <td style="background-color: red">{{el.who_took}}</td>
+                <td style="background-color: red">{{el.position_name}}</td>
+                {%endif%}
+            </tr>
+            {%endfor%}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+{%endblock%}

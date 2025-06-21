@@ -8,11 +8,17 @@
     <form method="get">
         <div class="add_data_block">
             <div class="add_fpv_total">
-                <div class="add_fpv_title">
+                <div class="add_fpv_title" >
                     <h5 class="text-light"> add FPV flow in Storage</h5>
                 </div>
-                <input type="text" placeholder="dron_name" name="dron_name">
-                <input type="text" placeholder="diagonal" name="diagonal">
+                <div>
+                    <label for="drohn_name"></label>
+                    <input type="text" placeholder="dron_name" name="dron_name" id="drohn_name">
+                </div>
+                <div>
+                    <label for="diag"></label>
+                    <input type="text" placeholder="diagonal" name="diagonal" id="diag">
+                </div>
                 <div class="add_fpv_total_mini_div">
                     <label for="serial" class="text-light">serial</label>
                     <input type="text" placeholder="serial" name="serial" id="serial">
@@ -28,14 +34,6 @@
                 <div class="add_fpv_total_mini_div">
                     <label for="dron_out" class="text-light">dron out</label>
                     <input type="date" placeholder="date_out" name="date_out" id="dron_out">
-                </div>
-                <div class="add_fpv_total_mini_div">
-                    <label for="who_took" class="text-light">who took</label>
-                    <input type="text" placeholder="who taking" name="who_took" id="who_took">
-                </div>
-                <div class="add_fpv_total_mini_div">
-                    <label for="position_name" class="text-light">position_name</label>
-                    <input type="text" placeholder="position_name" name="position_name" id="position_name">
                 </div>
                 <button class="btn btn-success " style="width: 100%; background: transparent; margin-top: 10px;"
                         name="add_fpv_storage" type="submit" value="1">add data

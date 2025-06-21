@@ -7,7 +7,8 @@ from django.urls import path
 
 urlpatterns = [
     path('', views.login_page, name='login_page'),
-    path('first_page', views.FirstPage.as_view(), name='first_page')
+    path('first_page', views.FirstPage.as_view(), name='first_page'),
+    path('fpv_storage', views.FPVFlowInStorage.as_view(), name='fpv_storage')
 ]
 
 urlpatterns += [
