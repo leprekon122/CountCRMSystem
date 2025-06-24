@@ -10,18 +10,23 @@ body {
 
 .add_data_block {
                  width: 100%;
-                 padding: 1%;
+
+                 overflow: auto;
+                 padding: 3%;
                  display:flex;
                  flex-direction: row;
                  justify-content: space-between;
+                 flex-wrap: wrap;
 }
 
 .add_fpv_total {
                 width: 35%;
+
                 display: flex;
                 flex-wrap: wrap;
                 border: .5px solid yellow;
                 padding: 1%;
+
 }
 
 
@@ -32,6 +37,11 @@ body {
 
 }
 
+.add_fpv_operator_name {
+                        display: flex;
+                        flex-direction: column;
+}
+
 .add_fpv_total_mini_div{
                         display: flex;
                         flex-direction: column
@@ -39,6 +49,7 @@ body {
 
 .add_mavic_total{
                 width: 35%;
+
                 display: flex;
                 flex-wrap: wrap;
                 border: .5px solid yellow;
@@ -72,3 +83,10 @@ body {
                padding: 3%;
                border-bottom: .5px solid yellow;
 }
+
+
+.main_fpv_order {
+
+}
+
+

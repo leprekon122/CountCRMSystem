@@ -1,4 +1,5 @@
 from rest_framework.views import APIView
+from rest_framework import permissions
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .logic_views import CreateFpvStorageNotice, CreateDatasets
@@ -19,23 +20,40 @@ def login_page(request):
 
 
 class FirstPage(APIView):
+    permission_classes = [permissions.IsAuthenticated]
 
     @staticmethod
     def get(request):
-        add_fpv_storage = request.GET.get('add_fpv_storage')
+        return render(request, "main_app/first_page.html")
+
+    @staticmethod
+    def post(request):
+        add_fpv_main = request.POST.get('add_fpv_main')
+        add_fpv_storage = request.POST.get('add_fpv_storage')
         if add_fpv_storage:
-            logic = CreateFpvStorageNotice(dron_name=request.GET.get('dron_name'), serial=request.GET.get('serial'),
-                                           diagonal=request.GET.get('diagonal'),
-                                           dron_number=int(request.GET.get('dron_num')),
-                                           dron_in=request.GET.get('date_in'),
-                                           dron_out=request.GET.get('date_out'), who_took=request.GET.get('who_took'),
-                                           position_name=request.GET.get('position_name')).create_notice
+            logic = CreateFpvStorageNotice(dron_name=request.POST.get('dron_name'), serial=request.POST.get('serial'),
+                                           diagonal=request.POST.get('diagonal'),
+                                           dron_number=request.POST.get('dron_num'),
+                                           dron_in=request.POST.get('date_in'),
+                                           dron_out=request.POST.get('date_out'), who_took=request.POST.get('who_took'),
+                                           position_name=request.POST.get('position_name')).create_notice
+
+        if add_fpv_main:
+            logic = CreateFpvStorageNotice(dron_name=request.POST.get('dron_name2'), serial=request.POST.get('serial2'),
+                                           diagonal=request.POST.get('diagonal2'),
+                                           dron_number=request.POST.get('dron_num2'),
+                                           dron_in=request.POST.get('date_in2'),
+                                           dron_out=request.POST.get('date_out2'),
+                                           position_name=request.POST.get(
+                                               'position_name1'),
+                                           operator_name=(request.POST.get('operator_name1'))).creation_dataset_for_fpv_main_order()
 
         return render(request, "main_app/first_page.html")
 
 
 class FPVFlowInStorage(APIView):
     objects = None
+    permission_classes = [permissions.IsAuthenticated]
 
     @staticmethod
     def get(request):
@@ -65,3 +83,16 @@ class FPVFlowInStorage(APIView):
 
             return render(request, "main_app/fpv_storage_page.html", logik.CreateSetForFpvStorageOrder())
         return render(request, "main_app/fpv_storage_page.html", {'model': FpvFlowStorage.objects.all().values()})
+
+
+class FpvMainFlowPage(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    @staticmethod
+    def get(request):
+        logic = CreateDatasets.fpv_main_order_flow(self=None)
+        return render(request, "main_app/fpv_main_order_flow.html", logic)
+
+    @staticmethod
+    def post(request):
+        return render(request, "main_app/fpv_main_order_flow.html")

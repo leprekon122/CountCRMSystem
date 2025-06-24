@@ -1,11 +1,11 @@
+from .models import FpvFlowStorage, MainFpvFlowOrder
 from datetime import datetime
-from .models import FpvFlowStorage
 
 
 class CreateFpvStorageNotice:
 
     def __init__(self, dron_name=None, serial=None, diagonal=None, dron_number=None, dron_in=None, dron_out=None,
-                 who_took=None, position_name=None):
+                 who_took=None, position_name=None, operator_name=None):
         self.dron_name = dron_name
         self.serial = serial
         self.diagonal = diagonal
@@ -14,6 +14,7 @@ class CreateFpvStorageNotice:
         self.dron_out = dron_out
         self.who_took = who_took
         self.position_name = position_name
+        self.operator_name =operator_name
 
     @property
     def create_notice(self):
@@ -21,6 +22,12 @@ class CreateFpvStorageNotice:
         FpvFlowStorage.objects.create(dron_name=self.dron_name, serial=self.serial, diagonal=self.diagonal,
                                       dron_number=self.dron_number, dron_in=self.dron_in, dron_out=self.dron_out,
                                       who_took=self.who_took, position_name=self.position_name)
+
+    def creation_dataset_for_fpv_main_order(self):
+        """func for crating new article in fpv main order"""
+        MainFpvFlowOrder.objects.create(dron_name=self.dron_name, serial=self.serial, diagonal=self.diagonal,
+                                        dron_number=self.dron_number, dron_in=self.dron_in, dron_out=self.dron_out,
+                                        position_name=self.position_name, operator_name=self.operator_name)
 
 
 class CreateDatasets:
@@ -62,4 +69,11 @@ class CreateDatasets:
         data = {"model": set,
                 'stat': 2
                 }
+        return data
+
+    def fpv_main_order_flow(self):
+        """func for making data set in main fpv order"""
+        data = {
+            "model": MainFpvFlowOrder.objects.all().values()
+        }
         return data

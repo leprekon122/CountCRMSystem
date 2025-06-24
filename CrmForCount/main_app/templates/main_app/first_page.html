@@ -5,7 +5,8 @@
 
 {%block content%}
 <div class="container-fluid main">
-    <form method="get">
+    <form method="post">
+        {%csrf_token%}
         <div class="add_data_block">
             <div class="add_fpv_total">
                 <div class="add_fpv_title" >
@@ -35,7 +36,7 @@
                     <label for="dron_out" class="text-light">dron out</label>
                     <input type="date" placeholder="date_out" name="date_out" id="dron_out">
                 </div>
-                <button class="btn btn-success " style="width: 100%; background: transparent; margin-top: 10px;"
+                <button class="btn btn-success" style="width: 100%; background: transparent; margin-top: 10px;"
                         name="add_fpv_storage" type="submit" value="1">add data
                 </button>
             </div>
@@ -73,6 +74,50 @@
                     data
                 </button>
             </div>
+
+
+            <div class="add_fpv_total">
+                <div class="add_fpv_title" >
+                    <h5 class="text-light"> add FPV position flow</h5>
+                </div>
+                <div>
+                    <label for="drohn_name2"></label>
+                    <input type="text" placeholder="dron_name" name="dron_name2" id="drohn_name2">
+                </div>
+                <div>
+                    <label for="diag2"></label>
+                    <input type="text" placeholder="diagonal" name="diagonal2" id="diag2">
+                </div>
+                <div class="add_fpv_total_mini_div">
+                    <label for="serial3" class="text-light">serial</label>
+                    <input type="text" placeholder="serial" name="serial2" id="serial3">
+                </div>
+                <div class="add_fpv_total_mini_div">
+                    <label for="dron_num4" class="text-light">dron number</label>
+                    <input type="text" placeholder="dron_num" name="dron_num2" id="dron_num4">
+                </div>
+                <div class="add_fpv_total_mini_div">
+                    <label for="dron_in5" class="text-light">dron in</label>
+                    <input type="date" placeholder="date_in" name="date_in2" id="dron_in5">
+                </div>
+                <div class="add_fpv_total_mini_div">
+                    <label for="dron_out6" class="text-light">dron out</label>
+                    <input type="date" placeholder="date_out" name="date_out2" id="dron_out6">
+                </div>
+                <div class="add_fpv_total_mini_div">
+                    <label for="position_name2" class="text-light">position_name</label>
+                    <input type="text" placeholder="position_name" name="position_name1" id="position_name2">
+                </div>
+                <div class="add_fpv_operator_name">
+                    <label for="operator_name" class="text-light">operator_name</label>
+                    <input type="text" placeholder="operator_name" name="operator_name1" id="operator_name">
+                </div>
+                <button class="btn btn-success " style="width: 100%; background: transparent; margin-top: 10px;"
+                        name="add_fpv_main" type="submit" value="1">add data
+                </button>
+            </div>
+
+
 
         </div>
     </form>
