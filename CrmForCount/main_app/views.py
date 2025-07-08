@@ -2,8 +2,8 @@ from rest_framework.views import APIView
 from rest_framework import permissions
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from .logic_views import CreateFpvStorageNotice, CreateDatasets
-from .models import FpvFlowStorage
+from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAutelStorageNotice
+from .models import FpvFlowStorage, MavicAutelStorage
 from datetime import datetime
 
 
@@ -30,6 +30,17 @@ class FirstPage(APIView):
     def post(request):
         add_fpv_main = request.POST.get('add_fpv_main')
         add_fpv_storage = request.POST.get('add_fpv_storage')
+        add_autel_mavic_storage = request.POST.get('add_autel_mavic_storage')
+
+        if add_autel_mavic_storage:
+            logic = CreateMavicAutelStorageNotice(dron_name=request.POST.get('dron_name1'),
+                                                  dron_number=request.POST.get('dron_num1'),
+                                                  dron_in=request.POST.get('date_in1'),
+                                                  dron_out=request.POST.get('date_out1'),
+                                                  who_took=request.POST.get('who_took1'),
+                                                  position_name=request.POST.get(
+                                                      'position_name2')).create_mavic_autel_storage()
+
         if add_fpv_storage:
             logic = CreateFpvStorageNotice(dron_name=request.POST.get('dron_name'), serial=request.POST.get('serial'),
                                            diagonal=request.POST.get('diagonal'),
@@ -101,6 +112,7 @@ class FpvMainFlowPage(APIView):
 
 class MavicAutelInStorage(APIView):
     """ class for respond in MavicAutelStorage order"""
+    permission_classes = [permissions.IsAuthenticated]
 
     @staticmethod
     def get(request):

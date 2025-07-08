@@ -9,7 +9,7 @@
         {%csrf_token%}
         <div class="add_data_block">
             <div class="add_fpv_total">
-                <div class="add_fpv_title" >
+                <div class="add_fpv_title">
                     <h5 class="text-light"> add FPV flow in Storage</h5>
                 </div>
                 <div>
@@ -68,16 +68,17 @@
                 </div>
                 <div class="add_fpv_total_mini_div">
                     <label for="position_name1" class="text-light">position_name</label>
-                    <input type="text" placeholder="position_name" name="position_name1" id="position_name1">
+                    <input type="text" placeholder="position_name" name="position_name2" id="position_name1">
                 </div>
-                <button class="btn btn-success " style="width: 100%; background: transparent; margin-top: 10px;">add
+                <button name="add_autel_mavic_storage" value="1" class="btn btn-success "
+                        style="width: 100%; background: transparent; margin-top: 10px;">add
                     data
                 </button>
             </div>
 
 
             <div class="add_fpv_total">
-                <div class="add_fpv_title" >
+                <div class="add_fpv_title">
                     <h5 class="text-light"> add FPV position flow</h5>
                 </div>
                 <div>
@@ -116,7 +117,6 @@
                         name="add_fpv_main" type="submit" value="1">add data
                 </button>
             </div>
-
 
 
         </div>
