@@ -41,7 +41,7 @@
                 <a class="nav-link" href="{% url 'first_page' %}">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <div class="dropdown" >
+                <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                             style="background: transparent; border: none">
@@ -51,7 +51,8 @@
                         <a class="dropdown-item text-light" href="{% url 'fpv_main_order' %}">Fpv Flow order</a>
                         <a class="dropdown-item text-light" href="#">Mavic/Autel flow order</a>
                         <a class="dropdown-item text-light" href="{% url 'fpv_storage' %}">Flow Fpv in Storage Order</a>
-                        <a class="dropdown-item text-light" href="#">Flow Mavic/Autel in Storage Order</a>
+                        <a class="dropdown-item text-light" href="{% url 'mavic_autel_storage' %}">Flow Mavic/Autel in
+                            Storage Order</a>
                     </div>
                 </div>
             </li>

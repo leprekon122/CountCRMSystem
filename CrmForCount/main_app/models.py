@@ -34,3 +34,16 @@ class MainFpvFlowOrder(models.Model):
         verbose_name = "MainFpvFlowOrder"
         verbose_name_plural = "MainFpvFlowOrder"
 
+
+class MavicAutelStorage(models.Model):
+    objects = None
+    dron_name = models.CharField(max_length=255)
+    dron_number = models.CharField(max_length=255)
+    dron_in = models.DateField(null=True, blank=True)
+    dron_out = models.DateField(null=True, blank=True)
+    who_took = models.CharField(max_length=255)
+    position_name = models.CharField(max_length=255)
+
+    class Meta:
+        verbose_name = "MavicAutelStorage"
+        verbose_name_plural = "MavicAutelStorage"

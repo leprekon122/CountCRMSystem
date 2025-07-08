@@ -46,7 +46,8 @@ class FirstPage(APIView):
                                            dron_out=request.POST.get('date_out2'),
                                            position_name=request.POST.get(
                                                'position_name1'),
-                                           operator_name=(request.POST.get('operator_name1'))).creation_dataset_for_fpv_main_order()
+                                           operator_name=(request.POST.get(
+                                               'operator_name1'))).creation_dataset_for_fpv_main_order()
 
         return render(request, "main_app/first_page.html")
 
@@ -96,3 +97,12 @@ class FpvMainFlowPage(APIView):
     @staticmethod
     def post(request):
         return render(request, "main_app/fpv_main_order_flow.html")
+
+
+class MavicAutelInStorage(APIView):
+    """ class for respond in MavicAutelStorage order"""
+
+    @staticmethod
+    def get(request):
+        logic = CreateDatasets.mavic_autel_storage_set(self=None)
+        return render(request, "main_app/mavic_autel_storage.html", logic)

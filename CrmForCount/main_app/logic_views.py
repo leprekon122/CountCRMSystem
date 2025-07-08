@@ -1,4 +1,4 @@
-from .models import FpvFlowStorage, MainFpvFlowOrder
+from .models import FpvFlowStorage, MainFpvFlowOrder, MavicAutelStorage
 from datetime import datetime
 
 
@@ -14,7 +14,7 @@ class CreateFpvStorageNotice:
         self.dron_out = dron_out
         self.who_took = who_took
         self.position_name = position_name
-        self.operator_name =operator_name
+        self.operator_name = operator_name
 
     @property
     def create_notice(self):
@@ -33,7 +33,9 @@ class CreateFpvStorageNotice:
 class CreateDatasets:
     """Class for creating datasets on order pages """
 
-    def __init__(self, id=None, dron_out=None, who_took=None, position_name=None):
+    def __init__(self, id=None, dron_out=None, who_took=None, position_name=None, drone_name=None, dron_num=None):
+        self.drone_name = drone_name
+        self.drone_num = dron_num
         self.dron_out = dron_out
         self.who_took = who_took
         self.position_name = position_name
@@ -75,5 +77,12 @@ class CreateDatasets:
         """func for making data set in main fpv order"""
         data = {
             "model": MainFpvFlowOrder.objects.all().values()
+        }
+        return data
+
+    def mavic_autel_storage_set(self):
+        """func making main order in MAvic/Autel Storge page"""
+        data = {
+            "model": MavicAutelStorage.objects.values()
         }
         return data
