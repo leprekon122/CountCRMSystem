@@ -3,11 +3,11 @@ from datetime import datetime
 
 
 class CreateMavicAutelStorageNotice:
-
     '''class for creating  notice in MavicAutelStorage model'''
 
-    def __init__(self, dron_name=None, dron_number=None, dron_in=None, dron_out=None,
+    def __init__(self, id=None, dron_name=None, dron_number=None, dron_in=None, dron_out=None,
                  who_took=None, position_name=None):
+        self.id = id
         self.dron_name = dron_name
         self.dron_number = dron_number
         self.dron_in = dron_in
@@ -24,6 +24,14 @@ class CreateMavicAutelStorageNotice:
             who_took=self.who_took,
             position_name=self.position_name
         )
+
+    def update_notice(self=None):
+        '''func for creating update request'''
+
+        MavicAutelStorage.objects.filter(id=self.id).update(status=0,
+                                                            who_took=self.who_took,
+                                                            position_name=self.position_name,
+                                                            dron_out=self.dron_out)
 
 
 class CreateFpvStorageNotice:
@@ -81,7 +89,7 @@ class CreateDatasets:
                                                                position_name=self.position_name
                                                                )
 
-    def LowDateFilter(self):
+    def LowDateFilter(self=None):
         """Date filter Up to low """
         set = FpvFlowStorage.objects.values().order_by('dron_in')
         data = {"model": set,
@@ -89,7 +97,7 @@ class CreateDatasets:
                 }
         return data
 
-    def FilterByDateUp(self):
+    def FilterByDateUp(self=None):
         """Date filter Low to Up """
         set = FpvFlowStorage.objects.values().order_by('-dron_in')
         data = {"model": set,
@@ -104,7 +112,7 @@ class CreateDatasets:
         }
         return data
 
-    def mavic_autel_storage_set(self):
+    def mavic_autel_storage_set(self=None):
         """func making main order in MAvic/Autel Storge page"""
         data = {
             "model": MavicAutelStorage.objects.values()

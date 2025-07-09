@@ -36,7 +36,7 @@ class FirstPage(APIView):
             logic = CreateMavicAutelStorageNotice(dron_name=request.POST.get('dron_name1'),
                                                   dron_number=request.POST.get('dron_num1'),
                                                   dron_in=request.POST.get('date_in1'),
-                                                  dron_out=request.POST.get('date_out1'),
+                                                  dron_out=datetime.now().date(),
                                                   who_took=request.POST.get('who_took1'),
                                                   position_name=request.POST.get(
                                                       'position_name2')).create_mavic_autel_storage()
@@ -46,7 +46,7 @@ class FirstPage(APIView):
                                            diagonal=request.POST.get('diagonal'),
                                            dron_number=request.POST.get('dron_num'),
                                            dron_in=request.POST.get('date_in'),
-                                           dron_out=request.POST.get('date_out'), who_took=request.POST.get('who_took'),
+                                           dron_out=datetime.now().date(), who_took=request.POST.get('who_took'),
                                            position_name=request.POST.get('position_name')).create_notice
 
         if add_fpv_main:
@@ -54,7 +54,7 @@ class FirstPage(APIView):
                                            diagonal=request.POST.get('diagonal2'),
                                            dron_number=request.POST.get('dron_num2'),
                                            dron_in=request.POST.get('date_in2'),
-                                           dron_out=request.POST.get('date_out2'),
+                                           dron_out=datetime.now().date(),
                                            position_name=request.POST.get(
                                                'position_name1'),
                                            operator_name=(request.POST.get(
@@ -116,5 +116,19 @@ class MavicAutelInStorage(APIView):
 
     @staticmethod
     def get(request):
+        logic = CreateDatasets.mavic_autel_storage_set()
+        return render(request, "main_app/mavic_autel_storage.html", logic)
+
+    @staticmethod
+    def post(request):
+        mavic_change = request.POST.get('mavic_change')
+
+        if mavic_change:
+            logic = CreateMavicAutelStorageNotice(id=mavic_change,
+                                                  who_took=request.POST.get('whot_took_change'),
+                                                  position_name=request.POST.get('postion_name_change'),
+                                                  dron_out=datetime.now().date()
+                                                  ).update_notice()
+
         logic = CreateDatasets.mavic_autel_storage_set(self=None)
         return render(request, "main_app/mavic_autel_storage.html", logic)

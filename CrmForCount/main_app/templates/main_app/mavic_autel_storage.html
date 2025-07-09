@@ -34,18 +34,42 @@
                 <th scope="col">dron out</th>
                 <th scope="col">who took</th>
                 <th scope="col">position_name</th>
+                <th scope="col">change_data</th>
             </tr>
             </thead>
             {%for el in model%}
+            {% if el.status == '1' %}
+            <form method="post">
+                {%csrf_token%}
+                <tbody>
+                <td style="background-color: green">{{el.dron_name}}</td>
+                <td style="background-color: green">{{el.dron_number}}</td>
+                <td style="background-color: green">{{el.dron_in}}</td>
+                <td style="background-color: green">{{el.dron_out}}</td>
+                <td style="background-color: green"><input class="form-control" placeholder="who took"
+                                                           name="whot_took_change"></td>
+                <td style="background-color: green"><input class="form-control" placeholder="position name"
+                                                           name="postion_name_change"></td>
+
+                <td>
+                    <button class="btn btn-success" name="mavic_change" value="{{el.id}}">chage data</button>
+                </td>
+
+                </tr>
+                </tbody>
+            </form>
+            {%else%}
             <tbody>
-                <td>{{el.dron_name}}</td>
-                <td>{{el.dron_number}}</td>
-                <td>{{el.dron_in}}</td>
-                <td>{{el.dron_out}}</td>
-                <td>{{el.who_took}}</td>
-                <td>{{el.position_name}}</td>
+            <tr>
+                <td style="background-color: red">{{el.dron_name}}</td>
+                <td style="background-color: red">{{el.dron_number}}</td>
+                <td style="background-color: red">{{el.dron_in}}</td>
+                <td style="background-color: red">{{el.dron_out}}</td>
+                <td style="background-color: red">{{el.who_took}}</td>
+                <td style="background-color: red">{{el.position_name}}</td>
+                {%endif%}
+                {%endfor%}
             </tr>
-            {%endfor%}
             </tbody>
         </table>
     </div>
