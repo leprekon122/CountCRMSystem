@@ -132,3 +132,13 @@ class MavicAutelInStorage(APIView):
 
         logic = CreateDatasets.mavic_autel_storage_set(self=None)
         return render(request, "main_app/mavic_autel_storage.html", logic)
+
+
+class MavicAutelPostionFlow(APIView):
+    """view for Mavic/Autel potion flow"""
+    permission_classes = [permissions.IsAuthenticated]
+
+    @staticmethod
+    def get(request):
+        logic = CreateDatasets.mavic_autel_flow_position(self=None)
+        return render(request, 'main_app/mavic_autel_position_flow.html', logic)

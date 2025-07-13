@@ -1,4 +1,4 @@
-from .models import FpvFlowStorage, MainFpvFlowOrder, MavicAutelStorage
+from .models import FpvFlowStorage, MainFpvFlowOrder, MavicAutelStorage, MavicAutelPositionFlow
 from datetime import datetime
 
 
@@ -32,6 +32,15 @@ class CreateMavicAutelStorageNotice:
                                                             who_took=self.who_took,
                                                             position_name=self.position_name,
                                                             dron_out=self.dron_out)
+
+        background_set = MavicAutelStorage.objects.filter(id=self.id).values()[0]
+
+        MavicAutelPositionFlow.objects.create(dron_name=background_set['dron_name'],
+                                              dron_number=background_set['dron_number'],
+                                              dron_in=background_set['dron_in'],
+                                              dron_out=background_set['dron_out'],
+                                              who_took=background_set['who_took'],
+                                              position_name=background_set['position_name'])
 
 
 class CreateFpvStorageNotice:
@@ -117,4 +126,11 @@ class CreateDatasets:
         data = {
             "model": MavicAutelStorage.objects.values()
         }
+        return data
+
+    def mavic_autel_flow_position(self):
+        """func for making base dataset for Mavic/Autel position flow page """
+
+        data = {"model": MavicAutelPositionFlow.objects.values()}
+
         return data

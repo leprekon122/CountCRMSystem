@@ -1,0 +1,56 @@
+{% extends 'main_app/layout_main.html'%}
+
+{%block title%}Mavic?Autel position flow{%endblock%}
+
+{% block content%}
+<div class="container-fluid order_main">
+    <div class="side_panel">
+        <div class="filter_panel">
+            <div class="title_filter_panel">
+                <h5 class="text-light">Filter</h5>
+            </div>
+            <div>
+                <select class="form-control">
+                    <option>filter by operator</option>
+                    <option>filter by position</option>
+                    <option>filter by dron name</option>
+                </select>
+            </div>
+            <br>
+            <button class="btn btn-warning text-light" style="background: transparent; width: 100%">
+                filter
+            </button>
+            <br>
+
+        </div>
+    </div>
+    <div class="orders_block">
+        <table class="table table-dark">
+            <thead>
+            <tr>
+                <th scope="col">dron_name</th>
+                <th scope="col">dron_number</th>
+                <th scope="col">dron_in</th>
+                <th scope="col">dron_out</th>
+                <th scope="col">who_took</th>
+                <th scope="col">position_name</th>
+                <th scope="col">change data</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                {% for el in model%}
+                <td style="background-color:green">{{el.dron_name}}</td>
+                <td style="background-color:green">{{el.dron_number}}</td>
+                <td style="background-color:green">{{el.dron_in}}</td>
+                <td style="background-color:green">{{el.dron_out}}</td>
+                <td style="background-color:green">{{el.who_took}}</td>
+                <td style="background-color:green">{{el.position_name}}</td>
+                <td></td>
+                {%endfor%}
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{%endblock%}

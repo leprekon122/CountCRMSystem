@@ -48,3 +48,18 @@ class MavicAutelStorage(models.Model):
     class Meta:
         verbose_name = "MavicAutelStorage"
         verbose_name_plural = "MavicAutelStorage"
+
+
+class MavicAutelPositionFlow(models.Model):
+    objects = None
+    dron_name = models.CharField(max_length=255)
+    dron_number = models.CharField(max_length=255)
+    dron_in = models.DateField(null=True, blank=True)
+    dron_out = models.DateField(null=True, blank=True)
+    who_took = models.CharField(max_length=255, null=True, blank=True)
+    position_name = models.CharField(max_length=255, null=True, blank=True)
+    status = models.CharField(max_length=255, default=1)
+
+    class Meta:
+        verbose_name = "MavicAutelPositionFlow"
+        verbose_name_plural = "MavicAutelPositionFlow"
