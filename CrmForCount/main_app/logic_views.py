@@ -34,13 +34,38 @@ class CreateMavicAutelStorageNotice:
                                                             dron_out=self.dron_out)
 
         background_set = MavicAutelStorage.objects.filter(id=self.id).values()[0]
+        id_for_update = MavicAutelStorage.objects.filter(id=self.id).values()[0]['id_for_flow']
 
-        MavicAutelPositionFlow.objects.create(dron_name=background_set['dron_name'],
-                                              dron_number=background_set['dron_number'],
-                                              dron_in=background_set['dron_in'],
-                                              dron_out=background_set['dron_out'],
-                                              who_took=background_set['who_took'],
-                                              position_name=background_set['position_name'])
+        if id_for_update is not None:
+            MavicAutelPositionFlow.objects.filter(id=id_for_update).update(
+                dron_in=background_set['dron_in'],
+                dron_out=background_set['dron_out'],
+                position_name=background_set['position_name'],
+                status=1
+            )
+        else:
+            MavicAutelPositionFlow.objects.create(dron_name=background_set['dron_name'],
+                                                  dron_number=background_set['dron_number'],
+                                                  dron_in=background_set['dron_in'],
+                                                  # dron_out=background_set['dron_out'],
+                                                  position_name=background_set['position_name'],
+                                                  id_for_storage=self.id
+                                                  )
+
+    def updat_notice_in_flow_page(self):
+        id_for_storage = MavicAutelPositionFlow.objects.filter(id=self.id).values()[0]['id_for_storage']
+
+        MavicAutelPositionFlow.objects.filter(id=self.id).update(dron_out=datetime.now().date(),
+                                                                 who_took=self.who_took,
+                                                                 status=2
+                                                                 )
+
+        MavicAutelStorage.objects.filter(id=id_for_storage).update(status=1,
+                                                                   dron_out=None,
+                                                                   who_took=None,
+                                                                   position_name=None,
+                                                                   id_for_flow=self.id
+                                                                   )
 
 
 class CreateFpvStorageNotice:

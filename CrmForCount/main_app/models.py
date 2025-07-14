@@ -44,6 +44,9 @@ class MavicAutelStorage(models.Model):
     who_took = models.CharField(max_length=255, null=True, blank=True)
     position_name = models.CharField(max_length=255, null=True, blank=True)
     status = models.CharField(max_length=255, default=1)
+    id_for_flow = models.IntegerField(null=True, blank=True)
+
+
 
     class Meta:
         verbose_name = "MavicAutelStorage"
@@ -59,6 +62,7 @@ class MavicAutelPositionFlow(models.Model):
     who_took = models.CharField(max_length=255, null=True, blank=True)
     position_name = models.CharField(max_length=255, null=True, blank=True)
     status = models.CharField(max_length=255, default=1)
+    id_for_storage = models.IntegerField(null=True, blank=True)
 
     class Meta:
         verbose_name = "MavicAutelPositionFlow"

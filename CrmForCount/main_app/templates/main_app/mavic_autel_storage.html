@@ -25,7 +25,7 @@
         </div>
     </div>
     <div class="orders_block">
-        <table class="table table-dark">
+        <table class="table table-dark table-bordered table-sm">
             <thead>
             <tr>
                 <th scope="col">dron name</th>
@@ -46,13 +46,20 @@
                 <td style="background-color: green">{{el.dron_number}}</td>
                 <td style="background-color: green">{{el.dron_in}}</td>
                 <td style="background-color: green">{{el.dron_out}}</td>
-                <td style="background-color: green"><input class="form-control" placeholder="who took"
-                                                           name="whot_took_change"></td>
+                <td style="background-color: green">
+                    <select class="form-control"
+                            name="whot_took_change">
+                        <option>operator_name</option>
+                        <option>nick</option>
+                        <option>nick_1</option>
+                        <option>nick_2</option>
+                        <option>nick_3</option>
+                    </select></td>
                 <td style="background-color: green"><input class="form-control" placeholder="position name"
                                                            name="postion_name_change"></td>
 
                 <td>
-                    <button class="btn btn-success" name="mavic_change" value="{{el.id}}">chage data</button>
+                    <button class="btn btn-success" name="mavic_change" value="{{el.id}}">change data</button>
                 </td>
 
                 </tr>

@@ -89,4 +89,11 @@ body {
 
 }
 
+.table_button  button{
+                        margin-top: 2%;
+                        width: 100%;
+                        background-color: transparent;
+                        color: #fff
+}
+
 

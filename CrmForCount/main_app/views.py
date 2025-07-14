@@ -3,7 +3,7 @@ from rest_framework import permissions
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAutelStorageNotice
-from .models import FpvFlowStorage, MavicAutelStorage
+from .models import FpvFlowStorage, MavicAutelStorage, MavicAutelPositionFlow
 from datetime import datetime
 
 
@@ -140,5 +140,27 @@ class MavicAutelPostionFlow(APIView):
 
     @staticmethod
     def get(request):
+        logic = CreateDatasets.mavic_autel_flow_position(self=None)
+        return render(request, 'main_app/mavic_autel_position_flow.html', logic)
+
+    @staticmethod
+    def post(request):
+
+        destroy_pos_item = request.POST.get('destroy_pos_item')
+        to_storage = request.POST.get("to_storage")
+
+        if to_storage:
+            logic = CreateMavicAutelStorageNotice(id=to_storage,
+                                                  dron_out=datetime.now().date(),
+                                                  who_took=request.POST.get('who_crash')
+                                                  ).updat_notice_in_flow_page()
+
+        if destroy_pos_item:
+            print(destroy_pos_item)
+            MavicAutelPositionFlow.objects.filter(id=destroy_pos_item).update(dron_out=datetime.now().date(),
+                                                                              who_took=request.POST.get('who_crash'),
+                                                                              status=0
+                                                                              )
+
         logic = CreateDatasets.mavic_autel_flow_position(self=None)
         return render(request, 'main_app/mavic_autel_position_flow.html', logic)

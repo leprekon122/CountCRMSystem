@@ -3,7 +3,7 @@
 {%block title%}Mavic?Autel position flow{%endblock%}
 
 {% block content%}
-<div class="container-fluid order_main">
+<div class="container-fluid order_main table-sm">
     <div class="side_panel">
         <div class="filter_panel">
             <div class="title_filter_panel">
@@ -24,32 +24,66 @@
 
         </div>
     </div>
+
     <div class="orders_block">
-        <table class="table table-dark">
+        <table class="table table-dark table-bordered table-sm">
             <thead>
             <tr>
                 <th scope="col">dron_name</th>
                 <th scope="col">dron_number</th>
                 <th scope="col">dron_in</th>
                 <th scope="col">dron_out</th>
-                <th scope="col">who_took</th>
+                <th scope="col">who_crash</th>
                 <th scope="col">position_name</th>
                 <th scope="col">change data</th>
             </tr>
             </thead>
-            <tbody>
-            <tr>
+            <form method="post">
+                {%csrf_token%}
+                <tbody>
                 {% for el in model%}
-                <td style="background-color:green">{{el.dron_name}}</td>
-                <td style="background-color:green">{{el.dron_number}}</td>
-                <td style="background-color:green">{{el.dron_in}}</td>
-                <td style="background-color:green">{{el.dron_out}}</td>
-                <td style="background-color:green">{{el.who_took}}</td>
-                <td style="background-color:green">{{el.position_name}}</td>
-                <td></td>
+                {%if el.status == '1'%}
+                <tr>
+                    <td style="background-color:green" >{{el.dron_name}}</td>
+                    <td style="background-color:green" >{{el.dron_number}}</td>
+                    <td style="background-color:green" >{{el.dron_in}}</td>
+                    <td style="background-color:green" >{{el.dron_out}}</td>
+                    <td style="background-color:green" ><input class="form-control" placeholder="who crash"
+                                                              name="who_crash"></td>
+                    <td style="background-color:green" class="table_column">{{el.position_name}}</td>
+                    <td>
+                        <div class="table_button">
+                            <button class="btn btn-danger" type="submit" value="{{el.id}}" name="destroy_pos_item">
+                                destroy
+                            </button>
+                            <button class="btn btn-warning" type="submit" name="to_storage" value="{{el.id}}">to storage
+                            </button>
+                        </div>
+
+                    </td>
+                </tr>
+                {%elif el.status == '2'%}
+                <tr>
+                    <td style="background-color:grey">{{el.dron_name}}</td>
+                    <td style="background-color:grey">{{el.dron_number}}</td>
+                    <td style="background-color:grey">{{el.dron_in}}</td>
+                    <td style="background-color:grey">{{el.dron_out}}</td>
+                    <td style="background-color:grey">{{el.who_took}}</td>
+                    <td style="background-color:grey">{{el.position_name}}</td>
+                </tr>
+                {%else%}
+                <tr>
+                    <td style="background-color:red">{{el.dron_name}}</td>
+                    <td style="background-color:red">{{el.dron_number}}</td>
+                    <td style="background-color:red">{{el.dron_in}}</td>
+                    <td style="background-color:red">{{el.dron_out}}</td>
+                    <td style="background-color:red">{{el.who_took}}</td>
+                    <td style="background-color:red">{{el.position_name}}</td>
+                </tr>
+                {%endif%}
                 {%endfor%}
-            </tr>
-            </tbody>
+                </tbody>
+            </form>
         </table>
     </div>
 </div>
