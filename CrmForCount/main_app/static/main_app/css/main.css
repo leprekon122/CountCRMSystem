@@ -5,7 +5,6 @@ body {
 .main {width: 100%;
        height: 95vh;
        padding: 3%;
-
             }
 
 .add_data_block {
@@ -26,8 +25,7 @@ body {
                 flex-wrap: wrap;
                 border: .5px solid yellow;
                 padding: 1%;
-
-}
+                }
 
 
 .add_fpv_title {
@@ -96,4 +94,73 @@ body {
                         color: #fff
 }
 
+@media screen and (max-width: 430px){
+    .add_data_block {
+                 width: 100%;
 
+                 overflow: auto;
+                 padding: 3%;
+                 display:flex;
+                 flex-direction: column;
+                 justify-content: space-between;
+                 flex-wrap: wrap;
+            }
+
+    .add_fpv_total {
+                width: 97%;
+                display: flex;
+                flex-wrap: wrap;
+                border: .5px solid yellow;
+                padding: 1%;
+                margin-top: 15px;
+                }
+
+    .add_mavic_total{
+                width: 97%;
+
+                display: flex;
+                flex-wrap: wrap;
+                border: .5px solid yellow;
+                padding: 1%;
+                margin-top: 15px;
+            }
+    .input_form_div {
+                     width: 100%;
+                    }
+    .input_form_div input{
+                     width: 100%;
+                    }
+
+    .add_fpv_total_mini_div {
+                              width: 100%;
+                            }
+
+    .add_fpv_operator_name {
+                            width: 100%;
+                            }
+
+    .order_main {
+             width: 100%;
+             display: flex;
+             flex-direction: column;
+    }
+
+    .side_panel {
+             display: none;`
+             width: 97%;
+             height: 45vh;
+             overflow: auto;
+             padding: 2%;
+             border: 1px solid yellow;
+             margin-top: 10px;
+    }
+
+    .orders_block {
+               width: 100%;
+               height: 95vh;
+               overflow: auto;
+               padding: 2%;
+}
+
+
+}
