@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework import permissions
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAutelStorageNotice
+from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAutelStorageNotice, FpvFlowPage
 from .models import FpvFlowStorage, MavicAutelPositionFlow, MainFpvFlowOrder
 from datetime import datetime
 
@@ -48,7 +48,6 @@ class FirstPage(APIView):
                                            dron_in=request.POST.get('date_in'),
                                            dron_out=datetime.now().date(), who_took=request.POST.get('who_took'),
                                            position_name=request.POST.get('position_name')).create_notice
-
 
         if add_fpv_main:
             logic = CreateFpvStorageNotice(dron_name=request.POST.get('dron_name2'), serial=request.POST.get('serial2'),
@@ -113,32 +112,16 @@ class FpvMainFlowPage(APIView):
         to_storage = request.POST.get('to_storage')
 
         if to_storage:
-            data_set = MainFpvFlowOrder.objects.filter(id=to_storage).values()[0]
-            MainFpvFlowOrder.objects.filter(id=to_storage).update(
-                status=2,
-                position_name=request.POST.get('fpv_flow_pos'),
-                operator_name=request.POST.get('who')
-            )
+            """views for return to storage fpv"""
 
-            if data_set['id_for_storage'] is not None:
-                FpvFlowStorage.objects.filter(id=data_set['id_for_storage']).update(status=1,
-                                                                                    who_took=request.POST.get('who'),
-                                                                                    position_name=request.POST.get(
-                                                                                        'fpv_flow_pos'),
-                                                                                    id_for_flow=to_storage
-                                                                                    )
-            else:
-                FpvFlowStorage.objects.create(
-                    dron_name=data_set['dron_name'], serial=data_set['serial'], diagonal=data_set['diagonal'],
-                    dron_number=data_set['dron_number'], dron_in=datetime.now().date(),
-                    dron_out=data_set['dron_out'], id_for_flow=data_set['id']
-                )
+            FpvFlowPage(position_name=request.POST.get('fpv_flow_pos'),
+                        who_took=request.POST.get('who'),
+                        dron_id=to_storage
+                        ).to_storage_return()
 
         if delete_fpv_flow:
-            data_set = MainFpvFlowOrder.objects.filter(id=delete_fpv_flow)
-            data_set.update(status=0,
-                            position_name=request.POST.get('fpv_flow_pos'),
-                            operator_name=request.POST.get('who'))
+            FpvFlowPage(dron_id=delete_fpv_flow, position_name=request.POST.get('fpv_flow_pos'),
+                        who_took=request.POST.get('who')).delet_fpv_flow_notice()
 
         return render(request, "main_app/fpv_main_order_flow.html", logic)
 

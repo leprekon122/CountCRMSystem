@@ -180,3 +180,48 @@ class CreateDatasets:
         data = {"model": MavicAutelPositionFlow.objects.values()}
 
         return data
+
+
+class FpvFlowPage:
+
+    def __init__(self, dron_id=None, dron_name=None, serial=None, diagonal=None, dron_number=None, dron_in=None,
+                 dron_out=None,
+                 who_took=None, position_name=None, operator_name=None):
+        self.dron_id = dron_id
+        self.dron_name = dron_name
+        self.serial = serial
+        self.diagonal = diagonal
+        self.dron_number = dron_number
+        self.dron_in = dron_in
+        self.dron_out = dron_out
+        self.who_took = who_took
+        self.position_name = position_name
+
+
+    def delet_fpv_flow_notice(self):
+        data_set = MainFpvFlowOrder.objects.filter(id=self.dron_id)
+        data_set.update(status=0,
+                        position_name=self.position_name,
+                        operator_name=self.who_took
+                        )
+
+    def to_storage_return(self):
+        data_set = MainFpvFlowOrder.objects.filter(id=self.dron_id).values()[0]
+        MainFpvFlowOrder.objects.filter(id=self.dron_id).update(
+            status=2,
+            position_name=self.position_name,
+            operator_name=self.who_took
+        )
+
+        if data_set['id_for_storage'] is not None:
+            FpvFlowStorage.objects.filter(id=data_set['id_for_storage']).update(status=1,
+                                                                                who_took=self.who_took,
+                                                                                position_name=self.position_name,
+                                                                                id_for_flow=self.dron_id
+                                                                                )
+        else:
+            FpvFlowStorage.objects.create(
+                dron_name=data_set['dron_name'], serial=data_set['serial'], diagonal=data_set['diagonal'],
+                dron_number=data_set['dron_number'], dron_in=datetime.now().date(),
+                dron_out=data_set['dron_out'], id_for_flow=data_set['id']
+            )
