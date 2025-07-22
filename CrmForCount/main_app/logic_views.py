@@ -120,8 +120,29 @@ class CreateDatasets:
         set = FpvFlowStorage.objects.filter(id=self.id).update(status=0,
                                                                dron_out=self.dron_out,
                                                                who_took=self.who_took,
-                                                               position_name=self.position_name
+                                                               position_name=self.position_name,
                                                                )
+        data_for_creating = FpvFlowStorage.objects.filter(id=self.id).values()[0]
+
+        if data_for_creating['id_for_flow'] is not None:
+            MainFpvFlowOrder.objects.filter(id=data_for_creating['id_for_flow']).update(
+                dron_name=data_for_creating['dron_name'], serial=data_for_creating['serial'],
+                diagonal=data_for_creating['diagonal'],
+                dron_number=data_for_creating['dron_number'],
+                dron_in=datetime.now().date(),
+                dron_out=datetime.now().date(),
+                id_for_storage=self.id,
+                status=1
+            )
+        else:
+            MainFpvFlowOrder.objects.create(dron_name=data_for_creating['dron_name'],
+                                            serial=data_for_creating['serial'],
+                                            diagonal=data_for_creating['diagonal'],
+                                            dron_number=data_for_creating['dron_number'],
+                                            dron_in=datetime.now().date(),
+                                            dron_out=datetime.now().date(),
+                                            id_for_storage=self.id
+                                            )
 
     def LowDateFilter(self=None):
         """Date filter Up to low """

@@ -36,23 +36,75 @@
                 <th scope="col">dron_out</th>
                 <th scope="col">position_name</th>
                 <th scope="col">operator_name</th>
+                <th scope="col"></th>
             </tr>
             </thead>
-            <tbody>
-            {%for el in model%}
-            <tr>
-                <td>{{el.dron_name}}</td>
-                <td>{{el.diagonal}}</td>
-                <td>{{el.serial}}</td>
-                <td>{{el.dron_number}}</td>
-                <td>{{el.dron_in}}</td>
-                <td>{{el.dron_out}}</td>
-                <td>{{el.position_name}}</td>
-                <td>{{el.operator_name}}</td>
-            </tr>
-            {%endfor%}
+            <form method="post">
+                {%csrf_token%}
+                <tbody>
+                {%for el in model%}
+                {%if el.status == 0%}
+                <tr>
+                    <td style="background-color: red">{{el.dron_name}}</td>
+                    <td style="background-color: red"">{{el.diagonal}}</td>
+                    <td style="background-color: red">{{el.serial}}</td>
+                    <td style="background-color: red">{{el.dron_number}}</td>
+                    <td style="background-color: red">{{el.dron_in}}</td>
+                    <td style="background-color: red">{{el.dron_out}}</td>
+                    <td style="background-color: red">{{el.position_name}}</td>
+                    <td style="background-color: red">{{el.operator_name}}</td>
+                </tr>
+                {% elif el.status == 1%}
+                <tr>
+                    <td>{{el.dron_name}}</td>
+                    <td>{{el.diagonal}}</td>
+                    <td>{{el.serial}}</td>
+                    <td>{{el.dron_number}}</td>
+                    <td>{{el.dron_in}}</td>
+                    <td>{{el.dron_out}}</td>
+                    <td><input class="form-control" name="fpv_flow_pos" placeholder="position_name"></td>
+                    <td>
+                        <select class="form-control" name="who">
+                            <option>operator name</option>
+                            <option>ВАЙС</option>
+                            <option>ЗЄЛЯ</option>
+                            <option>ШАРА</option>
+                            <option>КОРСАР</option>
+                            <option>РІЧІ</option>
+                            <option>КАРА</option>
+                            <option>ФІКСІК</option>
+                            <option>ХАКЕР</option>
+                            <option>МАСЯНЯ</option>
+                            <option>МЕЛ</option>
+                            <option>ІЧІ</option>
+                        </select>
 
-            </tbody>
+                    </td>
+                    <td>
+                        <div class="table_button">
+                            <button class="btn btn-danger" type="submit" name="delete_fpv_flow" value="{{el.id}}">delete
+                            </button>
+                            <button class="btn btn-warning" type="submit" name="to_storage" value="{{el.id}}">to
+                                storage
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                {% elif el.status == 2%}
+                <tr>
+                    <td style="background-color: #86878a">{{el.dron_name}}</td>
+                    <td style="background-color: #86878a"">{{el.diagonal}}</td>
+                    <td style="background-color: #86878a">{{el.serial}}</td>
+                    <td style="background-color: #86878a">{{el.dron_number}}</td>
+                    <td style="background-color: #86878a">{{el.dron_in}}</td>
+                    <td style="background-color: #86878a">{{el.dron_out}}</td>
+                    <td style="background-color: #86878a">{{el.position_name}}</td>
+                    <td style="background-color: #86878a">{{el.operator_name}}</td>
+                </tr>
+                {%endif%}
+                {%endfor%}
+                </tbody>
+            </form>
         </table>
     </div>
 </div>

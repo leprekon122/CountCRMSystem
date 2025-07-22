@@ -12,6 +12,7 @@ class FpvFlowStorage(models.Model):
     who_took = models.CharField(null=True, blank=True)
     position_name = models.CharField(max_length=255, null=True, blank=True)
     status = models.IntegerField(null=True, blank=True, default=1)
+    id_for_flow = models.IntegerField(null=True, blank=True)
 
     class Meta:
         verbose_name = 'FpvFlowStorage'
@@ -29,6 +30,9 @@ class MainFpvFlowOrder(models.Model):
     dron_out = models.DateField(null=True, blank=True)
     position_name = models.CharField(max_length=255, null=True, blank=True)
     operator_name = models.CharField(max_length=100, null=True, blank=True)
+    crash_coordinates = models.CharField(max_length=50, null=True, blank=True)
+    id_for_storage = models.IntegerField(null=True, blank=True)
+    status = models.IntegerField(null=True, blank=True, default=1)
 
     class Meta:
         verbose_name = "MainFpvFlowOrder"
@@ -47,7 +51,6 @@ class MavicAutelStorage(models.Model):
     id_for_flow = models.IntegerField(null=True, blank=True)
 
 
-
     class Meta:
         verbose_name = "MavicAutelStorage"
         verbose_name_plural = "MavicAutelStorage"
@@ -63,6 +66,7 @@ class MavicAutelPositionFlow(models.Model):
     position_name = models.CharField(max_length=255, null=True, blank=True)
     status = models.CharField(max_length=255, default=1)
     id_for_storage = models.IntegerField(null=True, blank=True)
+    crash_coordinates = models.CharField(max_length=50, null=True, blank=True)
 
     class Meta:
         verbose_name = "MavicAutelPositionFlow"
