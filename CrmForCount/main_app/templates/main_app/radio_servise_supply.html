@@ -39,9 +39,9 @@
             <tbody>
             <form method="post">
                 {%csrf_token%}
+                {% for el in model %}
+                {%if el.status == '1' %}
                 <tr>
-                    {% for el in model %}
-                    {%if el.status == '1' %}
                     <th style="background-color: #1d5718">{{el.supply_name}}</th>
                     <th style="background-color: #1d5718">{{el.price}}</th>
                     <th style="background-color: #1d5718">{{el.serial_number}}</th>
@@ -52,15 +52,17 @@
                                 style="background-color:transparent">delete
                         </button>
                     </th>
-                    {% elif el.status == '0' %}
+                </tr>
+                {% elif el.status == '0' %}
+                <tr>
                     <th style="background-color: #1d5718">{{el.supply_name}}</th>
                     <th style="background-color: #1d5718">{{el.price}}</th>
                     <th style="background-color: #1d5718">{{el.serial_number}}</th>
                     <th style="background-color: #1d5718">{{el.date_in}}</th>
                     <th style="background-color: #1d5718">{{el.date_out}}</th>
-                    {%endif%}
-                    {%endfor%}
                 </tr>
+                {%endif%}
+                {%endfor%}
             </form>
             </tbody>
         </table>

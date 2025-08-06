@@ -41,30 +41,32 @@
             <tbody>
             <form method="post">
                 {%csrf_token%}
-            <tr>
                 {%for el in model%}
                 {% if el.status == '1' %}
-                <th style="background-color: #1d5718">{{el.Nickname}}</th>
-                <th style="background-color: #1d5718">{{el.Type_rifle}}</th>
-                <th style="background-color: #1d5718">{{el.Rifle_number}}</th>
-                <th style="background-color: #1d5718">{{el.Produced_date}}</th>
-                <th style="background-color: #1d5718">{{el.date_in}}</th>
-                <th style="background-color: #1d5718">{{el.date_out}}</th>
-                <th>
-                    <button class="btn btn-danger" type="submit" name="del_rifle" value="{{el.id}}"
-                            style="background-color:transparent">delete
-                    </button>
-                </th>
+                <tr>
+                    <th style="background-color: #1d5718">{{el.Nickname}}</th>
+                    <th style="background-color: #1d5718">{{el.Type_rifle}}</th>
+                    <th style="background-color: #1d5718">{{el.Rifle_number}}</th>
+                    <th style="background-color: #1d5718">{{el.Produced_date}}</th>
+                    <th style="background-color: #1d5718">{{el.date_in}}</th>
+                    <th style="background-color: #1d5718">{{el.date_out}}</th>
+                    <th>
+                        <button class="btn btn-danger" type="submit" name="del_rifle" value="{{el.id}}"
+                                style="background-color:transparent">delete
+                        </button>
+                    </th>
+                </tr>
                 {%elif el.status == '0' %}
-                <th style="background-color: #611510">{{el.Nickname}}</th>
-                <th style="background-color: #611510">{{el.Type_rifle}}</th>
-                <th style="background-color: #611510">{{el.Rifle_number}}</th>
-                <th style="background-color: #611510">{{el.Produced_date}}</th>
-                <th style="background-color: #611510">{{el.date_in}}</th>
-                <th style="background-color: #611510">{{el.date_out}}</th>
+                <tr>
+                    <th style="background-color: #611510">{{el.Nickname}}</th>
+                    <th style="background-color: #611510">{{el.Type_rifle}}</th>
+                    <th style="background-color: #611510">{{el.Rifle_number}}</th>
+                    <th style="background-color: #611510">{{el.Produced_date}}</th>
+                    <th style="background-color: #611510">{{el.date_in}}</th>
+                    <th style="background-color: #611510">{{el.date_out}}</th>
+                </tr>
                 {%endif%}
                 {%endfor%}
-            </tr>
             </form>
             </tbody>
         </table>
