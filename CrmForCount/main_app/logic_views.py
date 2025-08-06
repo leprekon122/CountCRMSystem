@@ -1,4 +1,5 @@
-from .models import FpvFlowStorage, MainFpvFlowOrder, MavicAutelStorage, MavicAutelPositionFlow
+from .models import FpvFlowStorage, MainFpvFlowOrder, MavicAutelStorage, MavicAutelPositionFlow, RifleOrderModel, \
+    RadioServiceModel
 from datetime import datetime
 
 
@@ -181,6 +182,19 @@ class CreateDatasets:
 
         return data
 
+    def RifleDataSetMAin(self):
+        """data set for rifle main order"""
+
+        data = {'model': RifleOrderModel.objects.values()}
+        return data
+
+    def RadioServiceSetMain(self):
+        """data set for RadioService main order"""
+
+        data = {"model": RadioServiceModel.objects.values()}
+
+        return data
+
 
 class FpvFlowPage:
 
@@ -196,7 +210,6 @@ class FpvFlowPage:
         self.dron_out = dron_out
         self.who_took = who_took
         self.position_name = position_name
-
 
     def delet_fpv_flow_notice(self):
         data_set = MainFpvFlowOrder.objects.filter(id=self.dron_id)
@@ -225,3 +238,23 @@ class FpvFlowPage:
                 dron_number=data_set['dron_number'], dron_in=datetime.now().date(),
                 dron_out=data_set['dron_out'], id_for_flow=data_set['id']
             )
+
+
+class RadioOrderLogic:
+
+    def __init__(self, notice_id):
+        self.notice_id = notice_id
+
+    def delete_notice(self):
+        """delete notice from RadioModel"""
+        RadioServiceModel.objects.filter(id=self.notice_id).update(date_out=datetime.now().date(), status=0)
+
+
+class RifleOrderLogic:
+
+    def __init__(self, notice_id):
+        self.notice_id = notice_id
+
+    def delete_notice(self):
+        """delete notice from Rifle model"""
+        RifleOrderModel.objects.filter(id=self.notice_id).update(date_out=datetime.now().date(), status=0)

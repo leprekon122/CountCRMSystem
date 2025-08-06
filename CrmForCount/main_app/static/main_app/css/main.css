@@ -5,7 +5,11 @@ body {
 .dropdown-item:hover {
   background-color: #9c8a06; /* Change this to your desired color */
   color: red;              /* Optional: change text color on hover */
-}
+    }
+
+.navbar-custom {
+  background-color: #2b1417);
+    }
 
 .main {width: 100%;
        height: 95vh;

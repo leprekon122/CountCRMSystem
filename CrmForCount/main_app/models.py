@@ -50,7 +50,6 @@ class MavicAutelStorage(models.Model):
     status = models.CharField(max_length=255, default=1)
     id_for_flow = models.IntegerField(null=True, blank=True)
 
-
     class Meta:
         verbose_name = "MavicAutelStorage"
         verbose_name_plural = "MavicAutelStorage"
@@ -71,3 +70,35 @@ class MavicAutelPositionFlow(models.Model):
     class Meta:
         verbose_name = "MavicAutelPositionFlow"
         verbose_name_plural = "MavicAutelPositionFlow"
+
+
+class RifleOrderModel(models.Model):
+    objects = None
+
+    Nickname = models.CharField(max_length=120)
+    Type_rifle = models.CharField(max_length=20)
+    Rifle_number = models.CharField(max_length=50)
+    Produced_date = models.CharField(max_length=4)
+    status = models.CharField(default=1)
+    date_in = models.DateField(auto_now=True)
+    date_out = models.DateField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'RifleOrderModel'
+        verbose_name_plural = 'RifleOrderModel'
+
+
+class RadioServiceModel(models.Model):
+    objects = None
+
+    supply_name = models.CharField(max_length=255)
+    price = models.CharField(max_length=255)
+    serial_number = models.CharField(max_length=255)
+    date_in = models.DateField(auto_now=True)
+    date_out = models.DateField(null=True, blank=True)
+    status = models.CharField(default=1)
+
+    class Meta:
+
+        verbose_name = "RadioServiceModel"
+        verbose_name_plural = "RadioServiceModel"

@@ -1,0 +1,69 @@
+{% extends 'main_app/layout_main.html' %}
+
+{%block title%}Radio service{%endblock%}
+
+{%block content%}
+<div class="container-fluid order_main" style="width: 100%">
+    <div class="side_panel" id="side_panel">
+        <div class="filter_panel">
+            <div class="title_filter_panel">
+                <h5 class="text-light">Filter</h5>
+            </div>
+            <div>
+                <select class="form-control">
+                    <option>filter by operator</option>
+                    <option>filter by position</option>
+                    <option>filter by dron name</option>
+                </select>
+            </div>
+            <br>
+            <button class="btn btn-warning text-light" style="background: transparent; width: 100%">
+                filter
+            </button>
+            <br>
+
+        </div>
+    </div>
+    <div class="orders_block">
+        <table class="table table-dark table-sm">
+            <thead>
+            <tr>
+                <th scope="col">supply_name</th>
+                <th scope="col">price</th>
+                <th scope="col">serial number</th>
+                <th scope="col">Date in</th>
+                <th scope="col">Date out</th>
+                <th scope="col">get out</th>
+            </tr>
+            </thead>
+            <tbody>
+            <form method="post">
+                {%csrf_token%}
+                <tr>
+                    {% for el in model %}
+                    {%if el.status == '1' %}
+                    <th style="background-color: #1d5718">{{el.supply_name}}</th>
+                    <th style="background-color: #1d5718">{{el.price}}</th>
+                    <th style="background-color: #1d5718">{{el.serial_number}}</th>
+                    <th style="background-color: #1d5718">{{el.date_in}}</th>
+                    <th style="background-color: #1d5718">{{el.date_out}}</th>
+                    <th>
+                        <button class="btn btn-danger" type="submit" name="del_radio" value="{{el.id}}"
+                                style="background-color:transparent">delete
+                        </button>
+                    </th>
+                    {% elif el.status == '0' %}
+                    <th style="background-color: #1d5718">{{el.supply_name}}</th>
+                    <th style="background-color: #1d5718">{{el.price}}</th>
+                    <th style="background-color: #1d5718">{{el.serial_number}}</th>
+                    <th style="background-color: #1d5718">{{el.date_in}}</th>
+                    <th style="background-color: #1d5718">{{el.date_out}}</th>
+                    {%endif%}
+                    {%endfor%}
+                </tr>
+            </form>
+            </tbody>
+        </table>
+    </div>
+</div>
+{%endblock%}

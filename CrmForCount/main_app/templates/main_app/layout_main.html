@@ -28,7 +28,7 @@
             integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
             crossorigin="anonymous"></script>
 </head>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background-image: url('static/main_app/img/tunnel-3348835_1280.jpg'); background-position: center; background-repeat: no-repeat; background-size: cover;">
     <a class="navbar-brand" href="{% url 'first_page' %}">Crm</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,6 +54,8 @@
                         <a class="dropdown-item text-light" href="{% url 'fpv_storage' %}">Flow Fpv in Storage Order</a>
                         <a class="dropdown-item text-light" href="{% url 'mavic_autel_storage' %}">Flow Mavic/Autel in
                             Storage Order</a>
+                        <a class="dropdown-item text-light" href="{% url 'rifle_order' %}">Rifle Order</a>
+                        <a class="dropdown-item text-light" href="{% url 'radio_service' %}">Radio Supply  Order</a>
                     </div>
                 </div>
             </li>
@@ -73,7 +75,7 @@
         </form>
     </div>
 </nav>
-<body>
+<body style="background-image: url('static/main_app/img/bridge-9456745_1920.jpg'); background-position: center; background-repeat: no-repeat; background-size: cover;">
 {%block content%}
 {%endblock%}
 <script src="static/main_app/js/main_js.js"></script>

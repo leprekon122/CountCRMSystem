@@ -2,7 +2,8 @@ from rest_framework.views import APIView
 from rest_framework import permissions
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAutelStorageNotice, FpvFlowPage
+from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAutelStorageNotice, FpvFlowPage, \
+    RadioOrderLogic, RifleOrderLogic
 from .models import FpvFlowStorage, MavicAutelPositionFlow, MainFpvFlowOrder
 from datetime import datetime
 
@@ -181,3 +182,41 @@ class MavicAutelPostionFlow(APIView):
 
         logic = CreateDatasets.mavic_autel_flow_position(self=None)
         return render(request, 'main_app/mavic_autel_position_flow.html', logic)
+
+
+class RifleOrderPage(APIView):
+    """Page for manging rifle_order.html"""
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    @staticmethod
+    def get(request):
+        logic = CreateDatasets.RifleDataSetMAin(self=None)
+        return render(request, 'main_app/rifle_order.html', logic)
+
+    @staticmethod
+    def post(request):
+        logic = CreateDatasets.RifleDataSetMAin(self=None)
+        del_rifle = request.POST.get('del_rifle')
+        if del_rifle:
+            del_logic = RifleOrderLogic(notice_id=del_rifle).delete_notice()
+
+        return render(request, 'main_app/rifle_order.html', logic)
+
+
+class RadioServiceSupply(APIView):
+    """class for manage radio_servise_supply.html"""
+
+    @staticmethod
+    def get(request):
+        logic = CreateDatasets.RadioServiceSetMain(self=None)
+        return render(request, 'main_app/radio_servise_supply.html', logic)
+
+    @staticmethod
+    def post(reqeust):
+        logic = CreateDatasets.RifleDataSetMAin(self=None)
+        del_radio = reqeust.POST.get('del_radio')
+        if del_radio:
+            logic_del = RadioOrderLogic(notice_id=del_radio).delete_notice()
+            return render(reqeust, 'main_app/rifle_order.html', logic)
+        return render(reqeust, 'main_app/rifle_order.html', logic)

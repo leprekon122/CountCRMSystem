@@ -63,13 +63,13 @@
             <tr>
                 {%if el.status == 1%}
                 <form method="post">
-                    <td style="background-color: green">{{el.dron_name}}</td>
-                    <td style="background-color: green">{{el.serial}}</td>
-                    <td style="background-color: green">{{el.diagonal}}</td>
-                    <td style="background-color: green">{{el.dron_number}}</td>
-                    <td style="background-color: green">{{el.dron_in}}</td>
-                    <td style="background-color: green">{{el.dron_out}}</td>
-                    <td style="background-color: green"><select class="form-control" name="who">
+                    <td style="background-color: #23612f">{{el.dron_name}}</td>
+                    <td style="background-color: #23612f">{{el.serial}}</td>
+                    <td style="background-color: #23612f">{{el.diagonal}}</td>
+                    <td style="background-color: #23612f">{{el.dron_number}}</td>
+                    <td style="background-color: #23612f">{{el.dron_in}}</td>
+                    <td style="background-color: #23612f">{{el.dron_out}}</td>
+                    <td style="background-color: #23612f"><select class="form-control" name="who">
                         <option>operator name</option>
                         <option>ВАЙС</option>
                         <option>ЗЄЛЯ</option>
@@ -94,14 +94,14 @@
                     </td>
                 </form>
                 {%else%}
-                <td style="background-color: red">{{el.dron_name}}</td>
-                <td style="background-color: red">{{el.serial}}</td>
-                <td style="background-color: red">{{el.diagonal}}</td>
-                <td style="background-color: red">{{el.dron_number}}</td>
-                <td style="background-color: red">{{el.dron_in}}</td>
-                <td style="background-color: red">{{el.dron_out}}</td>
-                <td style="background-color: red">{{el.who_took}}</td>
-                <td style="background-color: red">{{el.position_name}}</td>
+                <td style="background-color: #451318">{{el.dron_name}}</td>
+                <td style="background-color: #451318">{{el.serial}}</td>
+                <td style="background-color: #451318">{{el.diagonal}}</td>
+                <td style="background-color: #451318">{{el.dron_number}}</td>
+                <td style="background-color: #451318">{{el.dron_in}}</td>
+                <td style="background-color: #451318">{{el.dron_out}}</td>
+                <td style="background-color: #451318">{{el.who_took}}</td>
+                <td style="background-color: #451318">{{el.position_name}}</td>
                 {%endif%}
             </tr>
             {%endfor%}
