@@ -191,7 +191,7 @@ class CreateDatasets:
     def RadioServiceSetMain(self):
         """data set for RadioService main order"""
 
-        data = {"model": RadioServiceModel.objects.values()}
+        data = {"model": RadioServiceModel.objects.values().order_by('-id')}
 
         return data
 
@@ -242,12 +242,20 @@ class FpvFlowPage:
 
 class RadioOrderLogic:
 
-    def __init__(self, notice_id):
+    def __init__(self, notice_id=None, supply_name=None, supply_price=None, serial_number=None, date_in=None):
         self.notice_id = notice_id
+        self.supply_name = supply_name
+        self.supply_price = supply_price
+        self.serial_number = serial_number
+        self.date_in = date_in
 
     def delete_notice(self):
         """delete notice from RadioModel"""
         RadioServiceModel.objects.filter(id=self.notice_id).update(date_out=datetime.now().date(), status=0)
+
+    def create_radio_note(self):
+        RadioServiceModel.objects.create(supply_name=self.supply_name, price=self.supply_price,
+                                         serial_number=self.serial_number, date_in=self.date_in, )
 
 
 class RifleOrderLogic:

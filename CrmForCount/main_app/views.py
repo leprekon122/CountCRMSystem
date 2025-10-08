@@ -32,6 +32,7 @@ class FirstPage(APIView):
         add_fpv_main = request.POST.get('add_fpv_main')
         add_fpv_storage = request.POST.get('add_fpv_storage')
         add_autel_mavic_storage = request.POST.get('add_autel_mavic_storage')
+        add_radio_supply = request.POST.get('add_radio_supply')
 
         if add_autel_mavic_storage:
             logic = CreateMavicAutelStorageNotice(dron_name=request.POST.get('dron_name1'),
@@ -60,6 +61,12 @@ class FirstPage(APIView):
                                                'position_name1'),
                                            operator_name=(request.POST.get(
                                                'operator_name1'))).creation_dataset_for_fpv_main_order()
+
+        if add_radio_supply:
+            logic = RadioOrderLogic(supply_name=request.POST.get('supply_name'),
+                                    supply_price=request.POST.get('supply_price'),
+                                    serial_number=request.POST.get('serial_number'),
+                                    date_in=request.POST.get('date_in')).create_radio_note()
 
         return render(request, "main_app/first_page.html")
 
@@ -214,9 +221,9 @@ class RadioServiceSupply(APIView):
 
     @staticmethod
     def post(reqeust):
-        logic = CreateDatasets.RifleDataSetMAin(self=None)
+        logic = CreateDatasets.RadioServiceSetMain(self=None)
         del_radio = reqeust.POST.get('del_radio')
         if del_radio:
             logic_del = RadioOrderLogic(notice_id=del_radio).delete_notice()
-            return render(reqeust, 'main_app/rifle_order.html', logic)
-        return render(reqeust, 'main_app/rifle_order.html', logic)
+            return render(reqeust, 'main_app/radio_servise_supply.html', logic)
+        return render(reqeust, 'main_app/radio_servise_supply.html', logic)

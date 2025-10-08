@@ -103,6 +103,15 @@ body {
                         color: #fff
 }
 
+.add_radio_service {
+                    width: 35%;
+                    display: flex;
+                    flex-wrap: wrap;
+                    border: .5px solid yellow;
+                    padding: 1%;
+                }
+
+
 @media screen and (max-width: 430px){
     .add_data_block {
                  width: 100%;
