@@ -33,7 +33,11 @@ class FirstPage(APIView):
         add_fpv_storage = request.POST.get('add_fpv_storage')
         add_autel_mavic_storage = request.POST.get('add_autel_mavic_storage')
         add_radio_supply = request.POST.get('add_radio_supply')
+        add_rifle = request.POST.get('add_rifle')
 
+        if add_rifle:
+            logic = RifleOrderLogic(nickname=request.POST.get('nickname'), type_rifle=request.POST.get('type_rifle'), rifle_number=request.POST.get('Rifle_number'), date_in_rifle=request.POST.get('date_in_rifle'), produced_date=request.POST.get('produced_date'))
+            logic.add_notice()
         if add_autel_mavic_storage:
             logic = CreateMavicAutelStorageNotice(dron_name=request.POST.get('dron_name1'),
                                                   dron_number=request.POST.get('dron_num1'),
@@ -205,6 +209,12 @@ class RifleOrderPage(APIView):
     def post(request):
         logic = CreateDatasets.RifleDataSetMAin(self=None)
         del_rifle = request.POST.get('del_rifle')
+        change_username_btn = request.POST.get('change_username')
+
+        if change_username_btn:
+            print(request.POST.get('change_username'))
+            print(change_username_btn)
+
         if del_rifle:
             del_logic = RifleOrderLogic(notice_id=del_rifle).delete_notice()
 

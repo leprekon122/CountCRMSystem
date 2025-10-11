@@ -260,8 +260,20 @@ class RadioOrderLogic:
 
 class RifleOrderLogic:
 
-    def __init__(self, notice_id):
+    def __init__(self, notice_id=None, nickname=None, type_rifle=None, rifle_number=None, date_in_rifle=None,
+                 produced_date=None):
         self.notice_id = notice_id
+        self.nickname = nickname
+        self.type_rifle = type_rifle
+        self.rifle_number = rifle_number
+        self.date_in_rifle = date_in_rifle
+        self.produced_date = produced_date
+
+    def add_notice(self):
+        """add new notice"""
+        RifleOrderModel.objects.create(Nickname=self.nickname, Type_rifle=self.type_rifle,
+                                       Rifle_number=self.rifle_number, date_in=self.date_in_rifle,
+                                       Produced_date=self.produced_date)
 
     def delete_notice(self):
         """delete notice from Rifle model"""

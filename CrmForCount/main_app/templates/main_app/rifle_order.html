@@ -5,6 +5,8 @@
 
 {%block content%}
 <div class="container-fluid order_main" style="width: 100%">
+
+
     <div class="side_panel" id="side_panel">
         <div class="filter_panel">
             <div class="title_filter_panel">
@@ -43,8 +45,34 @@
                 {%csrf_token%}
                 {%for el in model%}
                 {% if el.status == '1' %}
+                <div class="modal" tabindex="-1" role="dialog" id="modal_username">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header" style="background-color: black">
+                                <h5 class="modal-title text-light">Change username</h5>
+                                <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body" style="background-color: black">
+                                <input class="form-control" type="text" name="change_username">
+                            </div>
+                            <div class="modal-footer" style="background-color: black">
+                                <button type="submit" name="change_username_btn" class="btn btn-success" value="{{el.id}}"
+                                        style="background: transparent; width: 100%">Save changes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                 <tr>
-                    <th style="background-color: #1d5718">{{el.Nickname}}</th>
+                    <th style="background-color: #1d5718">{{el.Nickname}}
+                        <button type="button" class="btn btn-success" style="border: none; background: transparent"
+                                data-toggle="modal" data-target="#modal_username">
+                            <i class="fa-solid fa-pencil"></i></button>
+                    </th>
                     <th style="background-color: #1d5718">{{el.Type_rifle}}</th>
                     <th style="background-color: #1d5718">{{el.Rifle_number}}</th>
                     <th style="background-color: #1d5718">{{el.Produced_date}}</th>
@@ -58,7 +86,10 @@
                 </tr>
                 {%elif el.status == '0' %}
                 <tr>
-                    <th style="background-color: #611510">{{el.Nickname}}</th>
+                    <th style="background-color: #611510">{{el.Nickname}}
+                    </th>
+
+                    </th>
                     <th style="background-color: #611510">{{el.Type_rifle}}</th>
                     <th style="background-color: #611510">{{el.Rifle_number}}</th>
                     <th style="background-color: #611510">{{el.Produced_date}}</th>
@@ -72,4 +103,5 @@
         </table>
     </div>
 </div>
+
 {%endblock%}
