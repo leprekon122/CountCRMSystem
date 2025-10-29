@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAutelStorageNotice, FpvFlowPage, \
     RadioOrderLogic, RifleOrderLogic
-from .models import FpvFlowStorage, MavicAutelPositionFlow, MainFpvFlowOrder
+from .models import FpvFlowStorage, MavicAutelPositionFlow, MainFpvFlowOrder, MavicAutelStorage
 from datetime import datetime
 
 
@@ -36,7 +36,10 @@ class FirstPage(APIView):
         add_rifle = request.POST.get('add_rifle')
 
         if add_rifle:
-            logic = RifleOrderLogic(nickname=request.POST.get('nickname'), type_rifle=request.POST.get('type_rifle'), rifle_number=request.POST.get('Rifle_number'), date_in_rifle=request.POST.get('date_in_rifle'), produced_date=request.POST.get('produced_date'))
+            logic = RifleOrderLogic(nickname=request.POST.get('nickname'), type_rifle=request.POST.get('type_rifle'),
+                                    rifle_number=request.POST.get('Rifle_number'),
+                                    date_in_rifle=request.POST.get('date_in_rifle'),
+                                    produced_date=request.POST.get('produced_date'))
             logic.add_notice()
         if add_autel_mavic_storage:
             logic = CreateMavicAutelStorageNotice(dron_name=request.POST.get('dron_name1'),
@@ -145,6 +148,10 @@ class MavicAutelInStorage(APIView):
     @staticmethod
     def get(request):
         logic = CreateDatasets.mavic_autel_storage_set()
+        adaptive_search = request.GET.get('adaptive_search')
+        if adaptive_search:
+            logic = CreateDatasets(adaptive_mavic=adaptive_search).create_adaptive_mavic_autel()
+            return render(request, "main_app/mavic_autel_storage.html", logic)
         return render(request, "main_app/mavic_autel_storage.html", logic)
 
     @staticmethod
@@ -227,6 +234,10 @@ class RadioServiceSupply(APIView):
     @staticmethod
     def get(request):
         logic = CreateDatasets.RadioServiceSetMain(self=None)
+        adaptive_search = request.GET.get('adaptive_search')
+        if adaptive_search:
+            logic = CreateDatasets(adaptive_mavic=adaptive_search).create_radio_adaptive()
+            render(request, 'main_app/radio_servise_supply.html', logic)
         return render(request, 'main_app/radio_servise_supply.html', logic)
 
     @staticmethod

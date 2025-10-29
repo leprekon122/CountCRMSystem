@@ -100,13 +100,25 @@ class CreateFpvStorageNotice:
 class CreateDatasets:
     """Class for creating datasets on order pages """
 
-    def __init__(self, id=None, dron_out=None, who_took=None, position_name=None, drone_name=None, dron_num=None):
+    def __init__(self, id=None, dron_out=None, who_took=None, position_name=None, drone_name=None, dron_num=None,
+                 adaptive_mavic=None):
         self.drone_name = drone_name
         self.drone_num = dron_num
         self.dron_out = dron_out
         self.who_took = who_took
         self.position_name = position_name
         self.id = id
+        self.adaptive_mavic = adaptive_mavic
+
+    def create_radio_adaptive(self):
+        data_set = RadioServiceModel.objects.filter(supply_name__icontains=self.adaptive_mavic).values()
+        data = {"model": data_set}
+        return data
+
+    def create_adaptive_mavic_autel(self):
+        data_set = MavicAutelStorage.objects.filter(dron_name__icontains=self.adaptive_mavic).values()
+        data = {"model": data_set}
+        return data
 
     def CreateSetForFpvStorageOrder(self):
         """Creating main set"""
