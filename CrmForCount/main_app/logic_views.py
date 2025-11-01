@@ -111,8 +111,8 @@ class CreateDatasets:
         self.position_name = position_name
         self.id = id
         self.adaptive_mavic = adaptive_mavic
-        self.start_num = int(start_num)
-        self.end_num = int(end_num)
+        self.start_num = start_num
+        self.end_num = end_num
 
     def create_dataset_for_mav_storage_prais_val(self):
 
