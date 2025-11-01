@@ -149,6 +149,16 @@ class MavicAutelInStorage(APIView):
     def get(request):
         logic = CreateDatasets.mavic_autel_storage_set()
         adaptive_search = request.GET.get('adaptive_search')
+        start_num = request.GET.get('start_num')
+        end_num = request.GET.get('end_num')
+
+        if start_num is not None or end_num is not None:
+            logic = CreateDatasets(start_num=start_num, end_num=end_num).create_dataset_for_mav_storage_prais_val()
+            print(logic)
+            return render(request, "main_app/mavic_autel_storage.html", logic)
+
+
+
         if adaptive_search:
             logic = CreateDatasets(adaptive_mavic=adaptive_search).create_adaptive_mavic_autel()
             return render(request, "main_app/mavic_autel_storage.html", logic)
@@ -230,11 +240,13 @@ class RifleOrderPage(APIView):
 
 class RadioServiceSupply(APIView):
     """class for manage radio_servise_supply.html"""
+    permission_classes = [permissions.IsAuthenticated]
 
     @staticmethod
     def get(request):
         logic = CreateDatasets.RadioServiceSetMain(self=None)
         adaptive_search = request.GET.get('adaptive_search')
+
         if adaptive_search:
             logic = CreateDatasets(adaptive_mavic=adaptive_search).create_radio_adaptive()
             render(request, 'main_app/radio_servise_supply.html', logic)

@@ -54,6 +54,23 @@ body {
                         flex-direction: column
 }
 
+.title_filter_panel_sum_filter{
+                               display: flex;
+                               flex-direction: row;
+                               justify-content: space-between;
+}
+
+.total_value {
+              border: .5px solid yellow;
+              width: 25%;
+              display: flex;
+              justify-content: center;
+              backdrop-filter: blur(6px);
+
+
+
+}
+
 .add_mavic_total{
                 width: 35%;
 

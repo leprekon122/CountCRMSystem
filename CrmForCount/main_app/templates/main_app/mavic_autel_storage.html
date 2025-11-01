@@ -26,6 +26,9 @@
         <form method="get">
             <div class="filter_panel">
                 <div class="title_filter_panel">
+                    <h5 class="text-light">Adaptive search by dron name </h5>
+                </div>
+                <div class="title_filter_panel">
 
                     <input class="form-control" placeholder="adaptive search" name="adaptive_search" type="text">
 
@@ -37,8 +40,34 @@
                 </button>
             </div>
         </form>
+
+
+        <form method="get">
+            <div class="filter_panel">
+                <div class="title_filter_panel">
+                    <h5 class="text-light">Search by price</h5>
+                </div>
+                <div class="title_filter_panel_sum_filter">
+
+                    <input class="form-control" placeholder="start" name="start_num" type="text" value="0">
+                    <input class="form-control" placeholder="end" name="end_num" type="text" value="0">
+
+                </div>
+                <br>
+                <button class="btn btn-warning text-light" style="background: transparent; width: 100%"
+                        name="sum_btn" type="submit" value="1">
+                    filter
+                </button>
+            </div>
+        </form>
     </div>
     <div class="orders_block">
+        <div class="total_value">
+            <div style="background: blur(6px)">
+                <p class="text-light">total values: {{total_value}}</p>
+                <p></p>
+            </div>
+        </div>
         <table class="table table-dark table-bordered table-sm">
             <thead>
             <tr>
@@ -49,6 +78,7 @@
                 <th scope="col">who took</th>
                 <th scope="col">position_name</th>
                 <th scope="col">change_data</th>
+                <th scope="col">dron value</th>
             </tr>
             </thead>
             {%for el in model%}
@@ -82,6 +112,7 @@
                 <td>
                     <button class="btn btn-success" name="mavic_change" value="{{el.id}}">change data</button>
                 </td>
+                <td style="background-color: #23612f">{{el.supply_value}}</td>
 
                 </tr>
                 </tbody>
@@ -95,6 +126,8 @@
                 <td style="background-color: red">{{el.dron_out}}</td>
                 <td style="background-color: red">{{el.who_took}}</td>
                 <td style="background-color: red">{{el.position_name}}</td>
+                <td></td>
+                <td style="background-color: red">{{el.supply_value}}</td>
                 {%endif%}
                 {%endfor%}
             </tr>

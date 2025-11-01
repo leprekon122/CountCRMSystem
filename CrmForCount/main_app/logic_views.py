@@ -1,3 +1,5 @@
+from django.db.models import Sum, Q
+
 from .models import FpvFlowStorage, MainFpvFlowOrder, MavicAutelStorage, MavicAutelPositionFlow, RifleOrderModel, \
     RadioServiceModel
 from datetime import datetime
@@ -101,7 +103,7 @@ class CreateDatasets:
     """Class for creating datasets on order pages """
 
     def __init__(self, id=None, dron_out=None, who_took=None, position_name=None, drone_name=None, dron_num=None,
-                 adaptive_mavic=None):
+                 adaptive_mavic=None, start_num=None, end_num=None):
         self.drone_name = drone_name
         self.drone_num = dron_num
         self.dron_out = dron_out
@@ -109,6 +111,22 @@ class CreateDatasets:
         self.position_name = position_name
         self.id = id
         self.adaptive_mavic = adaptive_mavic
+        self.start_num = int(start_num)
+        self.end_num = int(end_num)
+
+    def create_dataset_for_mav_storage_prais_val(self):
+
+        if self.start_num != 0 or self.end_num != 0:
+            if self.start_num != 0 and self.end_num == 0:
+                model = MavicAutelStorage.objects.filter(supply_value__gte=self.start_num).values()
+            if self.start_num == 0 and self.end_num != 0:
+                model = MavicAutelStorage.objects.filter(supply_value__lte=self.end_num).values()
+            if self.start_num != 0 and self.end_num != 0:
+                model = MavicAutelStorage.objects.filter(
+                    Q(supply_value__gte=self.start_num) & Q(supply_value__lte=self.end_num)).values()
+
+            data = {'model': model}
+            return data
 
     def create_radio_adaptive(self):
         data_set = RadioServiceModel.objects.filter(supply_name__icontains=self.adaptive_mavic).values()
@@ -182,8 +200,10 @@ class CreateDatasets:
 
     def mavic_autel_storage_set(self=None):
         """func making main order in MAvic/Autel Storge page"""
+        total_value = MavicAutelStorage.objects.aggregate(Sum('supply_value'))['supply_value__sum']
         data = {
-            "model": MavicAutelStorage.objects.values()
+            "model": MavicAutelStorage.objects.values(),
+            'total_value': total_value
         }
         return data
 
