@@ -46,9 +46,11 @@ class FirstPage(APIView):
                                                   dron_number=request.POST.get('dron_num1'),
                                                   dron_in=request.POST.get('date_in1'),
                                                   dron_out=datetime.now().date(),
+                                                  document_num=request.POST.get('dok_num'),
                                                   who_took=request.POST.get('who_took1'),
                                                   position_name=request.POST.get(
-                                                      'position_name2')).create_mavic_autel_storage()
+                                                      'position_name2'),
+                                                  ).create_mavic_autel_storage()
 
         if add_fpv_storage:
             logic = CreateFpvStorageNotice(dron_name=request.POST.get('dron_name'), serial=request.POST.get('serial'),
@@ -157,8 +159,6 @@ class MavicAutelInStorage(APIView):
             print(logic)
             return render(request, "main_app/mavic_autel_storage.html", logic)
 
-
-
         if adaptive_search:
             logic = CreateDatasets(adaptive_mavic=adaptive_search).create_adaptive_mavic_autel()
             return render(request, "main_app/mavic_autel_storage.html", logic)
@@ -167,6 +167,11 @@ class MavicAutelInStorage(APIView):
     @staticmethod
     def post(request):
         mavic_change = request.POST.get('mavic_change')
+        document_num = request.POST.get('document_num')
+
+        if document_num:
+            logic = CreateMavicAutelStorageNotice(id=int(request.POST.get('dok_btn')),
+                                                  document_num=document_num).update_document_num()
 
         if mavic_change:
             logic = CreateMavicAutelStorageNotice(id=mavic_change,

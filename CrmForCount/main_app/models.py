@@ -50,6 +50,7 @@ class MavicAutelStorage(models.Model):
     status = models.CharField(max_length=255, default=1)
     id_for_flow = models.IntegerField(null=True, blank=True)
     supply_value = models.IntegerField(null=True, blank=True)
+    number_of_document = models.CharField(max_length=255, null=True, blank=True, default=0)
 
     class Meta:
         verbose_name = "MavicAutelStorage"

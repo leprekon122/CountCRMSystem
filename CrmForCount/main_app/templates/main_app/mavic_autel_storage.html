@@ -79,6 +79,7 @@
                 <th scope="col">position_name</th>
                 <th scope="col">change_data</th>
                 <th scope="col">dron value</th>
+                <th scope="col">number of document</th>
             </tr>
             </thead>
             {%for el in model%}
@@ -113,6 +114,18 @@
                     <button class="btn btn-success" name="mavic_change" value="{{el.id}}">change data</button>
                 </td>
                 <td style="background-color: #23612f">{{el.supply_value}}</td>
+                {%if el.number_of_document == '0'%}
+                <form method="post">
+                    {%csrf_token%}
+                    <td style="background-color: #23612f"><input class="form-control" type="text" name="document_num">
+                        <button class="btn btn-success" style="width: 100%;" type="submit" value="{{el.id}}"
+                                name="dok_btn">change data
+                        </button>
+                    </td>
+                </form>
+                {%else%}
+                <td style="background-color: #23612f">{{el.number_of_document}}</td>
+                {%endif%}
 
                 </tr>
                 </tbody>
@@ -128,6 +141,18 @@
                 <td style="background-color: red">{{el.position_name}}</td>
                 <td></td>
                 <td style="background-color: red">{{el.supply_value}}</td>
+                {% if el.number_of_document == '0'%}
+                <form method="post">
+                    {%csrf_token%}
+                    <td style="background-color: red"><input class="form-control" type="text" name="document_num">
+                        <button class="btn btn-success" style="width: 100%;" type="submit" value="{{el.id}}"
+                                name="dok_btn">change data
+                        </button>
+                    </td>
+                </form>
+                {%else%}
+                <td style="background-color: red">{{el.number_of_document}}</td>
+                {%endif%}
                 {%endif%}
                 {%endfor%}
             </tr>
