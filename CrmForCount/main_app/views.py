@@ -153,6 +153,11 @@ class MavicAutelInStorage(APIView):
         adaptive_search = request.GET.get('adaptive_search')
         start_num = request.GET.get('start_num')
         end_num = request.GET.get('end_num')
+        adaptive_document = request.GET.get('adaptive_document')
+
+        if adaptive_document:
+            logic = CreateDatasets(adaptive_document=adaptive_document).create_adaptive_document_dataset()
+            return render(request, "main_app/mavic_autel_storage.html", logic)
 
         if start_num is not None or end_num is not None:
             logic = CreateDatasets(start_num=start_num, end_num=end_num).create_dataset_for_mav_storage_prais_val()

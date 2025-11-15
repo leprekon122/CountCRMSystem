@@ -109,7 +109,7 @@ class CreateDatasets:
     """Class for creating datasets on order pages """
 
     def __init__(self, id=None, dron_out=None, who_took=None, position_name=None, drone_name=None, dron_num=None,
-                 adaptive_mavic=None, start_num=None, end_num=None):
+                 adaptive_mavic=None, start_num=None, end_num=None, adaptive_document=None):
         self.drone_name = drone_name
         self.drone_num = dron_num
         self.dron_out = dron_out
@@ -119,6 +119,13 @@ class CreateDatasets:
         self.adaptive_mavic = adaptive_mavic
         self.start_num = start_num
         self.end_num = end_num
+        self.adaptive_document = adaptive_document
+
+    def create_adaptive_document_dataset(self):
+        """function for document number adaptive filter in MAvicAutel Storage"""
+        dataset = MavicAutelStorage.objects.filter(number_of_document__icontains=self.adaptive_document).values()
+        data = {'model': dataset}
+        return data
 
     def create_dataset_for_mav_storage_prais_val(self):
 
