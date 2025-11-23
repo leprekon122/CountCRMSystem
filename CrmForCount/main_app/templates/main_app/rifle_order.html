@@ -45,23 +45,28 @@
                 {%csrf_token%}
                 {%for el in model%}
                 {% if el.status == '1' %}
+
                 <div class="modal" tabindex="-1" role="dialog" id="modal_username">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
-                            <div class="modal-header" style="background-color: black">
-                                <h5 class="modal-title text-light">Change username</h5>
-                                <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body" style="background-color: black">
-                                <input class="form-control" type="text" name="change_username">
-                            </div>
-                            <div class="modal-footer" style="background-color: black">
-                                <button type="submit" name="change_username_btn" class="btn btn-success" value="{{el.id}}"
-                                        style="background: transparent; width: 100%">Save changes
-                                </button>
-                            </div>
+                            <form method="post" action="rifle_order">
+                                <div class="modal-header" style="background-color: black">
+                                    <h5 class="modal-title text-light">Change username</h5>
+                                    <button type="button" class="close text-danger" data-dismiss="modal"
+                                            aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" style="background-color: black">
+                                    <input class="form-control" type="text" name="change_username">
+                                </div>
+                                <div class="modal-footer" style="background-color: black">
+                                    <button type="submit" name="change_username_btn" class="btn btn-success"
+                                            value="{{el.id}}"
+                                            style="background: transparent; width: 100%">Save changes
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -238,12 +238,12 @@ class RifleOrderPage(APIView):
     def post(request):
         logic = CreateDatasets.RifleDataSetMAin(self=None)
         del_rifle = request.POST.get('del_rifle')
-        change_username_btn = request.POST.get('change_username')
+        change_username_btn = request.POST.get('change_username_btn')
+        username_data = request.POST.get('change_username')
 
         if change_username_btn:
-            print(request.POST.get('change_username'))
             print(change_username_btn)
-
+            print(username_data)
         if del_rifle:
             del_logic = RifleOrderLogic(notice_id=del_rifle).delete_notice()
 
