@@ -215,7 +215,9 @@ class MavicAutelPostionFlow(APIView):
                                                                               who_took=request.POST.get('who_crash'),
                                                                               status=0,
                                                                               crash_coordinates=request.POST.get(
-                                                                                  'crash_coordinates')
+                                                                                  'crash_coordinates'),
+                                                                              comment=request.POST.get('comment')
+
                                                                               )
 
         logic = CreateDatasets.mavic_autel_flow_position(self=None)

@@ -68,6 +68,7 @@ class MavicAutelPositionFlow(models.Model):
     status = models.CharField(max_length=255, default=1)
     id_for_storage = models.IntegerField(null=True, blank=True)
     crash_coordinates = models.CharField(max_length=50, null=True, blank=True)
+    comment = models.TextField(null=True, blank=True, default=0)
 
     class Meta:
         verbose_name = "MavicAutelPositionFlow"

@@ -36,6 +36,7 @@
                 <th scope="col">who_crash</th>
                 <th scope="col">position_name</th>
                 <th scope="col">crash_coordinates</th>
+                <th scope="col">Comment</th>
                 <th scope="col">change data</th>
             </tr>
             </thead>
@@ -51,24 +52,15 @@
                     <td style="background-color:green">{{el.dron_out}}</td>
                     <td style="background-color:green">
                         <input class="form-control" name="who_crash">
-                        <!--<select class="form-control" name="who_crash">
-                        <option>operator name</option>
-                        <option>ВАЙС</option>
-                        <option>ЗЄЛЯ</option>
-                        <option>ШАРА</option>
-                        <option>КОРСАР</option>
-                        <option>РІЧІ</option>
-                        <option>КАРА</option>
-                        <option>ФІКСІК</option>
-                        <option>ХАКЕР</option>
-                        <option>МАСЯНЯ</option>
-                        <option>МЕЛ</option>
-                        <option>ІЧІ</option>
-                        </select> -->
                     </td>
                     <td style="background-color:green" class="table_column">{{el.position_name}}</td>
                     <td style="background-color:green"><input class="form-control" placeholder="xxx xx xxxxx xxxxx"
                                                               name="crash_coordinates"></td>
+
+                    <td style="background-color:green">
+                        <textarea class="form-control" name="comment" rows="3"></textarea>
+                    </td>
+
                     <td>
                         <div class="table_button">
                             <button class="btn btn-danger" type="submit" value="{{el.id}}" name="destroy_pos_item">
@@ -99,6 +91,9 @@
                     <td style="background-color:red">{{el.who_took}}</td>
                     <td style="background-color:red">{{el.position_name}}</td>
                     <td style="background-color:red">{{el.crash_coordinates}}</td>
+                    <td style="background-color:red">
+                        {{el.comment}}
+                    </td>
                 </tr>
                 {%endif%}
                 {%endfor%}
