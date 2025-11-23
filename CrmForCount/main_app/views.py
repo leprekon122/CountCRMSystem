@@ -242,8 +242,7 @@ class RifleOrderPage(APIView):
         username_data = request.POST.get('change_username')
 
         if change_username_btn:
-            print(change_username_btn)
-            print(username_data)
+            RifleOrderLogic(notice_id=change_username_btn, nickname=username_data).change_name()
         if del_rifle:
             del_logic = RifleOrderLogic(notice_id=del_rifle).delete_notice()
 

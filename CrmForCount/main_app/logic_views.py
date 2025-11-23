@@ -320,6 +320,9 @@ class RifleOrderLogic:
                                        Rifle_number=self.rifle_number, date_in=self.date_in_rifle,
                                        Produced_date=self.produced_date)
 
+    def change_name(self):
+        RifleOrderModel.objects.filter(id=self.notice_id).update(Nickname=self.nickname)
+
     def delete_notice(self):
         """delete notice from Rifle model"""
         RifleOrderModel.objects.filter(id=self.notice_id).update(date_out=datetime.now().date(), status=0)
