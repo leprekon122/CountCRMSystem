@@ -76,7 +76,6 @@ class MavicAutelPositionFlow(models.Model):
 
 
 class RifleOrderModel(models.Model):
-    objects = None
 
     Nickname = models.CharField(max_length=120)
     Type_rifle = models.CharField(max_length=20)
