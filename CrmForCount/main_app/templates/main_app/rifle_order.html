@@ -41,41 +41,42 @@
             </tr>
             </thead>
             <tbody>
-            <form method="post">
-                {%csrf_token%}
-                {%for el in model%}
-                {% if el.status == '1' %}
 
-                <div class="modal" tabindex="-1" role="dialog" id="modal_username">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <form method="post" action="rifle_order">
-                                <div class="modal-header" style="background-color: black">
-                                    <h5 class="modal-title text-light">Change username</h5>
-                                    <button type="button" class="close text-danger" data-dismiss="modal"
-                                            aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body" style="background-color: black">
-                                    <input class="form-control" type="text" name="change_username">
-                                </div>
-                                <div class="modal-footer" style="background-color: black">
-                                    <button type="submit" name="change_username_btn" class="btn btn-success"
-                                            value="{{el.id}}"
-                                            style="background: transparent; width: 100%">Save changes
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+            {%for el in model%}
+            {% if el.status == '1' %}
+            <div class="modal" tabindex="-1" role="dialog" id="modal_username_{{el.id}}">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form method="post">
+                            {%csrf_token%}
+                            <div class="modal-header" style="background-color: black">
+                                <h5 class="modal-title text-light">Change username</h5>
+                                <button type="button" class="close text-danger" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body" style="background-color: black">
+                                <input class="form-control" type="text" name="change_username">
+                            </div>
+                            <div class="modal-footer" style="background-color: black">
+                                <button type="submit" name="change_username_btn" class="btn btn-success"
+                                        value="{{el.id}}"
+                                        style="background: transparent; width: 100%">Save changes
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
+            </div>
+            </form>
 
+            <form method="get">
 
                 <tr>
                     <th style="background-color: #1d5718">{{el.Nickname}}
                         <button type="button" class="btn btn-success" style="border: none; background: transparent"
-                                data-toggle="modal" data-target="#modal_username">
+                                data-toggle="modal" data-target="#modal_username_{{el.id}}">
                             <i class="fa-solid fa-pencil"></i></button>
                     </th>
                     <th style="background-color: #1d5718">{{el.Type_rifle}}</th>
@@ -83,27 +84,31 @@
                     <th style="background-color: #1d5718">{{el.Produced_date}}</th>
                     <th style="background-color: #1d5718">{{el.date_in}}</th>
                     <th style="background-color: #1d5718">{{el.date_out}}</th>
+
+
                     <th>
                         <button class="btn btn-danger" type="submit" name="del_rifle" value="{{el.id}}"
                                 style="background-color:transparent">delete
                         </button>
                     </th>
-                </tr>
-                {%elif el.status == '0' %}
-                <tr>
-                    <th style="background-color: #611510">{{el.Nickname}}
-                    </th>
 
-                    </th>
-                    <th style="background-color: #611510">{{el.Type_rifle}}</th>
-                    <th style="background-color: #611510">{{el.Rifle_number}}</th>
-                    <th style="background-color: #611510">{{el.Produced_date}}</th>
-                    <th style="background-color: #611510">{{el.date_in}}</th>
-                    <th style="background-color: #611510">{{el.date_out}}</th>
                 </tr>
-                {%endif%}
-                {%endfor%}
             </form>
+            {%elif el.status == '0' %}
+            <tr>
+                <th style="background-color: #611510">{{el.Nickname}}
+                </th>
+
+                </th>
+                <th style="background-color: #611510">{{el.Type_rifle}}</th>
+                <th style="background-color: #611510">{{el.Rifle_number}}</th>
+                <th style="background-color: #611510">{{el.Produced_date}}</th>
+                <th style="background-color: #611510">{{el.date_in}}</th>
+                <th style="background-color: #611510">{{el.date_out}}</th>
+            </tr>
+            {%endif%}
+            {%endfor%}
+
             </tbody>
         </table>
     </div>

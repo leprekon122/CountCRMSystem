@@ -96,9 +96,9 @@
                 <th scope="col">dron out</th>
                 <th scope="col">who took</th>
                 <th scope="col">position_name</th>
-                <th scope="col">change_data</th>
                 <th scope="col">dron value</th>
                 <th scope="col">number of document</th>
+                <th scope="col">change_data</th>
             </tr>
             </thead>
             {%for el in model%}
@@ -112,29 +112,12 @@
                 <td style="background-color: #23612f">{{el.dron_out}}</td>
                 <td style="background-color: #23612f">
                     <input class="form-control" name="whot_took_change">
-                    <!--<select class="form-control"
-                            name="whot_took_change">
-                        <option>operator_name</option>
-                        <option>ВАЙС</option>
-                        <option>ЗЄЛЯ</option>
-                        <option>ШАРА</option>
-                        <option>КОРСАР</option>
-                        <option>РІЧІ</option>
-                        <option>КАРА</option>
-                        <option>ФІКСІК</option>
-                        <option>ХАКЕР</option>
-                        <option>МАСЯНЯ</option>
-                        <option>МЕЛ</option>
-                        <option>ІЧІ</option>
-                    </select> --></td>
+                </td>
                 <td style="background-color: green"><input class="form-control" placeholder="position name"
                                                            name="postion_name_change"></td>
-
-                <td>
-                    <button class="btn btn-success" name="mavic_change" value="{{el.id}}">change data</button>
-                </td>
                 <td style="background-color: #23612f">{{el.supply_value}}</td>
-                {%if el.number_of_document == '0'%}
+
+                {%if el.number_of_document == 0%}
                 <form method="post">
                     {%csrf_token%}
                     <td style="background-color: #23612f"><input class="form-control" type="text" name="document_num">
@@ -146,6 +129,9 @@
                 {%else%}
                 <td style="background-color: #23612f">{{el.number_of_document}}</td>
                 {%endif%}
+                <td>
+                    <button class="btn btn-success" name="mavic_change" value="{{el.id}}">change data</button>
+                </td>
 
                 </tr>
                 </tbody>

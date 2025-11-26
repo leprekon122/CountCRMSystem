@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAutelStorageNotice, FpvFlowPage, \
     RadioOrderLogic, RifleOrderLogic
-from .models import FpvFlowStorage, MavicAutelPositionFlow, MainFpvFlowOrder, MavicAutelStorage
+from .models import FpvFlowStorage, MavicAutelPositionFlow, MainFpvFlowOrder, MavicAutelStorage, RifleOrderModel
 from datetime import datetime
 
 
@@ -48,6 +48,7 @@ class FirstPage(APIView):
                                                   dron_out=datetime.now().date(),
                                                   document_num=request.POST.get('dok_num'),
                                                   who_took=request.POST.get('who_took1'),
+                                                  drone_value=request.POST.get('dron_value'),
                                                   position_name=request.POST.get(
                                                       'position_name2'),
                                                   ).create_mavic_autel_storage()
@@ -232,19 +233,26 @@ class RifleOrderPage(APIView):
     @staticmethod
     def get(request):
         logic = CreateDatasets.RifleDataSetMAin(self=None)
+        del_rifle = request.GET.get('del_rifle')
+
+        if del_rifle:
+            del_logic = RifleOrderLogic(notice_id=del_rifle).delete_notice()
+
         return render(request, 'main_app/rifle_order.html', logic)
 
     @staticmethod
     def post(request):
         logic = CreateDatasets.RifleDataSetMAin(self=None)
-        del_rifle = request.POST.get('del_rifle')
         change_username_btn = request.POST.get('change_username_btn')
         username_data = request.POST.get('change_username')
+        test = RifleOrderModel.objects.filter(id=change_username_btn).values()
+        test[0]['Nickname'] = username_data
 
         if change_username_btn:
-            RifleOrderLogic(notice_id=change_username_btn, nickname=username_data).change_name()
-        if del_rifle:
-            del_logic = RifleOrderLogic(notice_id=del_rifle).delete_notice()
+            # RifleOrderLogic(notice_id=change_username_btn, nickname=username_data).change_name()
+            test = RifleOrderModel.objects.get(id=int(change_username_btn))
+            test.Nickname = username_data
+            test.save()
 
         return render(request, 'main_app/rifle_order.html', logic)
 

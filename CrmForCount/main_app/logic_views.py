@@ -9,7 +9,7 @@ class CreateMavicAutelStorageNotice:
     '''class for creating  notice in MavicAutelStorage model'''
 
     def __init__(self, id=None, dron_name=None, dron_number=None, dron_in=None, dron_out=None,
-                 who_took=None, position_name=None, document_num=None):
+                 who_took=None, position_name=None, document_num=None, drone_value=None):
         self.id = id
         self.dron_name = dron_name
         self.dron_number = dron_number
@@ -18,21 +18,34 @@ class CreateMavicAutelStorageNotice:
         self.who_took = who_took
         self.position_name = position_name
         self.document_num = document_num
+        self.drone_value = int(drone_value or 0)
 
     def update_document_num(self):
         MavicAutelStorage.objects.filter(id=self.id).update(
             number_of_document=self.document_num)
 
     def create_mavic_autel_storage(self):
-        MavicAutelStorage.objects.create(
-            dron_name=self.dron_name,
-            dron_number=self.dron_number,
-            dron_in=self.dron_in,
-            dron_out=self.dron_out,
-            who_took=self.who_took,
-            position_name=self.position_name,
-            number_of_document=self.document_num
-        )
+        try:
+            MavicAutelStorage.objects.create(
+                dron_name=self.dron_name,
+                dron_number=self.dron_number,
+                dron_in=self.dron_in,
+                dron_out=self.dron_out,
+                who_took=self.who_took,
+                position_name=self.position_name,
+                number_of_document=self.document_num,
+                supply_value=self.drone_value
+            )
+        except:
+            MavicAutelStorage.objects.create(
+                dron_name=self.dron_name,
+                dron_number=self.dron_number,
+                dron_in=self.dron_in,
+                dron_out=self.dron_out,
+                who_took=self.who_took,
+                position_name=self.position_name,
+                number_of_document=self.document_num,
+            )
 
     def update_notice(self=None):
         '''func for creating update request'''
@@ -307,7 +320,7 @@ class RifleOrderLogic:
 
     def __init__(self, notice_id=None, nickname=None, type_rifle=None, rifle_number=None, date_in_rifle=None,
                  produced_date=None):
-        self.notice_id = notice_id
+        self.notice_id = int(notice_id)
         self.nickname = nickname
         self.type_rifle = type_rifle
         self.rifle_number = rifle_number
