@@ -5,24 +5,21 @@
 {% block content%}
 <div class="container-fluid order_main table-sm">
     <div class="side_panel" id="side_panel">
-        <div class="filter_panel">
-            <div class="title_filter_panel">
-                <h5 class="text-light">Filter</h5>
+        <form method="get">
+            <div class="filter_panel">
+                <div class="title_filter_panel">
+                    <h5 class="text-light">Searching by dron number</h5>
+                </div>
+                <div>
+                    <input class="form-control" type="text" name="dron_num_search" placeholder="search by dron number">
+                </div>
+                <br>
+                <button class="btn btn-warning text-light" style="background: transparent; width: 100%" type="submit">
+                    filter
+                </button>
+                <br>
             </div>
-            <div>
-                <select class="form-control">
-                    <option>filter by operator</option>
-                    <option>filter by position</option>
-                    <option>filter by dron name</option>
-                </select>
-            </div>
-            <br>
-            <button class="btn btn-warning text-light" style="background: transparent; width: 100%">
-                filter
-            </button>
-            <br>
-
-        </div>
+        </form>
     </div>
 
     <div class="orders_block">

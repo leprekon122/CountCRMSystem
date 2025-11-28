@@ -155,6 +155,10 @@ class MavicAutelInStorage(APIView):
         start_num = request.GET.get('start_num')
         end_num = request.GET.get('end_num')
         adaptive_document = request.GET.get('adaptive_document')
+        dron_num_search = int(request.GET.get('dron_num_search') or 0)
+
+        if dron_num_search:
+            logic = CreateDatasets(dron_num=dron_num_search).adaptive_search_by_dron_num()
 
         if adaptive_document:
             logic = CreateDatasets(adaptive_document=adaptive_document).create_adaptive_document_dataset()
@@ -196,6 +200,12 @@ class MavicAutelPostionFlow(APIView):
 
     @staticmethod
     def get(request):
+        dron_num_search = request.GET.get('dron_num_search')
+
+        if dron_num_search:
+            logic = CreateDatasets(dron_num=dron_num_search).adaptive_search_by_dron_num_flow_order()
+            return render(request, 'main_app/mavic_autel_position_flow.html', logic)
+
         logic = CreateDatasets.mavic_autel_flow_position(self=None)
         return render(request, 'main_app/mavic_autel_position_flow.html', logic)
 

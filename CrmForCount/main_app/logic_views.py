@@ -134,6 +134,18 @@ class CreateDatasets:
         self.end_num = end_num
         self.adaptive_document = adaptive_document
 
+    def adaptive_search_by_dron_num_flow_order(self):
+        """crating dataset for  searching by drone num """
+        dataset = MavicAutelPositionFlow.objects.filter(dron_number__icontains=self.drone_num).values()
+        data = {'model': dataset}
+        return data
+
+    def adaptive_search_by_dron_num(self):
+        """crating dataset for  searching by drone num """
+        dataset = MavicAutelStorage.objects.filter(dron_number__icontains=self.drone_num).values()
+        data = {'model': dataset}
+        return data
+
     def create_adaptive_document_dataset(self):
         """function for document number adaptive filter in MAvicAutel Storage"""
         dataset = MavicAutelStorage.objects.filter(number_of_document__icontains=self.adaptive_document).values()
@@ -320,7 +332,7 @@ class RifleOrderLogic:
 
     def __init__(self, notice_id=None, nickname=None, type_rifle=None, rifle_number=None, date_in_rifle=None,
                  produced_date=None):
-        self.notice_id = int(notice_id)
+        self.notice_id = notice_id
         self.nickname = nickname
         self.type_rifle = type_rifle
         self.rifle_number = rifle_number
