@@ -1,7 +1,7 @@
 from django.db.models import Sum, Q
 
 from .models import FpvFlowStorage, MainFpvFlowOrder, MavicAutelStorage, MavicAutelPositionFlow, RifleOrderModel, \
-    RadioServiceModel
+    RadioServiceModel, RadioServicePositionModel
 from datetime import datetime
 
 
@@ -328,7 +328,47 @@ class RadioOrderLogic:
                                          serial_number=self.serial_number, date_in=self.date_in, )
 
 
+class RadioSupplyPosition:
+
+    def __init__(self, notice_id=None, supply_name=None, supply_price=None, serial_number=None, date_in=None,
+                 storage_id=None):
+        self.notice_id = int(notice_id) if notice_id is not None else None
+        self.supply_name = supply_name
+        self.supply_price = supply_price
+        self.serial_number = serial_number
+        self.date_in = date_in
+        self.storage_id = int(storage_id) if storage_id is not None else None
+
+    def create_article(self):
+        """create new article"""
+        check_id = RadioServiceModel.objects.filter(id=self.storage_id).values()[0]['id_for_position']
+        if check_id is None:
+            RadioServiceModel.objects.filter(id=self.storage_id).update(status=0)
+            dataset = RadioServiceModel.objects.filter(id=self.storage_id).values()[0]
+
+            RadioServicePositionModel.objects.create(supply_name=dataset['supply_name'], price=dataset['price'],
+                                                     serial_number=dataset['serial_number'], date_in=dataset['date_in'],
+                                                     id_for_storage=self.storage_id)
+        else:
+            RadioServicePositionModel.objects.filter(id=check_id).update(status=1)
+            RadioServiceModel.objects.filter(id=self.storage_id).update(status=0)
+
+    def create_dataset_main(self):
+        """create main dataset for page"""
+        dataset = RadioServicePositionModel.objects.values()
+        data = {'model': dataset}
+        return data
+
+    def return_to_storage(self):
+        """return to storage article"""
+        return_id = RadioServicePositionModel.objects.filter(id=self.storage_id).values()[0]['id_for_storage']
+
+        RadioServicePositionModel.objects.filter(id=self.storage_id).update(status=2, id_for_storage=return_id)
+        RadioServiceModel.objects.filter(id=return_id).update(status=1, id_for_position=self.storage_id)
+
+
 class RifleOrderLogic:
+    """class of rifle order logic """
 
     def __init__(self, notice_id=None, nickname=None, type_rifle=None, rifle_number=None, date_in_rifle=None,
                  produced_date=None):

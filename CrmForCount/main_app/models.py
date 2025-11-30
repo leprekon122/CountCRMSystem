@@ -99,6 +99,24 @@ class RadioServiceModel(models.Model):
     date_in = models.DateField(auto_now=True)
     date_out = models.DateField(null=True, blank=True)
     status = models.CharField(default=1)
+    id_for_position = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+
+        verbose_name = "RadioServiceModel"
+        verbose_name_plural = "RadioServiceModel"
+
+
+class RadioServicePositionModel(models.Model):
+    objects = None
+
+    supply_name = models.CharField(max_length=255)
+    price = models.CharField(max_length=255)
+    serial_number = models.CharField(max_length=255)
+    date_in = models.DateField(auto_now=True)
+    date_out = models.DateField(null=True, blank=True)
+    status = models.CharField(default=1)
+    id_for_storage = models.IntegerField(null=True, blank=True)
 
     class Meta:
 

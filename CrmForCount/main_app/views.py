@@ -3,7 +3,7 @@ from rest_framework import permissions
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAutelStorageNotice, FpvFlowPage, \
-    RadioOrderLogic, RifleOrderLogic
+    RadioOrderLogic, RifleOrderLogic, RadioSupplyPosition
 from .models import FpvFlowStorage, MavicAutelPositionFlow, MainFpvFlowOrder, MavicAutelStorage, RifleOrderModel
 from datetime import datetime
 
@@ -155,7 +155,7 @@ class MavicAutelInStorage(APIView):
         start_num = request.GET.get('start_num')
         end_num = request.GET.get('end_num')
         adaptive_document = request.GET.get('adaptive_document')
-        dron_num_search = int(request.GET.get('dron_num_search') or 0)
+        dron_num_search = request.GET.get('dron_num_search')
 
         if dron_num_search:
             logic = CreateDatasets(dron_num=dron_num_search).adaptive_search_by_dron_num()
@@ -166,7 +166,6 @@ class MavicAutelInStorage(APIView):
 
         if start_num is not None or end_num is not None:
             logic = CreateDatasets(start_num=start_num, end_num=end_num).create_dataset_for_mav_storage_prais_val()
-            print(logic)
             return render(request, "main_app/mavic_autel_storage.html", logic)
 
         if adaptive_search:
@@ -285,7 +284,31 @@ class RadioServiceSupply(APIView):
     def post(reqeust):
         logic = CreateDatasets.RadioServiceSetMain(self=None)
         del_radio = reqeust.POST.get('del_radio')
+        radio_to_flow = reqeust.POST.get('radio_to_flow')
+
+        if radio_to_flow:
+            RadioSupplyPosition(storage_id=radio_to_flow, notice_id=radio_to_flow).create_article()
+            return render(reqeust, 'main_app/radio_servise_supply.html', logic)
+
         if del_radio:
             logic_del = RadioOrderLogic(notice_id=del_radio).delete_notice()
             return render(reqeust, 'main_app/radio_servise_supply.html', logic)
         return render(reqeust, 'main_app/radio_servise_supply.html', logic)
+
+
+class RadioSupply(APIView):
+
+    @staticmethod
+    def get(request):
+        logic = RadioSupplyPosition.create_dataset_main(self=None)
+        return render(request, 'main_app/Radio_supply_positon_flow.html', logic)
+
+    @staticmethod
+    def post(request):
+        logic = RadioSupplyPosition.create_dataset_main(self=None)
+        radio_to_storage = request.POST.get('radio_to_storage')
+
+        if radio_to_storage:
+            RadioSupplyPosition(storage_id=radio_to_storage).return_to_storage()
+
+        return render(request, 'main_app/Radio_supply_positon_flow.html', logic)
