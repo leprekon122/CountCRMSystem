@@ -401,8 +401,12 @@ class StatisticsLogic:
     def stat_data_mavic_autel(self):
         in_storage = len(MavicAutelStorage.objects.filter(status=1).values())
         in_position = len(MavicAutelPositionFlow.objects.filter(status=1).values())
+        all_period_taking = len(MavicAutelStorage.objects.filter(status=0).values())
+        all_destroy = len(MavicAutelPositionFlow.objects.filter(status=0).values())
 
         data = {'in_storage': in_storage,
-                'in_position': in_position
+                'in_position': in_position,
+                'all_period_taking': all_period_taking,
+                'all_destroy': all_destroy
                 }
         return data

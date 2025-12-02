@@ -11,10 +11,14 @@
                     <div class="title_filter_panel">
                         <h5 class="text-light">Filter</h5>
                     </div>
-                    <div>
+                    <div style="backdrop-filter: blur(10px);">
                         <p class="text-light">in storage: <span id="mav_on_storage">{{in_storage}}</span></p>
                         <p class="text-light">in position: <span id="mav_on_position">{{in_position}}</span></p>
+                        <p class="text-light">in position: taking for all period <span
+                                id="mav_for_all_period">{{all_period_taking}}</span></p>
+                        <p class="text-light">all_destroy: <span id="all_destroy">{{all_destroy}}</span></p>
                     </div>
+                    <br>
                     <div>
                         <select class="form-control">
                             <option>filter by activ</option>
