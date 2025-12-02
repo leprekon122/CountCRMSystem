@@ -14,7 +14,8 @@ urlpatterns = [
     path('mavic_autel_position_flow', views.MavicAutelPostionFlow.as_view(), name="mavic_autel_position"),
     path('rifle_order', views.RifleOrderPage.as_view(), name='rifle_order'),
     path('radio_service', views.RadioServiceSupply.as_view(), name='radio_service'),
-    path('radio_position_flow', views.RadioSupply.as_view(), name='radio_position')
+    path('radio_position_flow', views.RadioSupply.as_view(), name='radio_position'),
+    path('statistic_page', views.StatisticsPage.as_view(), name='stat_page')
 ]
 
 urlpatterns += [

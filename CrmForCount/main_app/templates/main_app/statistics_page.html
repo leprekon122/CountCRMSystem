@@ -1,0 +1,61 @@
+{%extends 'main_app/layout_main.html'%}
+
+{%block title%}statistic page{%endblock%}
+
+{% block content%}
+<div class="container-fluid">
+    <div class="stat_page_main">
+        <div class="side_panel" id="side_panel">
+            <form method="get">
+                <div class="filter_panel">
+                    <div class="title_filter_panel">
+                        <h5 class="text-light">Filter</h5>
+                    </div>
+                    <div>
+                        <p class="text-light">in storage: <span id="mav_on_storage">{{in_storage}}</span></p>
+                        <p class="text-light">in position: <span id="mav_on_position">{{in_position}}</span></p>
+                    </div>
+                    <div>
+                        <select class="form-control">
+                            <option>filter by activ</option>
+                            <option>filter by delete</option>
+                            <option>filter by price</option>
+                        </select>
+                    </div>
+                    <br>
+                    <button name="filter" value="1" type="submit" class="btn btn-warning text-light"
+                            style="background: transparent; width: 100%">
+                        filter
+                    </button>
+                    <br>
+                </div>
+
+                <div class="filter_panel">
+                    <div class="title_filter_panel">
+                        <h5 class="text-light">Adaptive search by name </h5>
+                    </div>
+                    <div class="title_filter_panel">
+
+                        <input class="form-control" placeholder="adaptive search" name="adaptive_search" type="text">
+
+                    </div>
+                    <br>
+                    <button class="btn btn-warning text-light" style="background: transparent; width: 100%"
+                            name="adaptive_btn" type="submit" value="1">
+                        filter
+                    </button>
+                </div>
+
+            </form>
+        </div>
+        <div class="diagram_div">
+            <div>
+                <canvas id="myChart"></canvas>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<script src="static/main_app/js/statistics.js"></script>
+{%endblock%}

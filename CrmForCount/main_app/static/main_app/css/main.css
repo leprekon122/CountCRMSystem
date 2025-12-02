@@ -138,6 +138,20 @@ body {
 
             }
 
+
+.stat_page_main {
+                 display: flex;
+                 flex-direction: row;
+                 width: 100%
+
+}
+
+.diagram_div {
+              width: 50%;,
+              display: flex;
+              justify-content: center
+}
+
 @media screen and (max-width: 430px){
     .add_data_block {
                  width: 100%;

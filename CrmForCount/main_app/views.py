@@ -3,7 +3,7 @@ from rest_framework import permissions
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAutelStorageNotice, FpvFlowPage, \
-    RadioOrderLogic, RifleOrderLogic, RadioSupplyPosition
+    RadioOrderLogic, RifleOrderLogic, RadioSupplyPosition, StatisticsLogic
 from .models import FpvFlowStorage, MavicAutelPositionFlow, MainFpvFlowOrder, MavicAutelStorage, RifleOrderModel
 from datetime import datetime
 
@@ -297,7 +297,8 @@ class RadioServiceSupply(APIView):
 
 
 class RadioSupply(APIView):
-
+    """class for routing RadioOrder on position"""
+    permission_classes = [permissions.IsAuthenticated]
     @staticmethod
     def get(request):
         logic = RadioSupplyPosition.create_dataset_main(self=None)
@@ -312,3 +313,13 @@ class RadioSupply(APIView):
             RadioSupplyPosition(storage_id=radio_to_storage).return_to_storage()
 
         return render(request, 'main_app/Radio_supply_positon_flow.html', logic)
+
+
+class StatisticsPage(APIView):
+    """class for statistic page"""
+    permission_classes = [permissions.IsAuthenticated]
+
+    @staticmethod
+    def get(request):
+        logic = StatisticsLogic.stat_data_mavic_autel(self=None)
+        return render(request, 'main_app/statistics_page.html', logic)

@@ -391,3 +391,18 @@ class RifleOrderLogic:
     def delete_notice(self):
         """delete notice from Rifle model"""
         RifleOrderModel.objects.filter(id=self.notice_id).update(date_out=datetime.now().date(), status=0)
+
+
+class StatisticsLogic:
+
+    def __init__(self, note_id=None):
+        self.note_id = note_id
+
+    def stat_data_mavic_autel(self):
+        in_storage = len(MavicAutelStorage.objects.filter(status=1).values())
+        in_position = len(MavicAutelPositionFlow.objects.filter(status=1).values())
+
+        data = {'in_storage': in_storage,
+                'in_position': in_position
+                }
+        return data
