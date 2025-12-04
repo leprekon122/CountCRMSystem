@@ -322,5 +322,5 @@ class StatisticsPage(APIView):
     @staticmethod
     def get(request):
         logic = StatisticsLogic.stat_data_mavic_autel(self=None)
-        print(logic)
+
         return render(request, 'main_app/statistics_page.html', logic)

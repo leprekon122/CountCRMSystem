@@ -399,14 +399,43 @@ class StatisticsLogic:
         self.note_id = note_id
 
     def stat_data_mavic_autel(self):
+        """func for main data report"""
         in_storage = len(MavicAutelStorage.objects.filter(status=1).values())
         in_position = len(MavicAutelPositionFlow.objects.filter(status=1).values())
         all_period_taking = len(MavicAutelStorage.objects.filter(status=0).values())
         all_destroy = len(MavicAutelPositionFlow.objects.filter(status=0).values())
 
+        in_storage_mav = len(MavicAutelStorage.objects.filter(
+            Q(status=1) |
+            Q(dron_name__icontains='mavic') |
+            Q(dron_name__icontains='matrice') |
+            Q(dron_name__icontains='autel')
+        ).values())
+
+        in_position_mav = len(MavicAutelPositionFlow.objects.filter(Q(status=1) |
+                                                                    Q(dron_name__icontains='mavic') |
+                                                                    Q(dron_name__icontains='matrice') |
+                                                                    Q(dron_name__icontains='autel')
+                                                                    ).values())
+
+        taking_for_all_per_mavic = len(MavicAutelStorage.objects.filter(Q(status=1) |
+                                                                        Q(dron_name__icontains='mavic') |
+                                                                        Q(dron_name__icontains='matrice') |
+                                                                        Q(dron_name__icontains='autel')).values())
+
+        all_destroy_mav = len(MavicAutelPositionFlow.objects.filter(Q(status=0) |
+                                                                    Q(dron_name__icontains='mavic') |
+                                                                    Q(dron_name__icontains='matrice') |
+                                                                    Q(dron_name__icontains='autel')
+                                                                    ).values())
+
         data = {'in_storage': in_storage,
                 'in_position': in_position,
                 'all_period_taking': all_period_taking,
-                'all_destroy': all_destroy
+                'all_destroy': all_destroy,
+                'in_storage_mav': in_storage_mav,
+                'in_position_mav': in_position_mav,
+                'taking_for_all_per_mavic': taking_for_all_per_mavic,
+                'all_destroy_mav': all_destroy_mav
                 }
         return data

@@ -147,9 +147,16 @@ body {
 }
 
 .diagram_div {
-              width: 50%;,
+              width: 60%;,
               display: flex;
-              justify-content: center
+              justify-content: center;
+              height: 95vh;
+              overflow: auto;
+}
+
+.chart_title {
+              display: flex;
+              justify-content: center;
 }
 
 @media screen and (max-width: 430px){

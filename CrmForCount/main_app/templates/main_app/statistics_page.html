@@ -9,9 +9,10 @@
             <form method="get">
                 <div class="filter_panel">
                     <div class="title_filter_panel">
-                        <h5 class="text-light">Filter</h5>
+                        <h5 class="text-light">Data by parametrs</h5>
                     </div>
-                    <div style="backdrop-filter: blur(10px);">
+                    <div style="backdrop-filter: blur(10px);" class="filter_panel">
+                        <h5 class="text-light">Main info</h5>
                         <p class="text-light">in storage: <span id="mav_on_storage">{{in_storage}}</span></p>
                         <p class="text-light">in position: <span id="mav_on_position">{{in_position}}</span></p>
                         <p class="text-light">in position: taking for all period <span
@@ -19,42 +20,34 @@
                         <p class="text-light">all_destroy: <span id="all_destroy">{{all_destroy}}</span></p>
                     </div>
                     <br>
-                    <div>
-                        <select class="form-control">
-                            <option>filter by activ</option>
-                            <option>filter by delete</option>
-                            <option>filter by price</option>
-                        </select>
+                    <div style="backdrop-filter: blur(10px);">
+                        <h5 class="text-light">Mavic/Autel info</h5>
+                        <p class="text-light">in storage: <span id="mav_aut_on_storage">{{in_storage_mav}}</span></p>
+                        <p class="text-light">in position: <span id="mav_aut_on_position">{{in_position_mav}}</span></p>
+                        <p class="text-light">in position: taking for all period <span
+                                id="mav_aut_for_all_period">{{taking_for_all_per_mavic}}</span></p>
+                        <p class="text-light">all_destroy: <span id="all_mav_aut_destroy">{{all_destroy_mav}}</span></p>
                     </div>
-                    <br>
-                    <button name="filter" value="1" type="submit" class="btn btn-warning text-light"
-                            style="background: transparent; width: 100%">
-                        filter
-                    </button>
                     <br>
                 </div>
 
-                <div class="filter_panel">
-                    <div class="title_filter_panel">
-                        <h5 class="text-light">Adaptive search by name </h5>
-                    </div>
-                    <div class="title_filter_panel">
 
-                        <input class="form-control" placeholder="adaptive search" name="adaptive_search" type="text">
-
-                    </div>
-                    <br>
-                    <button class="btn btn-warning text-light" style="background: transparent; width: 100%"
-                            name="adaptive_btn" type="submit" value="1">
-                        filter
-                    </button>
-                </div>
 
             </form>
         </div>
         <div class="diagram_div">
-            <div>
+            <div style="border-bottom: 1px solid yellow; ">
+                <div class="chart_title">
+                    <h5 class="text-light">Main data about all supply</h5>
+                </div>
                 <canvas id="myChart"></canvas>
+            </div>
+
+            <div style="border-bottom: 1px solid yellow; ">
+                <div class="chart_title">
+                    <h5 class="text-light">Main data mavic/autel</h5>
+                </div>
+                <canvas id="myChartMavic"></canvas>
             </div>
 
 
