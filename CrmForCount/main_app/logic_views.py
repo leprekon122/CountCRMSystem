@@ -331,27 +331,35 @@ class RadioOrderLogic:
 class RadioSupplyPosition:
 
     def __init__(self, notice_id=None, supply_name=None, supply_price=None, serial_number=None, date_in=None,
-                 storage_id=None):
+                 storage_id=None, who_took=None, position_name=None):
         self.notice_id = int(notice_id) if notice_id is not None else None
         self.supply_name = supply_name
         self.supply_price = supply_price
         self.serial_number = serial_number
         self.date_in = date_in
         self.storage_id = int(storage_id) if storage_id is not None else None
+        self.who_took = who_took,
+        self.position_name = position_name
 
     def create_article(self):
         """create new article"""
         check_id = RadioServiceModel.objects.filter(id=self.storage_id).values()[0]['id_for_position']
         if check_id is None:
-            RadioServiceModel.objects.filter(id=self.storage_id).update(status=0)
+            RadioServiceModel.objects.filter(id=self.storage_id).update(status=0, who_took=self.who_took,
+                                                                        position_name=self.position_name,
+                                                                        date_out=datetime.now())
             dataset = RadioServiceModel.objects.filter(id=self.storage_id).values()[0]
 
             RadioServicePositionModel.objects.create(supply_name=dataset['supply_name'], price=dataset['price'],
                                                      serial_number=dataset['serial_number'], date_in=dataset['date_in'],
-                                                     id_for_storage=self.storage_id)
+                                                     id_for_storage=self.storage_id,
+                                                     )
         else:
             RadioServicePositionModel.objects.filter(id=check_id).update(status=1)
-            RadioServiceModel.objects.filter(id=self.storage_id).update(status=0)
+            RadioServiceModel.objects.filter(id=self.storage_id).update(status=0, who_took=self.who_took,
+                                                                        position_name=self.position_name,
+                                                                        date_out=datetime.now()
+                                                                        )
 
     def create_dataset_main(self):
         """create main dataset for page"""

@@ -287,7 +287,10 @@ class RadioServiceSupply(APIView):
         radio_to_flow = reqeust.POST.get('radio_to_flow')
 
         if radio_to_flow:
-            RadioSupplyPosition(storage_id=radio_to_flow, notice_id=radio_to_flow).create_article()
+            who_took = reqeust.POST.get('who_took')
+            position_name = reqeust.POST.get('position_name')
+            RadioSupplyPosition(storage_id=radio_to_flow, notice_id=radio_to_flow, who_took=who_took,
+                                position_name=position_name).create_article()
             return render(reqeust, 'main_app/radio_servise_supply.html', logic)
 
         if del_radio:
@@ -299,6 +302,7 @@ class RadioServiceSupply(APIView):
 class RadioSupply(APIView):
     """class for routing RadioOrder on position"""
     permission_classes = [permissions.IsAuthenticated]
+
     @staticmethod
     def get(request):
         logic = RadioSupplyPosition.create_dataset_main(self=None)

@@ -54,6 +54,8 @@
                 <th scope="col">serial number</th>
                 <th scope="col">Date in</th>
                 <th scope="col">Date out</th>
+                <th scope="col">who took</th>
+                <th scope="col">position_name</th>
                 <th scope="col">get out</th>
             </tr>
             </thead>
@@ -68,8 +70,14 @@
                     <th style="background-color: #1d5718">{{el.serial_number}}</th>
                     <th style="background-color: #1d5718">{{el.date_in}}</th>
                     <th style="background-color: #1d5718">{{el.date_out}}</th>
+                    <th style="background-color: #1d5718"><input class="form-control" type="text"
+                                                                 placeholder="who took" name="who_took"></th>
+                    <th style="background-color: #1d5718"><input class="form-control" type="text"
+                                                                 placeholder="position_name" name="position_name"></th>
                     <th style="display: flex; flex-direction: column;">
-                        <button style="background: transparent" class="btn btn-warning text-light" type="submit" value="{{el.id}}" name="radio_to_flow">position_flow</button>
+                        <button style="background: transparent" class="btn btn-warning text-light" type="submit"
+                                value="{{el.id}}" name="radio_to_flow">position_flow
+                        </button>
                         <button class="btn btn-danger" type="submit" name="del_radio" value="{{el.id}}"
                                 style="background-color:transparent">delete
                         </button>
@@ -82,6 +90,8 @@
                     <th style="background-color: #611510">{{el.serial_number}}</th>
                     <th style="background-color: #611510">{{el.date_in}}</th>
                     <th style="background-color: #611510">{{el.date_out}}</th>
+                    <th style="background-color: #611510">{{el.who_took}}</th>
+                    <th style="background-color: #611510">{{el.position_name}}</th>
                 </tr>
                 {%endif%}
                 {%endfor%}
