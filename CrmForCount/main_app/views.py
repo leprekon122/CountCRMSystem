@@ -312,9 +312,15 @@ class RadioSupply(APIView):
     def post(request):
         logic = RadioSupplyPosition.create_dataset_main(self=None)
         radio_to_storage = request.POST.get('radio_to_storage')
+        del_radio = request.POST.get('del_radio')
 
         if radio_to_storage:
             RadioSupplyPosition(storage_id=radio_to_storage).return_to_storage()
+
+        if del_radio:
+            who_crash = request.POST.get('who_crash')
+            coordinates = request.POST.get('coordinates')
+            RadioSupplyPosition(notice_id=del_radio, who_took=who_crash, coordinates=coordinates).delete_article()
 
         return render(request, 'main_app/Radio_supply_positon_flow.html', logic)
 

@@ -118,6 +118,8 @@ class RadioServicePositionModel(models.Model):
     date_in = models.DateField(auto_now=True)
     date_out = models.DateField(null=True, blank=True)
     status = models.CharField(default=1)
+    who_took = models.CharField(max_length=255, null=True, blank=True)
+    position_name = models.CharField(max_length=255, null=True, blank=True)
     id_for_storage = models.IntegerField(null=True, blank=True)
 
     class Meta:

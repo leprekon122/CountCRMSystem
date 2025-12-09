@@ -331,7 +331,7 @@ class RadioOrderLogic:
 class RadioSupplyPosition:
 
     def __init__(self, notice_id=None, supply_name=None, supply_price=None, serial_number=None, date_in=None,
-                 storage_id=None, who_took=None, position_name=None):
+                 storage_id=None, who_took=None, position_name=None, coordinates=None):
         self.notice_id = int(notice_id) if notice_id is not None else None
         self.supply_name = supply_name
         self.supply_price = supply_price
@@ -340,6 +340,7 @@ class RadioSupplyPosition:
         self.storage_id = int(storage_id) if storage_id is not None else None
         self.who_took = who_took,
         self.position_name = position_name
+        self.coordinates = coordinates
 
     def create_article(self):
         """create new article"""
@@ -360,6 +361,11 @@ class RadioSupplyPosition:
                                                                         position_name=self.position_name,
                                                                         date_out=datetime.now()
                                                                         )
+
+    def delete_article(self):
+        RadioServicePositionModel.objects.filter(id=self.notice_id).update(status=0, who_took=self.who_took,
+                                                                           position_name=self.coordinates,
+                                                                           date_out=datetime.now())
 
     def create_dataset_main(self):
         """create main dataset for page"""
