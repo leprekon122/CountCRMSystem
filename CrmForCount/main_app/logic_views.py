@@ -138,8 +138,11 @@ class CreateDatasets:
     def search_by_status_mav_storage(self):
         """function for filtering by status in Mavic/Autel storage page"""
         dataset = MavicAutelStorage.objects.filter(status=self.status).values()
+        total_value = MavicAutelStorage.objects.aggregate(Sum('supply_value'))['supply_value__sum']
 
-        data = {'model': dataset}
+        data = {'model': dataset,
+                'total_value': total_value
+                }
         return data
 
     def adaptive_search_by_dron_num_flow_order(self):
@@ -151,13 +154,19 @@ class CreateDatasets:
     def adaptive_search_by_dron_num(self):
         """crating dataset for  searching by drone num """
         dataset = MavicAutelStorage.objects.filter(dron_number__icontains=self.drone_num).values()
-        data = {'model': dataset}
+        total_value = MavicAutelStorage.objects.aggregate(Sum('supply_value'))['supply_value__sum']
+        data = {'model': dataset,
+                'total_value': total_value
+                }
         return data
 
     def create_adaptive_document_dataset(self):
         """function for document number adaptive filter in MAvicAutel Storage"""
         dataset = MavicAutelStorage.objects.filter(number_of_document__icontains=self.adaptive_document).values()
-        data = {'model': dataset}
+        total_value = MavicAutelStorage.objects.aggregate(Sum('supply_value'))['supply_value__sum']
+        data = {'model': dataset,
+                'total_value': total_value
+                }
         return data
 
     def create_dataset_for_mav_storage_prais_val(self):
@@ -181,7 +190,10 @@ class CreateDatasets:
 
     def create_adaptive_mavic_autel(self):
         data_set = MavicAutelStorage.objects.filter(dron_name__icontains=self.adaptive_mavic).values()
-        data = {"model": data_set}
+        total_value = MavicAutelStorage.objects.aggregate(Sum('supply_value'))['supply_value__sum']
+        data = {"model": data_set,
+                'total_value': total_value
+                }
         return data
 
     def CreateSetForFpvStorageOrder(self):
