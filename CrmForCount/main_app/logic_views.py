@@ -122,7 +122,7 @@ class CreateDatasets:
     """Class for creating datasets on order pages """
 
     def __init__(self, id=None, dron_out=None, who_took=None, position_name=None, drone_name=None, dron_num=None,
-                 adaptive_mavic=None, start_num=None, end_num=None, adaptive_document=None):
+                 adaptive_mavic=None, start_num=None, end_num=None, adaptive_document=None, status=None):
         self.drone_name = drone_name
         self.drone_num = dron_num
         self.dron_out = dron_out
@@ -133,6 +133,14 @@ class CreateDatasets:
         self.start_num = start_num
         self.end_num = end_num
         self.adaptive_document = adaptive_document
+        self.status = status
+
+    def search_by_status_mav_storage(self):
+        """function for filtering by status in Mavic/Autel storage page"""
+        dataset = MavicAutelStorage.objects.filter(status=self.status).values()
+
+        data = {'model': dataset}
+        return data
 
     def adaptive_search_by_dron_num_flow_order(self):
         """crating dataset for  searching by drone num """

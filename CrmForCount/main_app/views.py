@@ -156,6 +156,19 @@ class MavicAutelInStorage(APIView):
         end_num = request.GET.get('end_num')
         adaptive_document = request.GET.get('adaptive_document')
         dron_num_search = request.GET.get('dron_num_search')
+        status = request.GET.get('status')
+
+        if status:
+            on_storage = request.GET.get('on_storage')
+            on_position = request.GET.get('on_position')
+
+            if on_storage:
+                logic = CreateDatasets(status=on_storage).search_by_status_mav_storage()
+            elif on_position:
+                logic = CreateDatasets(status=on_position).search_by_status_mav_storage()
+            else:
+                logic = CreateDatasets.mavic_autel_storage_set()
+            return render(request, "main_app/mavic_autel_storage.html", logic)
 
         if dron_num_search:
             logic = CreateDatasets(dron_num=dron_num_search).adaptive_search_by_dron_num()
