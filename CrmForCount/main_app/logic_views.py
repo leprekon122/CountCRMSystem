@@ -499,3 +499,15 @@ class StatisticsLogic:
                 'all_destroy_mav': all_destroy_mav
                 }
         return data
+
+
+class FilterForMAvicAutelPosition:
+
+    def __init__(self, status=None):
+        self.status = status
+
+    def status_on_position(self):
+        """function fot filtering by status on position flow page"""
+        data_set = MavicAutelPositionFlow.objects.filter(status=self.status).values()
+        data = {'model': data_set}
+        return data

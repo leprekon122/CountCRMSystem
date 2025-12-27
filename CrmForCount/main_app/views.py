@@ -3,7 +3,7 @@ from rest_framework import permissions
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAutelStorageNotice, FpvFlowPage, \
-    RadioOrderLogic, RifleOrderLogic, RadioSupplyPosition, StatisticsLogic
+    RadioOrderLogic, RifleOrderLogic, RadioSupplyPosition, StatisticsLogic, FilterForMAvicAutelPosition
 from .models import FpvFlowStorage, MavicAutelPositionFlow, MainFpvFlowOrder, MavicAutelStorage, RifleOrderModel
 from datetime import datetime
 
@@ -164,8 +164,10 @@ class MavicAutelInStorage(APIView):
 
             if on_storage:
                 logic = CreateDatasets(status=on_storage).search_by_status_mav_storage()
+                print(logic)
             elif on_position:
                 logic = CreateDatasets(status=on_position).search_by_status_mav_storage()
+                print(logic)
             else:
                 logic = CreateDatasets.mavic_autel_storage_set()
             return render(request, "main_app/mavic_autel_storage.html", logic)
@@ -212,13 +214,25 @@ class MavicAutelPostionFlow(APIView):
 
     @staticmethod
     def get(request):
+        logic = CreateDatasets.mavic_autel_flow_position(self=None)
         dron_num_search = request.GET.get('dron_num_search')
+        status = request.GET.get('status')
+
+        if status:
+            on_position = request.GET.get('on_position')
+            destroyed = request.GET.get('destroyed')
+
+            if on_position:
+                logic = FilterForMAvicAutelPosition(status=on_position).status_on_position()
+            elif destroyed:
+                logic = FilterForMAvicAutelPosition(status=destroyed).status_on_position()
+            else:
+                return render(request, 'main_app/mavic_autel_position_flow.html', logic)
 
         if dron_num_search:
             logic = CreateDatasets(dron_num=dron_num_search).adaptive_search_by_dron_num_flow_order()
             return render(request, 'main_app/mavic_autel_position_flow.html', logic)
 
-        logic = CreateDatasets.mavic_autel_flow_position(self=None)
         return render(request, 'main_app/mavic_autel_position_flow.html', logic)
 
     @staticmethod

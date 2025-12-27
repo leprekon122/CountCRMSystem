@@ -8,6 +8,36 @@
         <form method="get">
             <div class="filter_panel">
                 <div class="title_filter_panel">
+                    <h5 class="text-light">Storage or Position</h5>
+                    <div class="form-check">
+                        <input class="form-check-input text-light" type="checkbox" value="1" id="on_position"
+                               name="on_position">
+                        <label class="form-check-label text-light" for="on_positIon">
+                            On position
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input text-light" type="checkbox" value="0" id="destroyed"
+                               name="destroyed">
+                        <label class="form-check-label text-light" for="destroyed">
+                            Destroyed
+                        </label>
+                    </div>
+                </div>
+
+                <br>
+                <button class="btn btn-warning text-light" style="background: transparent; width: 100%" type="submit"
+                        name="status" value="1">
+                    filter
+                </button>
+                <br>
+            </div>
+        </form>
+
+
+        <form method="get">
+            <div class="filter_panel">
+                <div class="title_filter_panel">
                     <h5 class="text-light">Searching by dron number</h5>
                 </div>
                 <div>
