@@ -164,10 +164,8 @@ class MavicAutelInStorage(APIView):
 
             if on_storage:
                 logic = CreateDatasets(status=on_storage).search_by_status_mav_storage()
-                print(logic)
             elif on_position:
                 logic = CreateDatasets(status=on_position).search_by_status_mav_storage()
-                print(logic)
             else:
                 logic = CreateDatasets.mavic_autel_storage_set()
             return render(request, "main_app/mavic_autel_storage.html", logic)
@@ -301,6 +299,21 @@ class RadioServiceSupply(APIView):
     def get(request):
         logic = CreateDatasets.RadioServiceSetMain(self=None)
         adaptive_search = request.GET.get('adaptive_search')
+        status = request.GET.get('status')
+
+        if status:
+            on_storage = request.GET.get('on_storage')
+            on_position = request.GET.get('on_position')
+
+            if on_storage:
+                logic = RadioOrderLogic(status=on_storage).order_by_status()
+                print(logic)
+            elif on_position:
+                logic = RadioOrderLogic(status=on_position).order_by_status()
+                print(logic)
+
+
+            return render(request, "main_app/radio_servise_supply.html", logic)
 
         if adaptive_search:
             logic = CreateDatasets(adaptive_mavic=adaptive_search).create_radio_adaptive()
@@ -333,6 +346,7 @@ class RadioSupply(APIView):
     @staticmethod
     def get(request):
         logic = RadioSupplyPosition.create_dataset_main(self=None)
+
         return render(request, 'main_app/Radio_supply_positon_flow.html', logic)
 
     @staticmethod

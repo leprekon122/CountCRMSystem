@@ -7,24 +7,34 @@
 
     <div class="side_panel" id="side_panel">
         <form method="get">
+            <form method="get">
             <div class="filter_panel">
                 <div class="title_filter_panel">
-                    <h5 class="text-light">Filter</h5>
+                    <h5 class="text-light">Storage or Position</h5>
+                    <div class="form-check">
+                        <input class="form-check-input text-light" type="checkbox" value="1" id="on_storage"
+                               name="on_storage">
+                        <label class="form-check-label text-light" for="on_storage">
+                            On storage
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input text-light" type="checkbox" value="0" id="on_position"
+                               name="on_position">
+                        <label class="form-check-label text-light" for="on_position">
+                            On position
+                        </label>
+                    </div>
                 </div>
-                <div>
-                    <select class="form-control">
-                        <option>filter by activ</option>
-                        <option>filter by delete</option>
-                        <option>filter by price</option>
-                    </select>
-                </div>
+
                 <br>
-                <button name="filter" value="1" type="submit" class="btn btn-warning text-light"
-                        style="background: transparent; width: 100%">
+                <button class="btn btn-warning text-light" style="background: transparent; width: 100%" type="submit"
+                        name="status" value="1">
                     filter
                 </button>
                 <br>
             </div>
+        </form>
 
             <div class="filter_panel">
                 <div class="title_filter_panel">
@@ -46,6 +56,11 @@
     </div>
 
     <div class="orders_block">
+        <div class="total_value">
+            <div style="background: blur(6px)">
+                <p class="text-light">total values: {{total_value}}</p>
+            </div>
+        </div>
         <table class="table table-dark table-sm table-bordered">
             <thead>
             <tr>

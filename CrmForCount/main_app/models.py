@@ -94,7 +94,7 @@ class RadioServiceModel(models.Model):
     objects = None
 
     supply_name = models.CharField(max_length=255)
-    price = models.CharField(max_length=255)
+    price = models.IntegerField()
     serial_number = models.CharField(max_length=255)
     date_in = models.DateField(auto_now=True)
     date_out = models.DateField(null=True, blank=True)

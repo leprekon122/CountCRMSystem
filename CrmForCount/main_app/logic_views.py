@@ -286,8 +286,10 @@ class CreateDatasets:
 
     def RadioServiceSetMain(self):
         """data set for RadioService main order"""
-
-        data = {"model": RadioServiceModel.objects.values().order_by('-id')}
+        total_value = RadioServiceModel.objects.aggregate(Sum('price'))['price__sum']
+        data = {"model": RadioServiceModel.objects.values().order_by('-id'),
+                'total_value': total_value
+                }
 
         return data
 
@@ -338,12 +340,23 @@ class FpvFlowPage:
 
 class RadioOrderLogic:
 
-    def __init__(self, notice_id=None, supply_name=None, supply_price=None, serial_number=None, date_in=None):
+    def __init__(self, notice_id=None, supply_name=None, supply_price=None, serial_number=None, date_in=None, status=None):
         self.notice_id = notice_id
         self.supply_name = supply_name
         self.supply_price = supply_price
         self.serial_number = serial_number
         self.date_in = date_in
+        self.status = status
+
+    def order_by_status(self):
+        """function for creating order by status"""
+        data_set = RadioServiceModel.objects.filter(status=self.status).values()
+        total_value = RadioServiceModel.objects.filter(status=self.status).aggregate(Sum('price'))['price__sum']
+
+        data = {'model': data_set,
+                'total_value': total_value
+                }
+        return data
 
     def delete_notice(self):
         """delete notice from RadioModel"""
