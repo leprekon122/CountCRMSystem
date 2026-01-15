@@ -1,0 +1,123 @@
+{%extends 'main_app/layout_main.html'%}
+
+{%block title%}statistic page{%endblock%}
+
+{%block content%}
+<div class="container-fluid order_main">
+    <div class="side_panel" id="side_panel">
+        <form method="get">
+            <div class="filter_panel">
+                <div class="title_filter_panel">
+                    <h5 class="text-light">Storage or Position</h5>
+                    <div class="form-check">
+                        <input class="form-check-input text-light" type="checkbox" value="1" id="on_position"
+                               name="on_position">
+                        <label class="form-check-label text-light" for="on_positIon">
+                            On position
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input text-light" type="checkbox" value="0" id="destroyed"
+                               name="destroyed">
+                        <label class="form-check-label text-light" for="destroyed">
+                            Destroyed
+                        </label>
+                    </div>
+                </div>
+
+                <br>
+                <button class="btn btn-warning text-light" style="background: transparent; width: 100%" type="submit"
+                        name="status" value="1">
+                    filter
+                </button>
+                <br>
+            </div>
+        </form>
+
+
+        <form method="get">
+            <div class="filter_panel">
+                <div class="title_filter_panel">
+                    <h5 class="text-light">Searching by battery type</h5>
+                </div>
+                <div>
+                    <input class="form-control" type="text" name="bat_type_search"
+                           placeholder="Searching by battery type">
+                </div>
+                <br>
+                <button class="btn btn-warning text-light" style="background: transparent; width: 100%" type="submit"
+                        name="battery_type" value="1">
+                    filter
+                </button>
+                <br>
+            </div>
+        </form>
+    </div>
+
+    <div class="orders_block table-sm">
+        <table class="table table-dark table-bordered table-sm">
+            <table class="table table-dark table-bordered table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">battery_name</th>
+                    <th scope="col">quantities</th>
+                    <th scope="col">price per one</th>
+                    <th scope="col">total price</th>
+                    <th scope="col">who take</th>
+                    <th scope="col">position name</th>
+                    <th scope="col">How many</th>
+                    <th scope="col">options</th>
+                </tr>
+                </thead>
+                <tbody>
+                {%for el in model%}
+                <form method="post">
+                    {% csrf_token %}
+                    {% if el.quantities > 0 %}
+                    <tr>
+                        <td style="background-color: green">{{el.battery_type}}</td>
+                        <td id="quantities" style="background-color: green">{{el.quantities}}</td>
+                        <td style="background-color: green">{{el.price}}</td>
+                        <td style="background-color: green">{{el.total_price}}</td>
+                        <td style="background-color: green"><input class="form-control" placeholder="nickname"
+                                                                   name="who_took"></td>
+                        <td style="background-color: green"><input class="form-control" placeholder="position_name"
+                                                                   name="position_name"></td>
+                        <td class="calculator" style="background-color: green">
+                            <button type="button" class="btn btn-danger" style="background-color: transparent;"><i
+                                    class="fa-solid fa-minus" onclick="calculator_minus()"></i></button>
+                            <input type="text" value="1" name="calculator" class="form-control" id="calc_value">
+                            <button type="button" class="btn btn-success" style="background-color: transparent;"
+                                    id="calc_plus" onclick="calculator_plus()"><i
+                                    class="fa-solid fa-plus"></i></button>
+                        </td>
+                        <td style="background-color: green">
+                            <button type="submit" class="btn btn-success" style="width: 100%;" value="1"
+                                    name="to_pos">change data
+                            </button>
+                        </td>
+                    </tr>
+                    {%else%}
+                    <tr>
+                        <td style="background-color: red">{{el.battery_type}}</td>
+                        <td style="background-color: red">{{el.quantities}}</td>
+                        <td style="background-color: red">{{el.price}}</td>
+                        <td style="background-color: red">{{el.total_price}}</td>
+                        <td style="background-color: red"></td>
+                        <td style="background-color: red"></td>
+                        <td class="calculator" style="background-color: red">
+                        </td>
+                        <td style="background-color: red">
+                        </td>
+                    </tr>
+                    {%endif%}
+                </form>
+                {% endfor %}
+                </tbody>
+            </table>
+    </div>
+</div>
+
+<script src="static/main_app/js/battery_storage.js"></script>
+
+{%endblock%}

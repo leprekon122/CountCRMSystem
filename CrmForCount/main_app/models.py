@@ -76,7 +76,6 @@ class MavicAutelPositionFlow(models.Model):
 
 
 class RifleOrderModel(models.Model):
-
     Nickname = models.CharField(max_length=120)
     Type_rifle = models.CharField(max_length=20)
     Rifle_number = models.CharField(max_length=50)
@@ -104,7 +103,6 @@ class RadioServiceModel(models.Model):
     id_for_position = models.IntegerField(null=True, blank=True)
 
     class Meta:
-
         verbose_name = "RadioServiceModel"
         verbose_name_plural = "RadioServiceModel"
 
@@ -123,6 +121,22 @@ class RadioServicePositionModel(models.Model):
     id_for_storage = models.IntegerField(null=True, blank=True)
 
     class Meta:
-
         verbose_name = "RadioServiceModel"
         verbose_name_plural = "RadioServiceModel"
+
+
+class BatteryStorageOrderModel(models.Model):
+    """models for battery_storage_order.html"""
+    objects = None
+
+    battery_type = models.CharField(max_length=255)
+    price = models.IntegerField()
+    total_price = models.IntegerField()
+    quantities = models.IntegerField()
+    date_in = models.DateField(auto_now=True)
+    status = models.CharField(default=1)
+    doc_num = models.CharField(max_length=255)
+
+    class Meta:
+        verbose_name = 'BatteryStorageOrderModel'
+        verbose_name_plural = 'BatteryStorageOrderModel'

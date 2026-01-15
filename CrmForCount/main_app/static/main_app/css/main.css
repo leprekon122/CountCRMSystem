@@ -159,6 +159,16 @@ body {
               justify-content: center;
 }
 
+.calculator {
+             display: flex;
+             justify-content: space-around;
+
+}
+
+.calculator input {
+                   width: 15%;
+}
+
 @media screen and (max-width: 430px){
     .add_data_block {
                  width: 100%;

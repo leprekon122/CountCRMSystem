@@ -1,7 +1,7 @@
 from django.db.models import Sum, Q
 
 from .models import FpvFlowStorage, MainFpvFlowOrder, MavicAutelStorage, MavicAutelPositionFlow, RifleOrderModel, \
-    RadioServiceModel, RadioServicePositionModel
+    RadioServiceModel, RadioServicePositionModel, BatteryStorageOrderModel
 from datetime import datetime
 
 
@@ -195,8 +195,8 @@ class CreateDatasets:
     def create_adaptive_mavic_autel(self):
         data_set = MavicAutelStorage.objects.filter(dron_name__icontains=self.adaptive_mavic).values()
         total_value = \
-        MavicAutelStorage.objects.filter(dron_name__icontains=self.adaptive_mavic).aggregate(Sum('supply_value'))[
-            'supply_value__sum']
+            MavicAutelStorage.objects.filter(dron_name__icontains=self.adaptive_mavic).aggregate(Sum('supply_value'))[
+                'supply_value__sum']
         data = {"model": data_set,
                 'total_value': total_value
                 }
@@ -340,7 +340,8 @@ class FpvFlowPage:
 
 class RadioOrderLogic:
 
-    def __init__(self, notice_id=None, supply_name=None, supply_price=None, serial_number=None, date_in=None, status=None):
+    def __init__(self, notice_id=None, supply_name=None, supply_price=None, serial_number=None, date_in=None,
+                 status=None):
         self.notice_id = notice_id
         self.supply_name = supply_name
         self.supply_price = supply_price
@@ -524,3 +525,37 @@ class FilterForMAvicAutelPosition:
         data_set = MavicAutelPositionFlow.objects.filter(status=self.status).values()
         data = {'model': data_set}
         return data
+
+
+class BatteryStorageOrderLogic:
+    """class dor business logic in battery_storage_order.html"""
+
+    def __init__(self, battery_type=None, price=0, quantities=0, date_in=None, doc_num=None):
+        self.battery_type = battery_type
+        self.price = int(price)
+        self.quantities = int(quantities)
+        self.date_in = date_in
+        self.doc_num = doc_num
+
+    def create_main_data_set(self):
+        """create main data for page """
+        data_set = BatteryStorageOrderModel.objects.values()
+
+        data = {'model': data_set}
+
+        return data
+
+    def create_notice(self):
+        """create new article"""
+        total_price = self.quantities * self.price
+        BatteryStorageOrderModel.objects.create(battery_type=self.battery_type, price=self.price,
+                                                quantities=self.quantities, total_price=total_price,
+                                                date_in=self.date_in, doc_num=self.doc_num)
+
+    def filter_by_name(self):
+        """filter by battery type"""
+
+        data_set = BatteryStorageOrderModel.objects.filter(battery_type__contains=self.battery_type).values()
+
+        data_set = {'model': data_set}
+        return data_set

@@ -3,7 +3,8 @@ from rest_framework import permissions
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAutelStorageNotice, FpvFlowPage, \
-    RadioOrderLogic, RifleOrderLogic, RadioSupplyPosition, StatisticsLogic, FilterForMAvicAutelPosition
+    RadioOrderLogic, RifleOrderLogic, RadioSupplyPosition, StatisticsLogic, FilterForMAvicAutelPosition, \
+    BatteryStorageOrderLogic
 from .models import FpvFlowStorage, MavicAutelPositionFlow, MainFpvFlowOrder, MavicAutelStorage, RifleOrderModel
 from datetime import datetime
 
@@ -34,6 +35,14 @@ class FirstPage(APIView):
         add_autel_mavic_storage = request.POST.get('add_autel_mavic_storage')
         add_radio_supply = request.POST.get('add_radio_supply')
         add_rifle = request.POST.get('add_rifle')
+        add_battery_storage = request.POST.get('add_battery_storage')
+        # BatteryStorageOrderLogic
+
+        if add_battery_storage:
+            logic = BatteryStorageOrderLogic(battery_type=request.POST.get('battery_name'), price=request.POST.get('battery_price'),
+                                             quantities=request.POST.get('quantities'),
+                                             date_in=request.POST.get('bat_date_in'),
+                                             doc_num=request.POST.get('bat_doc_num')).create_notice()
 
         if add_rifle:
             logic = RifleOrderLogic(nickname=request.POST.get('nickname'), type_rifle=request.POST.get('type_rifle'),
@@ -312,7 +321,6 @@ class RadioServiceSupply(APIView):
                 logic = RadioOrderLogic(status=on_position).order_by_status()
                 print(logic)
 
-
             return render(request, "main_app/radio_servise_supply.html", logic)
 
         if adaptive_search:
@@ -375,3 +383,30 @@ class StatisticsPage(APIView):
         logic = StatisticsLogic.stat_data_mavic_autel(self=None)
 
         return render(request, 'main_app/statistics_page.html', logic)
+
+
+class BatteryStorageOrder(APIView):
+    """class for rendering Battery storage order"""
+
+    @staticmethod
+    def get(request):
+        """function rendering GET requests"""
+        logic = BatteryStorageOrderLogic.create_main_data_set(self=None)
+        battery_type = request.GET.get('battery_type')
+
+        if battery_type:
+            bat_name = request.GET.get('bat_type_search')
+            logic = BatteryStorageOrderLogic(battery_type=bat_name).filter_by_name()
+            return render(request, 'main_app/battery_storage_order.html', logic)
+
+        return render(request, 'main_app/battery_storage_order.html', logic)
+
+    @staticmethod
+    def post(request):
+        logic = BatteryStorageOrderLogic.create_main_data_set(self=None)
+        to_pos = request.POST.get('to_pos')
+
+        if to_pos:
+            pass
+
+        return render(request, 'main_app/battery_storage_order.html', logic)
