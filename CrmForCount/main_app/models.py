@@ -130,8 +130,8 @@ class BatteryStorageOrderModel(models.Model):
     objects = None
 
     battery_type = models.CharField(max_length=255)
-    price = models.IntegerField()
-    total_price = models.IntegerField()
+    price = models.DecimalField( max_digits=2, decimal_places=2)
+    total_price = models.DecimalField( max_digits=2, decimal_places=2)
     quantities = models.IntegerField()
     date_in = models.DateField(auto_now=True)
     status = models.CharField(default=1)
