@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAutelStorageNotice, FpvFlowPage, \
     RadioOrderLogic, RifleOrderLogic, RadioSupplyPosition, StatisticsLogic, FilterForMAvicAutelPosition, \
-    BatteryStorageOrderLogic
+    BatteryStorageOrderLogic, BatteryPositionOrderLogic
 from .models import FpvFlowStorage, MavicAutelPositionFlow, MainFpvFlowOrder, MavicAutelStorage, RifleOrderModel
 from datetime import datetime
 
@@ -39,7 +39,8 @@ class FirstPage(APIView):
         # BatteryStorageOrderLogic
 
         if add_battery_storage:
-            logic = BatteryStorageOrderLogic(battery_type=request.POST.get('battery_name'), price=request.POST.get('battery_price'),
+            logic = BatteryStorageOrderLogic(battery_type=request.POST.get('battery_name'),
+                                             price=request.POST.get('battery_price'),
                                              quantities=request.POST.get('quantities'),
                                              date_in=request.POST.get('bat_date_in'),
                                              doc_num=request.POST.get('bat_doc_num')).create_notice()
@@ -407,6 +408,21 @@ class BatteryStorageOrder(APIView):
         to_pos = request.POST.get('to_pos')
 
         if to_pos:
-            pass
+            who_took = request.POST.get('who_took')
+            position_name = request.POST.get('position_name')
+            notice_id = request.POST.get('to_pos')
+            calculator = request.POST.get('calculator')
+
+            logic_pos = BatteryStorageOrderLogic(notice_id=notice_id, who_took=who_took, position_name=position_name,
+                                                 quantities=calculator).send_to_position()
 
         return render(request, 'main_app/battery_storage_order.html', logic)
+
+
+class BatteryPositionOrder(APIView):
+    """class for routing battery_position_order.html"""
+
+    @staticmethod
+    def get(request):
+        logic = BatteryPositionOrderLogic.create_main_data_set(self=None)
+        return render(request, 'main_app/battery_position_order.html', logic)

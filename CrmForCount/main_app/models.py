@@ -130,13 +130,36 @@ class BatteryStorageOrderModel(models.Model):
     objects = None
 
     battery_type = models.CharField(max_length=255)
-    price = models.DecimalField( max_digits=2, decimal_places=2)
-    total_price = models.DecimalField( max_digits=2, decimal_places=2)
+    price = models.DecimalField(max_digits=12, decimal_places=2)
+    total_price = models.DecimalField(max_digits=12, decimal_places=2)
     quantities = models.IntegerField()
     date_in = models.DateField(auto_now=True)
+    date_out = models.DateField(auto_now=True, null=True)
+    who_took = models.CharField(max_length=255, null=True)
+    position_name = models.CharField(max_length=255, null=True)
     status = models.CharField(default=1)
     doc_num = models.CharField(max_length=255)
 
     class Meta:
         verbose_name = 'BatteryStorageOrderModel'
         verbose_name_plural = 'BatteryStorageOrderModel'
+
+
+class BatteryPositionOrderModel(models.Model):
+    """ models for Battery position flow order"""
+    objects = None
+
+    battery_type = models.CharField(max_length=255)
+    price = models.DecimalField(max_digits=12, decimal_places=2)
+    total_price = models.DecimalField(max_digits=12, decimal_places=2)
+    quantities = models.IntegerField()
+    date_in = models.DateField(auto_now=True)
+    date_out = models.DateField(null=True)
+    who_destroy = models.CharField(max_length=255, null=True)
+    coordinates = models.CharField(max_length=255, null=True)
+    status = models.CharField(default=1)
+
+    class Meta:
+
+        verbose_name = 'BatteryPositionOrderModel'
+        verbose_name_plural = 'BatteryPositionOrderModel'

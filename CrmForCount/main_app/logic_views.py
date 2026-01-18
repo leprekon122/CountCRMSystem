@@ -1,7 +1,7 @@
 from django.db.models import Sum, Q
 
 from .models import FpvFlowStorage, MainFpvFlowOrder, MavicAutelStorage, MavicAutelPositionFlow, RifleOrderModel, \
-    RadioServiceModel, RadioServicePositionModel, BatteryStorageOrderModel
+    RadioServiceModel, RadioServicePositionModel, BatteryStorageOrderModel, BatteryPositionOrderModel
 from datetime import datetime
 
 
@@ -530,18 +530,25 @@ class FilterForMAvicAutelPosition:
 class BatteryStorageOrderLogic:
     """class dor business logic in battery_storage_order.html"""
 
-    def __init__(self, battery_type=None, price=0, quantities=0, date_in=None, doc_num=None):
+    def __init__(self, battery_type=None, price=0, quantities=0, date_in=None, doc_num=None, notice_id=None,
+                 who_took=None, position_name=None):
         self.battery_type = battery_type
         self.price = int(price)
         self.quantities = int(quantities)
         self.date_in = date_in
         self.doc_num = doc_num
+        self.notice_id = notice_id
+        self.who_took = who_took
+        self.position_name = position_name
 
     def create_main_data_set(self):
         """create main data for page """
         data_set = BatteryStorageOrderModel.objects.values()
+        total_value = BatteryStorageOrderModel.objects.all().aggregate(Sum('total_price'))['total_price__sum']
 
-        data = {'model': data_set}
+        data = {'model': data_set,
+                'total_value': total_value,
+                }
 
         return data
 
@@ -559,3 +566,44 @@ class BatteryStorageOrderLogic:
 
         data_set = {'model': data_set}
         return data_set
+
+    def send_to_position(self):
+        """function for transfer to position order"""
+        data_set = BatteryStorageOrderModel.objects.filter(id=self.notice_id).values()[0]
+        BatteryStorageOrderModel.objects.filter(id=self.notice_id).update(who_took=self.who_took,
+                                                                          position_name=self.position_name,
+                                                                          quantities=data_set[
+                                                                                         'quantities'] - self.quantities,
+                                                                          status=0)
+
+        BatteryPositionOrderModel.objects.create(battery_type=data_set['battery_type'],
+                                                 price=data_set['price'],
+                                                 total_price=data_set['total_price'],
+                                                 quantities=self.quantities,
+                                                 )
+
+
+class BatteryPositionOrderLogic:
+    """class dor business logic in battery_storage_order.html"""
+
+    def __init__(self, battery_type=None, price=0, quantities=0, date_in=None, doc_num=None, notice_id=None,
+                 who_took=None, position_name=None):
+        self.battery_type = battery_type
+        self.price = int(price)
+        self.quantities = int(quantities)
+        self.date_in = date_in
+        self.doc_num = doc_num
+        self.notice_id = notice_id
+        self.who_took = who_took
+        self.position_name = position_name
+
+    def create_main_data_set(self):
+        """create main data for page battery position """
+        data_set = BatteryPositionOrderModel.objects.values()
+        total_value = BatteryPositionOrderModel.objects.all().aggregate(Sum('total_price'))['total_price__sum']
+
+        data = {'model': data_set,
+                'total_value': total_value,
+                }
+
+        return data

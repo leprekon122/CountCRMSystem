@@ -1,6 +1,6 @@
 {%extends 'main_app/layout_main.html'%}
 
-{%block title%}battery storage{%endblock%}
+{%block title%}battery position{%endblock%}
 
 {%block content%}
 <div class="container-fluid order_main">
@@ -71,8 +71,8 @@
                         <th scope="col">quantities</th>
                         <th scope="col">price per one</th>
                         <th scope="col">total price</th>
-                        <th scope="col">who take</th>
-                        <th scope="col">position name</th>
+                        <th scope="col">who destroy</th>
+                        <th scope="col">coordinates</th>
                         <th scope="col">How many</th>
                         <th scope="col">options</th>
                     </tr>
@@ -87,10 +87,10 @@
                             <td id="quantities" style="background-color: green">{{el.quantities}}</td>
                             <td style="background-color: green">{{el.price}}</td>
                             <td style="background-color: green">{{el.total_price}}</td>
-                            <td style="background-color: green"><input class="form-control" placeholder="nickname"
-                                                                       name="who_took"></td>
-                            <td style="background-color: green"><input class="form-control" placeholder="position_name"
-                                                                       name="position_name"></td>
+                            <td style="background-color: green"><input class="form-control" placeholder="who_destroy"
+                                                                       name="who_destroy"></td>
+                            <td style="background-color: green"><input class="form-control" placeholder="37 cr  34532 12345"
+                                                                       name="coordinates"></td>
                             <td class="calculator" style="background-color: green">
                                 <button type="button" class="btn btn-danger" style="background-color: transparent;"><i
                                         class="fa-solid fa-minus" onclick="calculator_minus()"></i></button>
@@ -99,9 +99,12 @@
                                         id="calc_plus" onclick="calculator_plus()"><i
                                         class="fa-solid fa-plus"></i></button>
                             </td>
-                            <td style="background-color: green">
-                                <button type="submit" class="btn btn-success" style="width: 100%;" value="{{el.id}}"
-                                        name="to_pos">change data
+                            <td >
+                                <button type="submit" class="btn btn-warning text-light" style="width: 100%; background-color:transparent;" value="{{el.id}}"
+                                        name="to_pos">to storage
+                                </button>
+                                <button type="submit" class="btn btn-danger" style="width: 100%; background-color:transparent;" value="{{el.id}}"
+                                        name="to_pos">destroy
                                 </button>
                             </td>
                         </tr>
@@ -128,5 +131,4 @@
 </div>
 
 <script src="static/main_app/js/battery_storage.js"></script>
-
 {%endblock%}

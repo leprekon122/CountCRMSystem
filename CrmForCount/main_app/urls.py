@@ -16,7 +16,8 @@ urlpatterns = [
     path('radio_service', views.RadioServiceSupply.as_view(), name='radio_service'),
     path('radio_position_flow', views.RadioSupply.as_view(), name='radio_position'),
     path('statistic_page', views.StatisticsPage.as_view(), name='stat_page'),
-    path('battery_storaпу', views.BatteryStorageOrder.as_view(), name='battery_storage')
+    path('battery_storage', views.BatteryStorageOrder.as_view(), name='battery_storage'),
+    path('battery_position', views.BatteryPositionOrder.as_view(), name='battery_position')
 ]
 
 urlpatterns += [
