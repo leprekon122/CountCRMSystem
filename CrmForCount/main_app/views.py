@@ -388,6 +388,7 @@ class StatisticsPage(APIView):
 
 class BatteryStorageOrder(APIView):
     """class for rendering Battery storage order"""
+    permission_classes = [permissions.IsAuthenticated]
 
     @staticmethod
     def get(request):
@@ -421,6 +422,8 @@ class BatteryStorageOrder(APIView):
 
 class BatteryPositionOrder(APIView):
     """class for routing battery_position_order.html"""
+
+    permission_classes = [permissions.IsAuthenticated]
 
     @staticmethod
     def get(request):

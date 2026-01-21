@@ -93,7 +93,7 @@ class RadioServiceModel(models.Model):
     objects = None
 
     supply_name = models.CharField(max_length=255)
-    price = models.IntegerField()
+    price = models.DecimalField(max_digits=12, decimal_places=2)
     serial_number = models.CharField(max_length=255)
     date_in = models.DateField(auto_now=True)
     date_out = models.DateField(null=True, blank=True)
@@ -111,7 +111,7 @@ class RadioServicePositionModel(models.Model):
     objects = None
 
     supply_name = models.CharField(max_length=255)
-    price = models.CharField(max_length=255)
+    price = models.DecimalField(max_digits=12, decimal_places=2)
     serial_number = models.CharField(max_length=255)
     date_in = models.DateField(auto_now=True)
     date_out = models.DateField(null=True, blank=True)
