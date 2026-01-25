@@ -84,7 +84,7 @@
                         {% if el.quantities > 0 %}
                         <tr>
                             <td style="background-color: green">{{el.battery_type}}</td>
-                            <td id="quantities" style="background-color: green">{{el.quantities}}</td>
+                            <td id="quantities{{el.id}}" style="background-color: green">{{el.quantities}}</td>
                             <td style="background-color: green">{{el.price}}</td>
                             <td style="background-color: green">{{el.total_price}}</td>
                             <td style="background-color: green"><input class="form-control" placeholder="nickname"
@@ -93,10 +93,10 @@
                                                                        name="position_name"></td>
                             <td class="calculator" style="background-color: green">
                                 <button type="button" class="btn btn-danger" style="background-color: transparent;"><i
-                                        class="fa-solid fa-minus" onclick="calculator_minus()"></i></button>
-                                <input type="text" value="{{el.quantities}}" name="calculator" class="form-control" id="calc_value">
+                                        class="fa-solid fa-minus" onclick="calculator_minus('{{el.id}}')"></i></button>
+                                <input type="text" value="{{el.quantities}}" name="calculator" class="form-control" id="calc_value_{{el.id}}">
                                 <button type="button" class="btn btn-success" style="background-color: transparent;"
-                                        id="calc_plus" onclick="calculator_plus()"><i
+                                        onclick="calculator_plus('{{el.id}}')"><i
                                         class="fa-solid fa-plus"></i></button>
                             </td>
                             <td style="background-color: green">

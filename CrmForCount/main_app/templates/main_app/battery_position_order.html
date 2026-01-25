@@ -93,10 +93,10 @@
                                                                        name="coordinates"></td>
                             <td class="calculator" style="background-color: green">
                                 <button type="button" class="btn btn-danger" style="background-color: transparent;"><i
-                                        class="fa-solid fa-minus" onclick="calculator_minus()"></i></button>
-                                <input type="text" value="{{el.quantities}}" name="calculator" class="form-control" id="calc_value">
+                                        class="fa-solid fa-minus" onclick="calculator_minus('{{el.id}}')"></i></button>
+                                <input type="text" value="{{el.quantities}}" name="calculator" class="form-control" id="calc_value_{{el.id}}">
                                 <button type="button" class="btn btn-success" style="background-color: transparent;"
-                                        id="calc_plus" onclick="calculator_plus()"><i
+                                        onclick="calculator_plus('calc_value_12')"><i
                                         class="fa-solid fa-plus"></i></button>
                             </td>
                             <td >

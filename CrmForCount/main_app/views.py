@@ -1,3 +1,4 @@
+from rest_framework.permissions import DjangoModelPermissions
 from rest_framework.views import APIView
 from rest_framework import permissions
 from django.shortcuts import render, redirect
@@ -5,7 +6,8 @@ from django.contrib.auth import authenticate, login
 from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAutelStorageNotice, FpvFlowPage, \
     RadioOrderLogic, RifleOrderLogic, RadioSupplyPosition, StatisticsLogic, FilterForMAvicAutelPosition, \
     BatteryStorageOrderLogic, BatteryPositionOrderLogic
-from .models import FpvFlowStorage, MavicAutelPositionFlow, MainFpvFlowOrder, MavicAutelStorage, RifleOrderModel
+from .models import FpvFlowStorage, MavicAutelPositionFlow, MainFpvFlowOrder, MavicAutelStorage, RifleOrderModel, \
+    BatteryPositionOrderModel
 from datetime import datetime
 
 
@@ -22,7 +24,12 @@ def login_page(request):
 
 
 class FirstPage(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    queryset = BatteryPositionOrderModel.objects.all()
+
+    permission_classes = [
+        permissions.IsAuthenticated,
+        DjangoModelPermissions
+    ]
 
     @staticmethod
     def get(request):
@@ -93,6 +100,8 @@ class FirstPage(APIView):
 
 class FPVFlowInStorage(APIView):
     objects = None
+
+    queryset = BatteryPositionOrderModel.objects.all()
     permission_classes = [permissions.IsAuthenticated]
 
     @staticmethod
@@ -126,7 +135,12 @@ class FPVFlowInStorage(APIView):
 
 
 class FpvMainFlowPage(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    queryset = BatteryPositionOrderModel.objects.all()
+
+    permission_classes = [
+        permissions.IsAuthenticated,
+        DjangoModelPermissions
+    ]
 
     @staticmethod
     def get(request):
@@ -156,7 +170,12 @@ class FpvMainFlowPage(APIView):
 
 class MavicAutelInStorage(APIView):
     """ class for respond in MavicAutelStorage order"""
-    permission_classes = [permissions.IsAuthenticated]
+    queryset = BatteryPositionOrderModel.objects.all()
+
+    permission_classes = [
+        permissions.IsAuthenticated,
+        DjangoModelPermissions
+    ]
 
     @staticmethod
     def get(request):
@@ -218,7 +237,12 @@ class MavicAutelInStorage(APIView):
 
 class MavicAutelPostionFlow(APIView):
     """view for Mavic/Autel potion flow"""
-    permission_classes = [permissions.IsAuthenticated]
+    queryset = BatteryPositionOrderModel.objects.all()
+
+    permission_classes = [
+        permissions.IsAuthenticated,
+        DjangoModelPermissions
+    ]
 
     @staticmethod
     def get(request):
@@ -271,8 +295,12 @@ class MavicAutelPostionFlow(APIView):
 
 class RifleOrderPage(APIView):
     """Page for manging rifle_order.html"""
+    queryset = BatteryPositionOrderModel.objects.all()
 
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [
+        permissions.IsAuthenticated,
+        DjangoModelPermissions
+    ]
 
     @staticmethod
     def get(request):
@@ -303,7 +331,12 @@ class RifleOrderPage(APIView):
 
 class RadioServiceSupply(APIView):
     """class for manage radio_servise_supply.html"""
-    permission_classes = [permissions.IsAuthenticated]
+    queryset = BatteryPositionOrderModel.objects.all()
+
+    permission_classes = [
+        permissions.IsAuthenticated,
+        DjangoModelPermissions
+    ]
 
     @staticmethod
     def get(request):
@@ -317,10 +350,9 @@ class RadioServiceSupply(APIView):
 
             if on_storage:
                 logic = RadioOrderLogic(status=on_storage).order_by_status()
-                print(logic)
+
             elif on_position:
                 logic = RadioOrderLogic(status=on_position).order_by_status()
-                print(logic)
 
             return render(request, "main_app/radio_servise_supply.html", logic)
 
@@ -350,7 +382,12 @@ class RadioServiceSupply(APIView):
 
 class RadioSupply(APIView):
     """class for routing RadioOrder on position"""
-    permission_classes = [permissions.IsAuthenticated]
+    queryset = BatteryPositionOrderModel.objects.all()
+
+    permission_classes = [
+        permissions.IsAuthenticated,
+        DjangoModelPermissions
+    ]
 
     @staticmethod
     def get(request):
@@ -377,7 +414,11 @@ class RadioSupply(APIView):
 
 class StatisticsPage(APIView):
     """class for statistic page"""
-    permission_classes = [permissions.IsAuthenticated]
+    queryset = BatteryPositionOrderModel.objects.all()
+    permission_classes = [
+        permissions.IsAuthenticated,
+        DjangoModelPermissions
+    ]
 
     @staticmethod
     def get(request):
@@ -388,7 +429,12 @@ class StatisticsPage(APIView):
 
 class BatteryStorageOrder(APIView):
     """class for rendering Battery storage order"""
-    permission_classes = [permissions.IsAuthenticated]
+    queryset = BatteryPositionOrderModel.objects.all()
+
+    permission_classes = [
+        permissions.IsAuthenticated,
+        DjangoModelPermissions
+    ]
 
     @staticmethod
     def get(request):
@@ -423,7 +469,12 @@ class BatteryStorageOrder(APIView):
 class BatteryPositionOrder(APIView):
     """class for routing battery_position_order.html"""
 
-    permission_classes = [permissions.IsAuthenticated]
+    queryset = BatteryPositionOrderModel.objects.all()
+
+    permission_classes = [
+        permissions.IsAuthenticated,
+        DjangoModelPermissions
+    ]
 
     @staticmethod
     def get(request):
