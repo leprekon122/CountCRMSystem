@@ -169,6 +169,21 @@ body {
                    width: 15%;
 }
 
+.battery_position_footer {
+                          width: 100%;
+                          display: flex;
+                          flex-direction: row;
+                          justify-content: space-between;
+
+}
+
+.main_schield {
+               border: .5px solid yellow;
+               width: 100%;
+
+
+}
+
 @media screen and (max-width: 430px){
     .add_data_block {
                  width: 100%;

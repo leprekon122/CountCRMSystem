@@ -480,3 +480,15 @@ class BatteryPositionOrder(APIView):
     def get(request):
         logic = BatteryPositionOrderLogic.create_main_data_set(self=None)
         return render(request, 'main_app/battery_position_order.html', logic)
+
+    @staticmethod
+    def post(request):
+        logic = BatteryPositionOrderLogic.create_main_data_set(self=None)
+        destroy = request.POST.get('destroy')
+
+        if destroy:
+            calculator = request.POST.get('calculator')
+            BatteryPositionOrderLogic(notice_id=destroy, quantities=calculator).destroy_logic()
+            return render(request, 'main_app/battery_position_order.html', logic)
+
+        return render(request, 'main_app/battery_position_order.html', logic)

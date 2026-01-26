@@ -55,10 +55,22 @@
     </div>
 
     <div class="orders_block table-sm">
-        <div class="total_value">
-            <div style="background: blur(6px)">
-                <p class="text-light">total values: {{total_value}}</p>
-                <p></p>
+        <div class="battery_position_footer">
+            <div class="total_value" style="height: 30px;">
+                <div style="background: blur(6px)">
+                    <p class="text-light">total values: {{total_value}}</p>
+                    <p></p>
+                </div>
+            </div>
+            <div class="type_of_batt">
+                <div class="main_schield" style="backdrop-filter: blur(5px);">
+                    <p class="text-light">dji 3: {{dji_3_trash}} </p>
+                    <p class="text-light">matrice 4: {{matrice_4}}</p>
+                    <p class="text-light">Autel: {{Autel}}</p>
+                    <p class="text-light">Збірка аккомуляторів 5s1p (2*5000 mah): {{s5p1_2_5000_mah}}</p>
+                    <p class="text-light">Збірка аккомуляторів 5s1p (6000 mah): {{s5p1_6000mah}}</p>
+                    <p class="text-light">Збірка аккомуляторів (4s1p 2* 5800 mah): {{s4p1_2_5800mah}}</p>
+                </div>
             </div>
         </div>
         <form method="post">
@@ -89,22 +101,26 @@
                             <td style="background-color: green">{{el.total_price}}</td>
                             <td style="background-color: green"><input class="form-control" placeholder="who_destroy"
                                                                        name="who_destroy"></td>
-                            <td style="background-color: green"><input class="form-control" placeholder="37 cr  34532 12345"
+                            <td style="background-color: green"><input class="form-control"
+                                                                       placeholder="37 cr  34532 12345"
                                                                        name="coordinates"></td>
                             <td class="calculator" style="background-color: green">
                                 <button type="button" class="btn btn-danger" style="background-color: transparent;"><i
                                         class="fa-solid fa-minus" onclick="calculator_minus('{{el.id}}')"></i></button>
-                                <input type="text" value="{{el.quantities}}" name="calculator" class="form-control" id="calc_value_{{el.id}}">
+                                <input type="text" value="{{el.quantities}}" name="calculator" class="form-control"
+                                       id="calc_value_{{el.id}}">
                                 <button type="button" class="btn btn-success" style="background-color: transparent;"
-                                        onclick="calculator_plus('calc_value_12')"><i
+                                        onclick="calculator_plus('{{el.id}}')"><i
                                         class="fa-solid fa-plus"></i></button>
                             </td>
-                            <td >
-                                <button type="submit" class="btn btn-warning text-light" style="width: 100%; background-color:transparent;" value="{{el.id}}"
+                            <td>
+                                <button type="submit" class="btn btn-warning text-light"
+                                        style="width: 100%; background-color:transparent;" value="{{el.id}}"
                                         name="to_pos">to storage
                                 </button>
-                                <button type="submit" class="btn btn-danger" style="width: 100%; background-color:transparent;" value="{{el.id}}"
-                                        name="to_pos">destroy
+                                <button type="submit" class="btn btn-danger"
+                                        style="width: 100%; background-color:transparent;" value="{{el.id}}"
+                                        name="destroy">destroy
                                 </button>
                             </td>
                         </tr>
@@ -122,11 +138,10 @@
                             </td>
                         </tr>
                         {%endif%}
+                        {% endfor %}
                     </form>
-                    {% endfor %}
                     </tbody>
                 </table>
-        </form>
     </div>
 </div>
 

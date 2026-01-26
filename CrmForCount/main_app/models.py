@@ -160,6 +160,17 @@ class BatteryPositionOrderModel(models.Model):
     status = models.CharField(default=1)
 
     class Meta:
-
         verbose_name = 'BatteryPositionOrderModel'
         verbose_name_plural = 'BatteryPositionOrderModel'
+
+
+class BatteryTrash(models.Model):
+    """model for aggregating all battery louses"""
+    battery_type = models.CharField(max_length=100)
+    date_in = models.DateField(auto_now=True)
+    price = models.DecimalField(max_digits=12, decimal_places=2)
+
+    class Meta:
+        verbose_name = 'BatteryTrash'
+        verbose_name_plural = 'BatteryTrash'
+

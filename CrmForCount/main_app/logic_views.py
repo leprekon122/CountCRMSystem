@@ -1,7 +1,7 @@
 from django.db.models import Sum, Q
 
 from .models import FpvFlowStorage, MainFpvFlowOrder, MavicAutelStorage, MavicAutelPositionFlow, RifleOrderModel, \
-    RadioServiceModel, RadioServicePositionModel, BatteryStorageOrderModel, BatteryPositionOrderModel
+    RadioServiceModel, RadioServicePositionModel, BatteryStorageOrderModel, BatteryPositionOrderModel, BatteryTrash
 from datetime import datetime
 
 
@@ -602,8 +602,46 @@ class BatteryPositionOrderLogic:
         data_set = BatteryPositionOrderModel.objects.values()
         total_value = BatteryPositionOrderModel.objects.all().aggregate(Sum('total_price'))['total_price__sum']
 
+        dji_3_trash = BatteryTrash.objects.filter(
+            Q(battery_type__icontains='dji inelegance flight battery for mavic 3') |
+            Q(battery_type__icontains='dji 3')
+        )
+
+        autel_bat = BatteryTrash.objects.filter(
+            Q(battery_type__icontains='Аккомулятори Autel Evo Max 4T') |
+            Q(battery_type__icontains='Autel')
+        )
+
+        matrice_4 = BatteryTrash.objects.filter(
+            Q(battery_type__icontains='Dji Matrice 4 Serie Battery') |
+            Q(battery_type__icontains='dji 4') |
+            Q(battery_type__icontains='matrice 4')
+        )
+
+        s5p1_2_5000_mah = BatteryTrash.objects.filter(
+            battery_type__icontains='Збірка аккомуляторів 5s1p (2*5000 mah)')
+
+        s5p1_6000mah = BatteryTrash.objects.filter(
+            battery_type__icontains='Збірка аккомуляторів 5s1p (6000 mah)')
+
+        s4p1_2_5800mah = BatteryTrash.objects.filter(
+            battery_type__icontains='Збірка аккомуляторів (4s1p 2* 5800 mah)')
+
         data = {'model': data_set,
                 'total_value': total_value,
+                'dji_3_trash': len(dji_3_trash),
+                'Autel': len(autel_bat),
+                'matrice_4': len(matrice_4),
+                's5p1_2_5000_mah': len(s5p1_2_5000_mah),
+                's5p1_6000mah': len(s5p1_6000mah),
+                's4p1_2_5800mah': len(s4p1_2_5800mah)
                 }
 
         return data
+
+    def destroy_logic(self):
+        """func for managing destroying process"""
+        data_set = BatteryPositionOrderModel.objects.filter(id=self.notice_id).values()[0]
+        quant = BatteryPositionOrderModel.objects.filter(id=self.notice_id).values('quantities')[0]['quantities']
+        BatteryPositionOrderModel.objects.filter(id=self.notice_id).update(quantities=quant - 1)
+        BatteryTrash.objects.create(battery_type=data_set['battery_type'], price=data_set['price'])
