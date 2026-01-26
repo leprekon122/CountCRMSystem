@@ -604,8 +604,8 @@ class BatteryPositionOrderLogic:
 
         dji_3_trash = BatteryTrash.objects.filter(
             Q(battery_type__icontains='dji inelegance flight battery for mavic 3') |
-            Q(battery_type__icontains='dji 3')
-        )
+            Q(battery_type__icontains='dji 3') |
+            Q(battery_type__icontains='dji inelegance flight battery for. Mavic 3'))
 
         autel_bat = BatteryTrash.objects.filter(
             Q(battery_type__icontains='Аккомулятори Autel Evo Max 4T') |
@@ -625,7 +625,8 @@ class BatteryPositionOrderLogic:
             battery_type__icontains='Збірка аккомуляторів 5s1p (6000 mah)')
 
         s4p1_2_5800mah = BatteryTrash.objects.filter(
-            battery_type__icontains='Збірка аккомуляторів (4s1p 2* 5800 mah)')
+            Q(battery_type__icontains='Збірка аккомуляторів (4s1p 2* 5800 mah)') |
+            Q(battery_type__icontains='4s2p ( 2*5800 mah)'))
 
         data = {'model': data_set,
                 'total_value': total_value,
