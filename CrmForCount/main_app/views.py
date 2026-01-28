@@ -479,14 +479,40 @@ class BatteryPositionOrder(APIView):
     @staticmethod
     def get(request):
         logic = BatteryPositionOrderLogic.create_main_data_set(self=None)
+        battery_type = request.GET.get('battery_type')
+        status = request.GET.get('status')
+
+        if status:
+            on_position = request.GET.get('on_position1')
+            destroyed = request.GET.get('destroyed')
+            print(on_position, destroyed)
+            if on_position is not None:
+                logic = BatteryPositionOrderLogic(status=status).filter_by_status()
+                print(on_position)
+                print(logic)
+                return render(request, 'main_app/battery_position_order.html', logic)
+            elif destroyed is not None:
+                logic = BatteryPositionOrderLogic(status=status).filter_by_status()
+                print(logic)
+                print(destroyed)
+                print(status)
+                return render(request, 'main_app/battery_position_order.html', logic)
+
+        if battery_type:
+            bat_type_search = request.GET.get('bat_type_search')
+            logic = BatteryPositionOrderLogic(battery_type=bat_type_search).filter_by_batt_type()
+            return render(request, 'main_app/battery_position_order.html', logic)
+
         return render(request, 'main_app/battery_position_order.html', logic)
 
     @staticmethod
     def post(request):
         logic = BatteryPositionOrderLogic.create_main_data_set(self=None)
+
         destroy = request.POST.get('destroy')
 
         if destroy:
+            logic = BatteryPositionOrderLogic.create_main_data_set(self=None)
             calculator = request.POST.get('calculator')
             BatteryPositionOrderLogic(notice_id=destroy, quantities=calculator).destroy_logic()
             return render(request, 'main_app/battery_position_order.html', logic)

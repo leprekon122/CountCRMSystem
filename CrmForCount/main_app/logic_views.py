@@ -578,7 +578,7 @@ class BatteryStorageOrderLogic:
 
         BatteryPositionOrderModel.objects.create(battery_type=data_set['battery_type'],
                                                  price=data_set['price'],
-                                                 total_price=data_set['total_price'],
+                                                 total_price=data_set['price'] * self.quantities,
                                                  quantities=self.quantities,
                                                  )
 
@@ -587,7 +587,7 @@ class BatteryPositionOrderLogic:
     """class dor business logic in battery_storage_order.html"""
 
     def __init__(self, battery_type=None, price=0, quantities=0, date_in=None, doc_num=None, notice_id=None,
-                 who_took=None, position_name=None):
+                 who_took=None, position_name=None, status=None):
         self.battery_type = battery_type
         self.price = int(price)
         self.quantities = int(quantities)
@@ -596,6 +596,44 @@ class BatteryPositionOrderLogic:
         self.notice_id = notice_id
         self.who_took = who_took
         self.position_name = position_name
+        self.status = status
+
+    def filter_by_status(self):
+        """function for filtering by status"""
+
+        if int(self.status) == 1:
+            data_set = BatteryPositionOrderModel.objects.filter(quantities__gt=0).values()
+            total_value = \
+                BatteryPositionOrderModel.objects.filter(quantities__gt=0).aggregate(
+                    Sum('total_price'))[
+                    'total_price__sum']
+            data = {
+                'model': data_set,
+                'total_value': total_value}
+            return data
+
+        elif int(self.status) == 0:
+            data_set = BatteryPositionOrderModel.objects.filter(quantities=0).values()
+            total_value = \
+                BatteryPositionOrderModel.objects.filter(quantities=0).aggregate(
+                    Sum('total_price'))[
+                    'total_price__sum']
+            data = {
+                'model': data_set,
+                'total_value': total_value}
+            return data
+
+    def filter_by_batt_type(self):
+        """function for searching by batt name type"""
+        data_set = BatteryPositionOrderModel.objects.filter(battery_type__icontains=self.battery_type).values()
+        total_value = \
+            BatteryPositionOrderModel.objects.filter(battery_type__icontains=self.battery_type).aggregate(
+                Sum('total_price'))[
+                'total_price__sum']
+        data = {'model': data_set,
+                'total_value': total_value,
+                }
+        return data
 
     def create_main_data_set(self):
         """create main data for page battery position """
