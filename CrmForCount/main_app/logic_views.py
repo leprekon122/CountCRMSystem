@@ -458,12 +458,12 @@ class StatisticsLogic:
 
     def stat_data_mavic_autel(self):
         """func for main data report"""
-        in_storage = len(MavicAutelStorage.objects.filter(status=1).values())
-        in_position = len(MavicAutelPositionFlow.objects.filter(status=1).values())
-        all_period_taking = len(MavicAutelStorage.objects.filter(status=0).values())
-        all_destroy = len(MavicAutelPositionFlow.objects.filter(status=0).values())
+        in_storage = MavicAutelStorage.objects.exclude(status=0).filter(status=1).count()
+        in_position = MavicAutelPositionFlow.objects.exclude(status=0).filter(status=1).count()
+        all_period_taking = MavicAutelStorage.objects.exclude(status=1).filter(status=0).count()
+        all_destroy = MavicAutelPositionFlow.objects.exclude(status=1).filter(status=0).count()
 
-        in_storage_mav = MavicAutelStorage.objects.filter(
+        in_storage_mav = MavicAutelStorage.objects.exclude(status=0).filter(
             Q(status=1) |
             Q(dron_name__contains='DJI Mavic 3 Thermal') |
             Q(dron_name__contains='DJI Mavic 3(Thermal)') |
