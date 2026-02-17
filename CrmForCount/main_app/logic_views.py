@@ -456,6 +456,7 @@ class StatisticsLogic:
     def __init__(self, note_id=None):
         self.note_id = note_id
 
+
     def stat_data_mavic_autel(self):
         """func for main data report"""
         in_storage = MavicAutelStorage.objects.exclude(status=0).filter(status=1).count()
