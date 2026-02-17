@@ -463,7 +463,7 @@ class StatisticsLogic:
         all_period_taking = len(MavicAutelStorage.objects.filter(status=0).values())
         all_destroy = len(MavicAutelPositionFlow.objects.filter(status=0).values())
 
-        in_storage_mav = len(MavicAutelStorage.objects.filter(
+        in_storage_mav = MavicAutelStorage.objects.filter(
             Q(status=1) |
             Q(dron_name__contains='DJI Mavic 3 Thermal') |
             Q(dron_name__contains='DJI Mavic 3(Thermal)') |
@@ -474,9 +474,9 @@ class StatisticsLogic:
             Q(dron_name__contains='Autel EVO MAX 4T') |
             Q(dron_name__contains='БПАК DJI MATRICE 4T') |
             Q(dron_name__contains='DJi Mavic 3 PRO (DJI RS)')
-        ).values())
+        ).count()
 
-        in_position_mav = len(MavicAutelPositionFlow.objects.filter(Q(status=1) |
+        in_position_mav = MavicAutelPositionFlow.objects.filter(Q(status=1) |
                                                                     Q(dron_name__contains='DJI Mavic 3 Thermal') |
                                                                     Q(dron_name__contains='DJI Mavic 3(Thermal)') |
                                                                     Q(dron_name__contains='DJI Matrice 4T') |
@@ -488,9 +488,9 @@ class StatisticsLogic:
                                                                     Q(dron_name__contains='DJi Mavic 3 PRO (DJI RS)') |
                                                                     Q(dron_name__contains='DJI Mavic 3') |
                                                                     Q(dron_name__contains='Autel EVO Max 4N')
-                                                                    ).values())
+                                                                    ).count()
 
-        taking_for_all_per_mavic = len(MavicAutelStorage.objects.filter(Q(status=0) |
+        taking_for_all_per_mavic = MavicAutelStorage.objects.filter(Q(status=0) |
                                                                         Q(dron_name__contains='DJI Mavic 3 Thermal') |
                                                                         Q(dron_name__contains='DJI Mavic 3(Thermal)') |
                                                                         Q(dron_name__contains='DJI Matrice 4T') |
@@ -502,9 +502,9 @@ class StatisticsLogic:
                                                                         Q(dron_name__contains='DJi Mavic 3 PRO (DJI RS)') |
                                                                         Q(dron_name__contains='DJI Mavic 3') |
                                                                         Q(dron_name__contains='Autel EVO Max 4N')
-                                                                        ).values())
+                                                                        ).count()
 
-        all_destroy_mav = len(MavicAutelPositionFlow.objects.filter(Q(status=0) |
+        all_destroy_mav = MavicAutelPositionFlow.objects.filter(Q(status=0) |
                                                                     Q(dron_name__contains='DJi  Mavic 3 Thermal') |
                                                                     Q(dron_name__contains='DJI  Mavic 3(Thermal)') |
                                                                     Q(dron_name__contains='DJI  Matrice 4T') |
@@ -517,7 +517,7 @@ class StatisticsLogic:
                                                                     Q(dron_name__contains='DJI Mavic 3') |
                                                                     Q(dron_name__contains='Autel EVO Max 4N')
 
-                                                                    ).values())
+                                                                    ).count()
 
         data = {'in_storage': in_storage,
                 'in_position': in_position,
