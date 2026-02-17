@@ -476,7 +476,7 @@ class StatisticsLogic:
             Q(dron_name__contains='DJi Mavic 3 PRO (DJI RS)')
         ).count()
 
-        in_position_mav = MavicAutelPositionFlow.objects.filter(Q(status=1) |
+        in_position_mav = MavicAutelPositionFlow.objects.exclude(status=0).filter(Q(status=1) |
                                                                 Q(dron_name__icontains='DJI Mavic 3 Thermal') |
                                                                 Q(dron_name__icontains='DJI Mavic 3(Thermal)') |
                                                                 Q(dron_name__icontains='DJI Matrice 4T') |
@@ -490,7 +490,7 @@ class StatisticsLogic:
                                                                 Q(dron_name__icontains='Autel EVO Max 4N')
                                                                 ).count()
 
-        taking_for_all_per_mavic = MavicAutelStorage.objects.filter(Q(status=0) |
+        taking_for_all_per_mavic = MavicAutelStorage.objects.exclude(status=1).filter(Q(status=0) |
                                                                     Q(dron_name__icontains='DJI Mavic 3 Thermal') |
                                                                     Q(dron_name__icontains='DJI Mavic 3(Thermal)') |
                                                                     Q(dron_name__icontains='DJI Matrice 4T') |
@@ -504,7 +504,7 @@ class StatisticsLogic:
                                                                     Q(dron_name__icontains='Autel EVO Max 4N')
                                                                     ).count()
 
-        all_destroy_mav = MavicAutelPositionFlow.objects.filter(Q(status=0) |
+        all_destroy_mav = MavicAutelPositionFlow.objects.exclude(status=1).filter(Q(status=0) |
                                                                 Q(dron_name__icontains='DJi  Mavic 3 Thermal') |
                                                                 Q(dron_name__icontains='DJI  Mavic 3(Thermal)') |
                                                                 Q(dron_name__icontains='DJI  Matrice 4T') |
