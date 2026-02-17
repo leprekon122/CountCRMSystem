@@ -465,56 +465,56 @@ class StatisticsLogic:
 
         in_storage_mav = MavicAutelStorage.objects.exclude(status=0).filter(
             Q(status=1) |
-            Q(dron_name__contains='DJI Mavic 3 Thermal') |
-            Q(dron_name__contains='DJI Mavic 3(Thermal)') |
-            Q(dron_name__contains='DJI Matrice 4T') |
-            Q(dron_name__contains='БпАК DJI MAvic 3T') |
-            Q(dron_name__contains='Mavic 3E (Enterprise)') |
-            Q(dron_name__contains='БпАК Autel EVO MAX 4T') |
-            Q(dron_name__contains='Autel EVO MAX 4T') |
-            Q(dron_name__contains='БПАК DJI MATRICE 4T') |
+            Q(dron_name__contains='DJI Mavic 3 Thermal') &
+            Q(dron_name__contains='DJI Mavic 3(Thermal)') &
+            Q(dron_name__contains='DJI Matrice 4T') &
+            Q(dron_name__contains='БпАК DJI MAvic 3T') &
+            Q(dron_name__contains='Mavic 3E (Enterprise)') &
+            Q(dron_name__contains='БпАК Autel EVO MAX 4T') &
+            Q(dron_name__contains='Autel EVO MAX 4T') &
+            Q(dron_name__contains='БПАК DJI MATRICE 4T') &
             Q(dron_name__contains='DJi Mavic 3 PRO (DJI RS)')
         ).count()
 
         in_position_mav = MavicAutelStorage.objects.exclude(status=0).filter(Q(status=1) |
-                                                                Q(dron_name__contains='DJI Mavic 3 Thermal') |
-                                                                Q(dron_name__contains='DJI Mavic 3(Thermal)') |
-                                                                Q(dron_name__contains='DJI Matrice 4T') |
-                                                                Q(dron_name__contains='БпАК DJI MAvic 3T') |
-                                                                Q(dron_name__contains='Mavic 3E (Enterprise)') |
-                                                                Q(dron_name__contains='БпАК Autel EVO MAX 4T') |
-                                                                Q(dron_name__contains='Autel EVO MAX 4T') |
-                                                                Q(dron_name__contains='БПАК DJI MATRICE 4T') |
-                                                                Q(dron_name__contains='DJi Mavic 3 PRO (DJI RS)') |
-                                                                Q(dron_name__contains='DJI Mavic 3') |
+                                                                Q(dron_name__contains='DJI Mavic 3 Thermal') &
+                                                                Q(dron_name__contains='DJI Mavic 3(Thermal)') &
+                                                                Q(dron_name__contains='DJI Matrice 4T') &
+                                                                Q(dron_name__contains='БпАК DJI MAvic 3T') &
+                                                                Q(dron_name__contains='Mavic 3E (Enterprise)') &
+                                                                Q(dron_name__contains='БпАК Autel EVO MAX 4T') &
+                                                                Q(dron_name__contains='Autel EVO MAX 4T') &
+                                                                Q(dron_name__contains='БПАК DJI MATRICE 4T') &
+                                                                Q(dron_name__contains='DJi Mavic 3 PRO (DJI RS)') &
+                                                                Q(dron_name__contains='DJI Mavic 3') &
                                                                 Q(dron_name__contains='Autel EVO Max 4N')
                                                                 ).count()
 
-        taking_for_all_per_mavic = MavicAutelStorage.objects.exclude(status=1).filter(Q(status=0) |
-                                                                    Q(dron_name__contains='DJI Mavic 3 Thermal') |
-                                                                    Q(dron_name__contains='DJI Mavic 3(Thermal)') |
-                                                                    Q(dron_name__contains='DJI Matrice 4T') |
-                                                                    Q(dron_name__contains='БпАК DJI MAvic 3T') |
-                                                                    Q(dron_name__contains='Mavic 3E (Enterprise)') |
-                                                                    Q(dron_name__contains='БпАК Autel EVO MAX 4T') |
-                                                                    Q(dron_name__contains='Autel EVO MAX 4T') |
-                                                                    Q(dron_name__contains='БПАК DJI MATRICE 4T') |
-                                                                    Q(dron_name__contains='DJi Mavic 3 PRO (DJI RS)') |
-                                                                    Q(dron_name__contains='DJI Mavic 3') |
+        taking_for_all_per_mavic = MavicAutelStorage.objects.exclude(status=1).filter(Q(status=0) &
+                                                                    Q(dron_name__contains='DJI Mavic 3 Thermal') &
+                                                                    Q(dron_name__contains='DJI Mavic 3(Thermal)') &
+                                                                    Q(dron_name__contains='DJI Matrice 4T') &
+                                                                    Q(dron_name__contains='БпАК DJI MAvic 3T') &
+                                                                    Q(dron_name__contains='Mavic 3E (Enterprise)') &
+                                                                    Q(dron_name__contains='БпАК Autel EVO MAX 4T') &
+                                                                    Q(dron_name__contains='Autel EVO MAX 4T') &
+                                                                    Q(dron_name__contains='БПАК DJI MATRICE 4T') &
+                                                                    Q(dron_name__contains='DJi Mavic 3 PRO (DJI RS)') &
+                                                                    Q(dron_name__contains='DJI Mavic 3') &
                                                                     Q(dron_name__contains='Autel EVO Max 4N')
                                                                     ).count()
 
         all_destroy_mav = MavicAutelPositionFlow.objects.exclude(status=1).filter(Q(status=0) |
-                                                                Q(dron_name__contains='DJi  Mavic 3 Thermal') |
-                                                                Q(dron_name__contains='DJI  Mavic 3(Thermal)') |
-                                                                Q(dron_name__contains='DJI  Matrice 4T') |
-                                                                Q(dron_name__contains='БпАК DJI MAvic 3T') |
-                                                                Q(dron_name__contains='Mavic 3E (Enterprise)') |
-                                                                Q(dron_name__contains='БпАК Autel EVO MAX 4T') |
-                                                                Q(dron_name__contains='Autel EVO MAX 4T') |
-                                                                Q(dron_name__contains='БПАК DJI MATRICE 4T') |
-                                                                Q(dron_name__contains='DJi Mavic 3 PRO (DJI RS)') |
-                                                                Q(dron_name__contains='DJI Mavic 3') |
+                                                                Q(dron_name__contains='DJi  Mavic 3 Thermal') &
+                                                                Q(dron_name__contains='DJI  Mavic 3(Thermal)') &
+                                                                Q(dron_name__contains='DJI  Matrice 4T') &
+                                                                Q(dron_name__contains='БпАК DJI MAvic 3T') &
+                                                                Q(dron_name__contains='Mavic 3E (Enterprise)') &
+                                                                Q(dron_name__contains='БпАК Autel EVO MAX 4T') &
+                                                                Q(dron_name__contains='Autel EVO MAX 4T') &
+                                                                Q(dron_name__contains='БПАК DJI MATRICE 4T') &
+                                                                Q(dron_name__contains='DJi Mavic 3 PRO (DJI RS)') &
+                                                                Q(dron_name__contains='DJI Mavic 3') &
                                                                 Q(dron_name__contains='Autel EVO Max 4N')
                                                                 ).count()
 
