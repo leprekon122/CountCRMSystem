@@ -476,7 +476,7 @@ class StatisticsLogic:
             Q(dron_name__contains='DJi Mavic 3 PRO (DJI RS)')
         ).count()
 
-        in_position_mav = MavicAutelPositionFlow.objects.exclude(status=0).filter(Q(status=1) |
+        in_position_mav = MavicAutelStorage.objects.exclude(status=0).filter(Q(status=1) |
                                                                 Q(dron_name__contains='DJI Mavic 3 Thermal') |
                                                                 Q(dron_name__contains='DJI Mavic 3(Thermal)') |
                                                                 Q(dron_name__contains='DJI Matrice 4T') |
