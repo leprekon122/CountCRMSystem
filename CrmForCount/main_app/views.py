@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.db.models import Q
 from rest_framework.permissions import DjangoModelPermissions
 from rest_framework.views import APIView
 from rest_framework import permissions
@@ -449,6 +450,22 @@ class StatisticsPage(APIView):
     def get(request):
         """function for rendering get requests"""
         logic = StatisticsLogic.stat_data_mavic_autel(self=None)
+
+        in_position_mav = MavicAutelPositionFlow.objects.filter(
+                                                                Q(status=1) |
+                                                                Q(dron_name__contains='DJI Mavic 3 Thermal') |
+                                                                Q(dron_name__contains='DJI Mavic 3(Thermal)') |
+                                                                Q(dron_name__contains='DJI Matrice 4T') |
+                                                                Q(dron_name__contains='БпАК DJI MAvic 3T') |
+                                                                Q(dron_name__contains='Mavic 3E (Enterprise)') |
+                                                                Q(dron_name__contains='БпАК Autel EVO MAX 4T') |
+                                                                Q(dron_name__contains='Autel EVO MAX 4T') |
+                                                                Q(dron_name__contains='БПАК DJI MATRICE 4T') |
+                                                                Q(dron_name__contains='DJi Mavic 3 PRO (DJI RS)') |
+                                                                Q(dron_name__contains='DJI Mavic 3') |
+                                                                Q(dron_name__contains='Autel EVO Max 4N')
+                                                                ).count()
+        print(in_position_mav)
 
         return render(request, 'main_app/statistics_page.html', logic)
 
