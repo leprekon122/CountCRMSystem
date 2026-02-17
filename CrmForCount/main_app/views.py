@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from rest_framework.permissions import DjangoModelPermissions
 from rest_framework.views import APIView
 from rest_framework import permissions
@@ -5,10 +6,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAutelStorageNotice, FpvFlowPage, \
     RadioOrderLogic, RifleOrderLogic, RadioSupplyPosition, StatisticsLogic, FilterForMAvicAutelPosition, \
-    BatteryStorageOrderLogic, BatteryPositionOrderLogic
+    BatteryStorageOrderLogic, BatteryPositionOrderLogic, PermissionOnView
 from .models import FpvFlowStorage, MavicAutelPositionFlow, MainFpvFlowOrder, MavicAutelStorage, RifleOrderModel, \
-    BatteryPositionOrderModel
+    BatteryPositionOrderModel, UserOrderPermission
 from datetime import datetime
+
+from django.core.exceptions import PermissionDenied
 
 
 def login_page(request):
@@ -33,6 +36,7 @@ class FirstPage(APIView):
 
     @staticmethod
     def get(request):
+
         return render(request, "main_app/first_page.html")
 
     @staticmethod
@@ -46,11 +50,11 @@ class FirstPage(APIView):
         # BatteryStorageOrderLogic
 
         if add_battery_storage:
-            logic = BatteryStorageOrderLogic(battery_type=request.POST.get('battery_name'),
-                                             price=request.POST.get('battery_price'),
-                                             quantities=request.POST.get('quantities'),
-                                             date_in=request.POST.get('bat_date_in'),
-                                             doc_num=request.POST.get('bat_doc_num')).create_notice()
+            BatteryStorageOrderLogic(battery_type=request.POST.get('battery_name'),
+                                     price=request.POST.get('battery_price'),
+                                     quantities=request.POST.get('quantities'),
+                                     date_in=request.POST.get('bat_date_in'),
+                                     doc_num=request.POST.get('bat_doc_num')).create_notice()
 
         if add_rifle:
             logic = RifleOrderLogic(nickname=request.POST.get('nickname'), type_rifle=request.POST.get('type_rifle'),
@@ -59,16 +63,16 @@ class FirstPage(APIView):
                                     produced_date=request.POST.get('produced_date'))
             logic.add_notice()
         if add_autel_mavic_storage:
-            logic = CreateMavicAutelStorageNotice(dron_name=request.POST.get('dron_name1'),
-                                                  dron_number=request.POST.get('dron_num1'),
-                                                  dron_in=request.POST.get('date_in1'),
-                                                  dron_out=datetime.now().date(),
-                                                  document_num=request.POST.get('dok_num'),
-                                                  who_took=request.POST.get('who_took1'),
-                                                  drone_value=request.POST.get('dron_value'),
-                                                  position_name=request.POST.get(
-                                                      'position_name2'),
-                                                  ).create_mavic_autel_storage()
+            CreateMavicAutelStorageNotice(dron_name=request.POST.get('dron_name1'),
+                                          dron_number=request.POST.get('dron_num1'),
+                                          dron_in=request.POST.get('date_in1'),
+                                          dron_out=datetime.now().date(),
+                                          document_num=request.POST.get('dok_num'),
+                                          who_took=request.POST.get('who_took1'),
+                                          drone_value=request.POST.get('dron_value'),
+                                          position_name=request.POST.get(
+                                              'position_name2'),
+                                          ).create_mavic_autel_storage()
 
         if add_fpv_storage:
             logic = CreateFpvStorageNotice(dron_name=request.POST.get('dron_name'), serial=request.POST.get('serial'),
@@ -79,21 +83,21 @@ class FirstPage(APIView):
                                            position_name=request.POST.get('position_name')).create_notice
 
         if add_fpv_main:
-            logic = CreateFpvStorageNotice(dron_name=request.POST.get('dron_name2'), serial=request.POST.get('serial2'),
-                                           diagonal=request.POST.get('diagonal2'),
-                                           dron_number=request.POST.get('dron_num2'),
-                                           dron_in=request.POST.get('date_in2'),
-                                           dron_out=datetime.now().date(),
-                                           position_name=request.POST.get(
-                                               'position_name1'),
-                                           operator_name=(request.POST.get(
-                                               'operator_name1'))).creation_dataset_for_fpv_main_order()
+            CreateFpvStorageNotice(dron_name=request.POST.get('dron_name2'), serial=request.POST.get('serial2'),
+                                   diagonal=request.POST.get('diagonal2'),
+                                   dron_number=request.POST.get('dron_num2'),
+                                   dron_in=request.POST.get('date_in2'),
+                                   dron_out=datetime.now().date(),
+                                   position_name=request.POST.get(
+                                       'position_name1'),
+                                   operator_name=(request.POST.get(
+                                       'operator_name1'))).creation_dataset_for_fpv_main_order()
 
         if add_radio_supply:
-            logic = RadioOrderLogic(supply_name=request.POST.get('supply_name'),
-                                    supply_price=request.POST.get('supply_price'),
-                                    serial_number=request.POST.get('serial_number'),
-                                    date_in=request.POST.get('date_in')).create_radio_note()
+            RadioOrderLogic(supply_name=request.POST.get('supply_name'),
+                            supply_price=request.POST.get('supply_price'),
+                            serial_number=request.POST.get('serial_number'),
+                            date_in=request.POST.get('date_in')).create_radio_note()
 
         return render(request, "main_app/first_page.html")
 
@@ -106,6 +110,7 @@ class FPVFlowInStorage(APIView):
 
     @staticmethod
     def get(request):
+        """function for rendering get requests"""
         date_low = request.GET.get('date_low')
         date_up = request.GET.get('date_up')
 
@@ -120,6 +125,7 @@ class FPVFlowInStorage(APIView):
 
     @staticmethod
     def post(request):
+        """function for rendering post requests"""
         delete_btn = request.POST.get('delete_btn')
 
         if delete_btn:
@@ -144,18 +150,18 @@ class FpvMainFlowPage(APIView):
 
     @staticmethod
     def get(request):
+        """function for rendering get requests"""
         logic = CreateDatasets.fpv_main_order_flow(self=None)
         return render(request, "main_app/fpv_main_order_flow.html", logic)
 
     @staticmethod
     def post(request):
+        """function for rendering post requests"""
         logic = CreateDatasets.fpv_main_order_flow(self=None)
         delete_fpv_flow = request.POST.get('delete_fpv_flow')
         to_storage = request.POST.get('to_storage')
 
         if to_storage:
-            """views for return to storage fpv"""
-
             FpvFlowPage(position_name=request.POST.get('fpv_flow_pos'),
                         who_took=request.POST.get('who'),
                         dron_id=to_storage
@@ -179,57 +185,68 @@ class MavicAutelInStorage(APIView):
 
     @staticmethod
     def get(request):
-        logic = CreateDatasets.mavic_autel_storage_set()
-        adaptive_search = request.GET.get('adaptive_search')
-        start_num = request.GET.get('start_num')
-        end_num = request.GET.get('end_num')
-        adaptive_document = request.GET.get('adaptive_document')
-        dron_num_search = request.GET.get('dron_num_search')
-        status = request.GET.get('status')
+        """function for rendering get requests"""
 
-        if status:
-            on_storage = request.GET.get('on_storage')
-            on_position = request.GET.get('on_position')
+        logic_perm = PermissionOnView(request.user).render_username()
+        print(logic_perm)
 
-            if on_storage:
-                logic = CreateDatasets(status=on_storage).search_by_status_mav_storage()
-            elif on_position:
-                logic = CreateDatasets(status=on_position).search_by_status_mav_storage()
-            else:
-                logic = CreateDatasets.mavic_autel_storage_set()
+        if logic_perm == 2:
+            print(request.user)
+            raise PermissionDenied
+
+        else:
+            logic = CreateDatasets.mavic_autel_storage_set()
+            adaptive_search = request.GET.get('adaptive_search')
+            start_num = request.GET.get('start_num')
+            end_num = request.GET.get('end_num')
+            adaptive_document = request.GET.get('adaptive_document')
+            dron_num_search = request.GET.get('dron_num_search')
+            status = request.GET.get('status')
+
+            if status:
+                on_storage = request.GET.get('on_storage')
+                on_position = request.GET.get('on_position')
+
+                if on_storage:
+                    logic = CreateDatasets(status=on_storage).search_by_status_mav_storage()
+                elif on_position:
+                    logic = CreateDatasets(status=on_position).search_by_status_mav_storage()
+                else:
+                    logic = CreateDatasets.mavic_autel_storage_set()
+                return render(request, "main_app/mavic_autel_storage.html", logic)
+
+            if dron_num_search:
+                logic = CreateDatasets(dron_num=dron_num_search).adaptive_search_by_dron_num()
+
+            if adaptive_document:
+                logic = CreateDatasets(adaptive_document=adaptive_document).create_adaptive_document_dataset()
+                return render(request, "main_app/mavic_autel_storage.html", logic)
+
+            if start_num is not None or end_num is not None:
+                logic = CreateDatasets(start_num=start_num, end_num=end_num).create_dataset_for_mav_storage_prais_val()
+                return render(request, "main_app/mavic_autel_storage.html", logic)
+
+            if adaptive_search:
+                logic = CreateDatasets(adaptive_mavic=adaptive_search).create_adaptive_mavic_autel()
+                return render(request, "main_app/mavic_autel_storage.html", logic)
             return render(request, "main_app/mavic_autel_storage.html", logic)
-
-        if dron_num_search:
-            logic = CreateDatasets(dron_num=dron_num_search).adaptive_search_by_dron_num()
-
-        if adaptive_document:
-            logic = CreateDatasets(adaptive_document=adaptive_document).create_adaptive_document_dataset()
-            return render(request, "main_app/mavic_autel_storage.html", logic)
-
-        if start_num is not None or end_num is not None:
-            logic = CreateDatasets(start_num=start_num, end_num=end_num).create_dataset_for_mav_storage_prais_val()
-            return render(request, "main_app/mavic_autel_storage.html", logic)
-
-        if adaptive_search:
-            logic = CreateDatasets(adaptive_mavic=adaptive_search).create_adaptive_mavic_autel()
-            return render(request, "main_app/mavic_autel_storage.html", logic)
-        return render(request, "main_app/mavic_autel_storage.html", logic)
 
     @staticmethod
     def post(request):
+        """function for rendering post requests"""
         mavic_change = request.POST.get('mavic_change')
         document_num = request.POST.get('document_num')
 
         if document_num:
-            logic = CreateMavicAutelStorageNotice(id=int(request.POST.get('dok_btn')),
-                                                  document_num=document_num).update_document_num()
+            CreateMavicAutelStorageNotice(id=int(request.POST.get('dok_btn')),
+                                          document_num=document_num).update_document_num()
 
         if mavic_change:
-            logic = CreateMavicAutelStorageNotice(id=mavic_change,
-                                                  who_took=request.POST.get('whot_took_change'),
-                                                  position_name=request.POST.get('postion_name_change'),
-                                                  dron_out=datetime.now().date()
-                                                  ).update_notice()
+            CreateMavicAutelStorageNotice(id=mavic_change,
+                                          who_took=request.POST.get('whot_took_change'),
+                                          position_name=request.POST.get('postion_name_change'),
+                                          dron_out=datetime.now().date()
+                                          ).update_notice()
 
         logic = CreateDatasets.mavic_autel_storage_set(self=None)
         return render(request, "main_app/mavic_autel_storage.html", logic)
@@ -246,6 +263,7 @@ class MavicAutelPostionFlow(APIView):
 
     @staticmethod
     def get(request):
+        """function for rendering get requests"""
         logic = CreateDatasets.mavic_autel_flow_position(self=None)
         dron_num_search = request.GET.get('dron_num_search')
         status = request.GET.get('status')
@@ -269,15 +287,16 @@ class MavicAutelPostionFlow(APIView):
 
     @staticmethod
     def post(request):
+        """function for rendering post requests"""
 
         destroy_pos_item = request.POST.get('destroy_pos_item')
         to_storage = request.POST.get("to_storage")
 
         if to_storage:
-            logic = CreateMavicAutelStorageNotice(id=to_storage,
-                                                  dron_out=datetime.now().date(),
-                                                  who_took=request.POST.get('who_crash')
-                                                  ).updat_notice_in_flow_page()
+            CreateMavicAutelStorageNotice(id=to_storage,
+                                          dron_out=datetime.now().date(),
+                                          who_took=request.POST.get('who_crash')
+                                          ).updat_notice_in_flow_page()
 
         if destroy_pos_item:
             MavicAutelPositionFlow.objects.filter(id=destroy_pos_item).update(dron_out=datetime.now().date(),
@@ -304,16 +323,18 @@ class RifleOrderPage(APIView):
 
     @staticmethod
     def get(request):
+        """function for rendering get requests"""
         logic = CreateDatasets.RifleDataSetMAin(self=None)
         del_rifle = request.GET.get('del_rifle')
 
         if del_rifle:
-            del_logic = RifleOrderLogic(notice_id=del_rifle).delete_notice()
+            RifleOrderLogic(notice_id=del_rifle).delete_notice()
 
         return render(request, 'main_app/rifle_order.html', logic)
 
     @staticmethod
     def post(request):
+        """function for rendering post requests"""
         logic = CreateDatasets.RifleDataSetMAin(self=None)
         change_username_btn = request.POST.get('change_username_btn')
         username_data = request.POST.get('change_username')
@@ -340,6 +361,7 @@ class RadioServiceSupply(APIView):
 
     @staticmethod
     def get(request):
+        """function for rendering get requests"""
         logic = CreateDatasets.RadioServiceSetMain(self=None)
         adaptive_search = request.GET.get('adaptive_search')
         status = request.GET.get('status')
@@ -363,6 +385,7 @@ class RadioServiceSupply(APIView):
 
     @staticmethod
     def post(reqeust):
+        """function for rendering post requests"""
         logic = CreateDatasets.RadioServiceSetMain(self=None)
         del_radio = reqeust.POST.get('del_radio')
         radio_to_flow = reqeust.POST.get('radio_to_flow')
@@ -375,7 +398,7 @@ class RadioServiceSupply(APIView):
             return render(reqeust, 'main_app/radio_servise_supply.html', logic)
 
         if del_radio:
-            logic_del = RadioOrderLogic(notice_id=del_radio).delete_notice()
+            RadioOrderLogic(notice_id=del_radio).delete_notice()
             return render(reqeust, 'main_app/radio_servise_supply.html', logic)
         return render(reqeust, 'main_app/radio_servise_supply.html', logic)
 
@@ -391,12 +414,14 @@ class RadioSupply(APIView):
 
     @staticmethod
     def get(request):
+        """function for rendering get requests"""
         logic = RadioSupplyPosition.create_dataset_main(self=None)
 
         return render(request, 'main_app/Radio_supply_positon_flow.html', logic)
 
     @staticmethod
     def post(request):
+        """function for rendering post requests"""
         logic = RadioSupplyPosition.create_dataset_main(self=None)
         radio_to_storage = request.POST.get('radio_to_storage')
         del_radio = request.POST.get('del_radio')
@@ -422,6 +447,7 @@ class StatisticsPage(APIView):
 
     @staticmethod
     def get(request):
+        """function for rendering get requests"""
         logic = StatisticsLogic.stat_data_mavic_autel(self=None)
 
         return render(request, 'main_app/statistics_page.html', logic)
@@ -451,6 +477,7 @@ class BatteryStorageOrder(APIView):
 
     @staticmethod
     def post(request):
+        """function for rendering post requests"""
         logic = BatteryStorageOrderLogic.create_main_data_set(self=None)
         to_pos = request.POST.get('to_pos')
 
@@ -460,8 +487,8 @@ class BatteryStorageOrder(APIView):
             notice_id = request.POST.get('to_pos')
             calculator = request.POST.get('calculator')
 
-            logic_pos = BatteryStorageOrderLogic(notice_id=notice_id, who_took=who_took, position_name=position_name,
-                                                 quantities=calculator).send_to_position()
+            BatteryStorageOrderLogic(notice_id=notice_id, who_took=who_took, position_name=position_name,
+                                     quantities=calculator).send_to_position()
 
         return render(request, 'main_app/battery_storage_order.html', logic)
 
@@ -478,6 +505,7 @@ class BatteryPositionOrder(APIView):
 
     @staticmethod
     def get(request):
+        """function for rendering get requests"""
         logic = BatteryPositionOrderLogic.create_main_data_set(self=None)
         battery_type = request.GET.get('battery_type')
         status = request.GET.get('status')
@@ -485,17 +513,11 @@ class BatteryPositionOrder(APIView):
         if status:
             on_position = request.GET.get('on_position1')
             destroyed = request.GET.get('destroyed')
-            print(on_position, destroyed)
             if on_position is not None:
                 logic = BatteryPositionOrderLogic(status=status).filter_by_status()
-                print(on_position)
-                print(logic)
                 return render(request, 'main_app/battery_position_order.html', logic)
             elif destroyed is not None:
                 logic = BatteryPositionOrderLogic(status=status).filter_by_status()
-                print(logic)
-                print(destroyed)
-                print(status)
                 return render(request, 'main_app/battery_position_order.html', logic)
 
         if battery_type:
@@ -507,6 +529,7 @@ class BatteryPositionOrder(APIView):
 
     @staticmethod
     def post(request):
+        """function for rendering post requests"""
         logic = BatteryPositionOrderLogic.create_main_data_set(self=None)
 
         destroy = request.POST.get('destroy')

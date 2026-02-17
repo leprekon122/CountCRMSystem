@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -177,3 +178,12 @@ class BatteryTrash(models.Model):
     class Meta:
         verbose_name = 'BatteryTrash'
         verbose_name_plural = 'BatteryTrash'
+
+
+class UserOrderPermission(models.Model):
+    """model for render permission"""
+    username = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'UserOrderPermission',
+        verbose_name_plural = 'UserOrderPermission'

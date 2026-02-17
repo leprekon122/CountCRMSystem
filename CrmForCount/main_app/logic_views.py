@@ -1,8 +1,10 @@
 from django.db.models import Sum, Q
 
 from .models import FpvFlowStorage, MainFpvFlowOrder, MavicAutelStorage, MavicAutelPositionFlow, RifleOrderModel, \
-    RadioServiceModel, RadioServicePositionModel, BatteryStorageOrderModel, BatteryPositionOrderModel, BatteryTrash
+    RadioServiceModel, RadioServicePositionModel, BatteryStorageOrderModel, BatteryPositionOrderModel, BatteryTrash, \
+    UserOrderPermission
 from datetime import datetime
+from django.contrib.auth.models import User
 
 
 class CreateMavicAutelStorageNotice:
@@ -389,7 +391,9 @@ class RadioSupplyPosition:
             RadioServiceModel.objects.filter(id=self.storage_id).update(status=0, who_took=self.who_took,
                                                                         position_name=self.position_name,
                                                                         date_out=datetime.now())
-            dataset = RadioServiceModel.objects.filter(id=self.storage_id).values()[0]
+            dataset = \
+                RadioServiceModel.objects.filter(id=self.storage_id).values('supply_name', 'price', 'serial_number',
+                                                                            'date_in')[0]
 
             RadioServicePositionModel.objects.create(supply_name=dataset['supply_name'], price=dataset['price'],
                                                      serial_number=dataset['serial_number'], date_in=dataset['date_in'],
@@ -468,7 +472,8 @@ class StatisticsLogic:
             Q(dron_name__contains='Mavic 3E (Enterprise)') |
             Q(dron_name__contains='БпАК Autel EVO MAX 4T') |
             Q(dron_name__contains='Autel EVO MAX 4T') |
-            Q(dron_name__contains='БПАК DJI MATRICE 4 T')
+            Q(dron_name__contains='БПАК DJI MATRICE 4T') |
+            Q(dron_name__contains='DJi Mavic 3 PRO (DJI RS)')
         ).values())
 
         in_position_mav = len(MavicAutelPositionFlow.objects.filter(Q(status=1) |
@@ -479,7 +484,10 @@ class StatisticsLogic:
                                                                     Q(dron_name__contains='Mavic 3E (Enterprise)') |
                                                                     Q(dron_name__contains='БпАК Autel EVO MAX 4T') |
                                                                     Q(dron_name__contains='Autel EVO MAX 4T') |
-                                                                    Q(dron_name__contains='БПАК DJI MATRICE 4 T')
+                                                                    Q(dron_name__contains='БПАК DJI MATRICE 4T') |
+                                                                    Q(dron_name__contains='DJi Mavic 3 PRO (DJI RS)') |
+                                                                    Q(dron_name__contains='DJI Mavic 3') |
+                                                                    Q(dron_name__contains='Autel EVO Max 4N')
                                                                     ).values())
 
         taking_for_all_per_mavic = len(MavicAutelStorage.objects.filter(Q(status=0) |
@@ -490,17 +498,25 @@ class StatisticsLogic:
                                                                         Q(dron_name__contains='Mavic 3E (Enterprise)') |
                                                                         Q(dron_name__contains='БпАК Autel EVO MAX 4T') |
                                                                         Q(dron_name__contains='Autel EVO MAX 4T') |
-                                                                        Q(dron_name__contains='БПАК DJI MATRICE 4 T')).values())
+                                                                        Q(dron_name__contains='БПАК DJI MATRICE 4T') |
+                                                                        Q(dron_name__contains='DJi Mavic 3 PRO (DJI RS)') |
+                                                                        Q(dron_name__contains='DJI Mavic 3') |
+                                                                        Q(dron_name__contains='Autel EVO Max 4N')
+                                                                        ).values())
 
         all_destroy_mav = len(MavicAutelPositionFlow.objects.filter(Q(status=0) |
-                                                                    Q(dron_name__contains='DJI Mavic 3 Thermal') |
-                                                                    Q(dron_name__contains='DJI Mavic 3(Thermal)') |
-                                                                    Q(dron_name__contains='DJI Matrice 4T') |
+                                                                    Q(dron_name__contains='DJi  Mavic 3 Thermal') |
+                                                                    Q(dron_name__contains='DJI  Mavic 3(Thermal)') |
+                                                                    Q(dron_name__contains='DJI  Matrice 4T') |
                                                                     Q(dron_name__contains='БпАК DJI MAvic 3T') |
                                                                     Q(dron_name__contains='Mavic 3E (Enterprise)') |
                                                                     Q(dron_name__contains='БпАК Autel EVO MAX 4T') |
                                                                     Q(dron_name__contains='Autel EVO MAX 4T') |
-                                                                    Q(dron_name__contains='БПАК DJI MATRICE 4 T')
+                                                                    Q(dron_name__contains='БПАК DJI MATRICE 4T') |
+                                                                    Q(dron_name__contains='DJi Mavic 3 PRO (DJI RS)') |
+                                                                    Q(dron_name__contains='DJI Mavic 3') |
+                                                                    Q(dron_name__contains='Autel EVO Max 4N')
+
                                                                     ).values())
 
         data = {'in_storage': in_storage,
@@ -684,3 +700,14 @@ class BatteryPositionOrderLogic:
         quant = BatteryPositionOrderModel.objects.filter(id=self.notice_id).values('quantities')[0]['quantities']
         BatteryPositionOrderModel.objects.filter(id=self.notice_id).update(quantities=quant - 1)
         BatteryTrash.objects.create(battery_type=data_set['battery_type'], price=data_set['price'])
+
+
+class PermissionOnView:
+
+    def __init__(self, username):
+        self.username = username
+
+    def render_username(self):
+        username = User.objects.filter(username=self.username).values('id')[0]['id']
+        data_set = UserOrderPermission.objects.filter(id=username).values('username_id')
+        return data_set
