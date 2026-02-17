@@ -189,10 +189,8 @@ class MavicAutelInStorage(APIView):
         """function for rendering get requests"""
 
         logic_perm = PermissionOnView(request.user).render_username()
-        print(logic_perm)
 
         if logic_perm == 2:
-            print(request.user)
             raise PermissionDenied
 
         else:
@@ -442,16 +440,13 @@ class StatisticsPage(APIView):
     """class for statistic page"""
     queryset = BatteryPositionOrderModel.objects.all()
     permission_classes = [
-        permissions.IsAuthenticated,
-        DjangoModelPermissions
-    ]
+            permissions.IsAuthenticated,
+            DjangoModelPermissions]
 
     @staticmethod
     def get(request):
         """function for rendering get requests"""
         logic = StatisticsLogic.stat_data_mavic_autel(self=None)
-
-
 
         return render(request, 'main_app/statistics_page.html', logic)
 
