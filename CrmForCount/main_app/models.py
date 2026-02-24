@@ -41,7 +41,8 @@ class MainFpvFlowOrder(models.Model):
 
 
 class MavicAutelStorage(models.Model):
-    objects = None
+    """Models for Mavic/Autel storage flow"""
+
     dron_name = models.CharField(max_length=255)
     dron_number = models.CharField(max_length=255)
     dron_in = models.DateField(null=True, blank=True)
@@ -52,6 +53,7 @@ class MavicAutelStorage(models.Model):
     id_for_flow = models.IntegerField(null=True, blank=True)
     supply_value = models.IntegerField(null=True, blank=True, default=0)
     number_of_document = models.CharField(max_length=255, null=True, blank=True, default=0)
+    type = models.CharField(max_length=255, null=True, blank=True)
 
     class Meta:
         verbose_name = "MavicAutelStorage"
@@ -70,6 +72,7 @@ class MavicAutelPositionFlow(models.Model):
     id_for_storage = models.IntegerField(null=True, blank=True)
     crash_coordinates = models.CharField(max_length=50, null=True, blank=True)
     comment = models.TextField(null=True, blank=True, default=0)
+    type = models.CharField(max_length=255, null=True, blank=True)
 
     class Meta:
         verbose_name = "MavicAutelPositionFlow"

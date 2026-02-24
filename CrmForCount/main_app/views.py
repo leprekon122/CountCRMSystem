@@ -48,7 +48,6 @@ class FirstPage(APIView):
         add_radio_supply = request.POST.get('add_radio_supply')
         add_rifle = request.POST.get('add_rifle')
         add_battery_storage = request.POST.get('add_battery_storage')
-        # BatteryStorageOrderLogic
 
         if add_battery_storage:
             BatteryStorageOrderLogic(battery_type=request.POST.get('battery_name'),
@@ -73,6 +72,7 @@ class FirstPage(APIView):
                                           drone_value=request.POST.get('dron_value'),
                                           position_name=request.POST.get(
                                               'position_name2'),
+                                          drone_type=request.POST.get('drone_type')
                                           ).create_mavic_autel_storage()
 
         if add_fpv_storage:
@@ -440,8 +440,8 @@ class StatisticsPage(APIView):
     """class for statistic page"""
     queryset = BatteryPositionOrderModel.objects.all()
     permission_classes = [
-            permissions.IsAuthenticated,
-            DjangoModelPermissions]
+        permissions.IsAuthenticated,
+        DjangoModelPermissions]
 
     @staticmethod
     def get(request):

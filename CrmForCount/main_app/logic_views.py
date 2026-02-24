@@ -11,7 +11,7 @@ class CreateMavicAutelStorageNotice:
     '''class for creating  notice in MavicAutelStorage model'''
 
     def __init__(self, id=None, dron_name=None, dron_number=None, dron_in=None, dron_out=None,
-                 who_took=None, position_name=None, document_num=None, drone_value=None):
+                 who_took=None, position_name=None, document_num=None, drone_value=None, drone_type=None):
         self.id = id
         self.dron_name = dron_name
         self.dron_number = dron_number
@@ -21,6 +21,7 @@ class CreateMavicAutelStorageNotice:
         self.position_name = position_name
         self.document_num = document_num
         self.drone_value = int(drone_value or 0)
+        self.drone_type = drone_type
 
     def update_document_num(self):
         MavicAutelStorage.objects.filter(id=self.id).update(
@@ -36,7 +37,8 @@ class CreateMavicAutelStorageNotice:
                 who_took=self.who_took,
                 position_name=self.position_name,
                 number_of_document=self.document_num,
-                supply_value=self.drone_value
+                supply_value=self.drone_value,
+                type=self.drone_type
             )
         except:
             MavicAutelStorage.objects.create(
@@ -47,6 +49,7 @@ class CreateMavicAutelStorageNotice:
                 who_took=self.who_took,
                 position_name=self.position_name,
                 number_of_document=self.document_num,
+                type=self.drone_type
             )
 
     def update_notice(self=None):
@@ -65,7 +68,8 @@ class CreateMavicAutelStorageNotice:
                 dron_in=background_set['dron_in'],
                 dron_out=background_set['dron_out'],
                 position_name=background_set['position_name'],
-                status=1
+                status=1,
+                type=background_set['type']
             )
         else:
             MavicAutelPositionFlow.objects.create(dron_name=background_set['dron_name'],
@@ -73,7 +77,8 @@ class CreateMavicAutelStorageNotice:
                                                   dron_in=background_set['dron_in'],
                                                   # dron_out=background_set['dron_out'],
                                                   position_name=background_set['position_name'],
-                                                  id_for_storage=self.id
+                                                  id_for_storage=self.id,
+                                                  type=background_set['type']
                                                   )
 
     def updat_notice_in_flow_page(self):
@@ -464,32 +469,15 @@ class StatisticsLogic:
         all_period_taking = MavicAutelStorage.objects.exclude(status=1).filter(status=0).count()
         all_destroy = MavicAutelPositionFlow.objects.exclude(status=1).filter(status=0).count()
 
-        in_storage_mav = MavicAutelStorage.objects.exclude(status=0).filter(
-            Q(status=1) |
-            Q(dron_name__contains='DJI Mavic 3 Thermal') |
-            Q(dron_name__contains='DJI Mavic 3(Thermal)') |
-            Q(dron_name__contains='DJI Matrice 4T') |
-            Q(dron_name__contains='БпАК DJI MAvic 3T') |
-            Q(dron_name__contains='Mavic 3E (Enterprise)') |
-            Q(dron_name__contains='БпАК Autel EVO MAX 4T') |
-            Q(dron_name__contains='Autel EVO MAX 4T') |
-            Q(dron_name__contains='БПАК DJI MATRICE 4T') |
-            Q(dron_name__contains='DJi Mavic 3 PRO (DJI RS)')
-        ).count()
+        in_storage_mav = MavicAutelStorage.objects.filter(
+                                                    type__in=['Autel', 'Mavic'],
+                                                    status='1'
+                                                    ).count()
 
-        in_position_mav = MavicAutelStorage.objects.exclude(status=0).filter(Q(status=1) |
-                                                                Q(dron_name__contains='DJI Mavic 3 Thermal') |
-                                                                Q(dron_name__contains='DJI Mavic 3(Thermal)') |
-                                                                Q(dron_name__contains='DJI Matrice 4T') |
-                                                                Q(dron_name__contains='БпАК DJI MAvic 3T') |
-                                                                Q(dron_name__contains='Mavic 3E (Enterprise)') |
-                                                                Q(dron_name__contains='БпАК Autel EVO MAX 4T') |
-                                                                Q(dron_name__contains='Autel EVO MAX 4T') |
-                                                                Q(dron_name__contains='БПАК DJI MATRICE 4T') |
-                                                                Q(dron_name__contains='DJi Mavic 3 PRO (DJI RS)') |
-                                                                Q(dron_name__contains='DJI Mavic 3') |
-                                                                Q(dron_name__contains='Autel EVO Max 4N')
-                                                                ).count()
+        in_position_mav = MavicAutelPositionFlow.objects.filter(
+                                                    type__in=['Autel', 'Mavic'],
+                                                    status='1'
+                                                    ).count()
 
         taking_for_all_per_mavic = MavicAutelStorage.objects.exclude(status=1).filter(Q(status=0) &
                                                                     Q(dron_name__contains='DJI Mavic 3 Thermal') |
@@ -505,18 +493,14 @@ class StatisticsLogic:
                                                                     Q(dron_name__contains='Autel EVO Max 4N')
                                                                     ).count()
 
-        all_destroy_mav = MavicAutelPositionFlow.objects.exclude(status=1).filter(Q(status=0) |
-                                                                Q(dron_name__contains='DJi  Mavic 3 Thermal') |
-                                                                Q(dron_name__contains='DJI  Mavic 3(Thermal)') |
-                                                                Q(dron_name__contains='DJI  Matrice 4T') |
-                                                                Q(dron_name__contains='БпАК DJI MAvic 3T') |
-                                                                Q(dron_name__contains='Mavic 3E (Enterprise)') |
-                                                                Q(dron_name__contains='БпАК Autel EVO MAX 4T') |
-                                                                Q(dron_name__contains='Autel EVO MAX 4T') |
-                                                                Q(dron_name__contains='БПАК DJI MATRICE 4T') |
-                                                                Q(dron_name__contains='DJi Mavic 3 PRO (DJI RS)') |
-                                                                Q(dron_name__contains='DJI Mavic 3') |
-                                                                Q(dron_name__contains='Autel EVO Max 4N')
+        all_destroy_mav = MavicAutelPositionFlow.objects.filter(
+                                                                Q(type='Mavic') &
+                                                                Q(status='0')
+                                                                ).count()
+
+        all_destroy_autel = MavicAutelPositionFlow.objects.filter(
+                                                                Q(type='Autel') &
+                                                                Q(status='0')
                                                                 ).count()
 
         data = {'in_storage': in_storage,
@@ -526,7 +510,8 @@ class StatisticsLogic:
                 'in_storage_mav': in_storage_mav,
                 'in_position_mav': in_position_mav,
                 'taking_for_all_per_mavic': taking_for_all_per_mavic,
-                'all_destroy_mav': all_destroy_mav
+                'all_destroy_mav': all_destroy_mav,
+                'all_destroy_autel': all_destroy_autel
                 }
         return data
 

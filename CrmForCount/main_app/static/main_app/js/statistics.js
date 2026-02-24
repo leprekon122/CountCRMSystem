@@ -40,6 +40,7 @@ function mavic_autel_report() {
     var mav_aut_for_all_period = document.getElementById('mav_aut_for_all_period').innerHTML;
 
     var all_mav_aut_destroy = document.getElementById('all_mav_aut_destroy').innerHTML;
+    var all_autel_aut_destroy = document.getElementById('all_destroy_autel').innerHTML;
 
     console.log(mav_aut_for_all_period)
 
@@ -49,10 +50,10 @@ function mavic_autel_report() {
     new Chart(ctx, {
     type: 'doughnut',
     data: {
-      labels: ['mav_in storage','mav_on_position', 'mav_aut_for_all_period', 'all_mav_aut_destroy'],
+      labels: ['mav_in storage','mav_on_position', 'mav_aut_for_all_period', 'all_mav_aut_destroy', 'all_autel_aut_destroy'],
       datasets: [{
         label: 'data',
-        data: [mav_on_storage, mav_on_position, mav_aut_for_all_period, all_mav_aut_destroy],
+        data: [mav_on_storage, mav_on_position, mav_aut_for_all_period, all_mav_aut_destroy, all_autel_aut_destroy],
         borderWidth: 3
       }]
     },
