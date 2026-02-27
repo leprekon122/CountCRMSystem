@@ -5,7 +5,9 @@ function mavic_autel_per_month() {
     var months = [document.getElementById('period').innerHTML]
 
     var mavic_per_month = document.getElementById('quant_of_mavic').innerHTML;
-    var autel_per_month = document.getElementById('quant_of_autel').innerHTML
+    var autel_per_month = document.getElementById('quant_of_autel').innerHTML;
+
+
 
     new Chart(ctx, {
         type: 'bar',
@@ -14,12 +16,12 @@ function mavic_autel_per_month() {
             datasets: [
                 {
                     label: 'Mavic',
-                    data: mavic_per_month,
+                    data: [Number(mavic_per_month)],
                     borderWidth: 3
                 },
                 {
                     label: 'Autel',
-                    data: autel_per_month,
+                    data: [Number(autel_per_month)],
                     borderWidth: 3
                 }
             ]
