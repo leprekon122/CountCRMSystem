@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAutelStorageNotice, FpvFlowPage, \
     RadioOrderLogic, RifleOrderLogic, RadioSupplyPosition, StatisticsLogic, FilterForMAvicAutelPosition, \
-    BatteryStorageOrderLogic, BatteryPositionOrderLogic, PermissionOnView
+    BatteryStorageOrderLogic, BatteryPositionOrderLogic, PermissionOnView, StatisticsForMonthLogic
 from .models import FpvFlowStorage, MavicAutelPositionFlow, MainFpvFlowOrder, MavicAutelStorage, RifleOrderModel, \
     BatteryPositionOrderModel, UserOrderPermission
 from datetime import datetime
@@ -449,6 +449,25 @@ class StatisticsPage(APIView):
         logic = StatisticsLogic.stat_data_mavic_autel(self=None)
 
         return render(request, 'main_app/statistics_page.html', logic)
+
+
+class StatisticsForMonth(APIView):
+    """class for rendering statistics for month"""
+
+    @staticmethod
+    def get(request):
+        """funct for rendering get requests from statistics_for_month.html"""
+        build_order = request.GET.get('build_order')
+
+        if build_order:
+            rendering_period = request.GET.get('rendering_period')[:7]
+
+            logic = StatisticsForMonthLogic(rendering_period).create_data_set_for_month()
+            print(logic)
+            return render(request, 'main_app/statistics_for_month.html', logic)
+
+
+        return render(request, 'main_app/statistics_for_month.html')
 
 
 class BatteryStorageOrder(APIView):

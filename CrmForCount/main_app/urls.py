@@ -17,7 +17,8 @@ urlpatterns = [
     path('radio_position_flow', views.RadioSupply.as_view(), name='radio_position'),
     path('statistic_page', views.StatisticsPage.as_view(), name='stat_page'),
     path('battery_storage', views.BatteryStorageOrder.as_view(), name='battery_storage'),
-    path('battery_position', views.BatteryPositionOrder.as_view(), name='battery_position')
+    path('battery_position', views.BatteryPositionOrder.as_view(), name='battery_position'),
+    path('statistics_for_month', views.StatisticsForMonth.as_view(), name='stat_for_month')
 ]
 
 urlpatterns += [

@@ -461,7 +461,6 @@ class StatisticsLogic:
     def __init__(self, note_id=None):
         self.note_id = note_id
 
-
     def stat_data_mavic_autel(self):
         """func for main data report"""
         in_storage = MavicAutelStorage.objects.exclude(status=0).filter(status=1).count()
@@ -470,38 +469,38 @@ class StatisticsLogic:
         all_destroy = MavicAutelPositionFlow.objects.exclude(status=1).filter(status=0).count()
 
         in_storage_mav = MavicAutelStorage.objects.filter(
-                                                    type__in=['Autel', 'Mavic'],
-                                                    status='1'
-                                                    ).count()
+            type__in=['Autel', 'Mavic'],
+            status='1'
+        ).count()
 
         in_position_mav = MavicAutelPositionFlow.objects.filter(
-                                                    type__in=['Autel', 'Mavic'],
-                                                    status='1'
-                                                    ).count()
+            type__in=['Autel', 'Mavic'],
+            status='1'
+        ).count()
 
         taking_for_all_per_mavic = MavicAutelStorage.objects.exclude(status=1).filter(Q(status=0) &
-                                                                    Q(dron_name__contains='DJI Mavic 3 Thermal') |
-                                                                    Q(dron_name__contains='DJI Mavic 3(Thermal)') |
-                                                                    Q(dron_name__contains='DJI Matrice 4T') |
-                                                                    Q(dron_name__contains='БпАК DJI MAvic 3T') |
-                                                                    Q(dron_name__contains='Mavic 3E (Enterprise)') |
-                                                                    Q(dron_name__contains='БпАК Autel EVO MAX 4T') |
-                                                                    Q(dron_name__contains='Autel EVO MAX 4T') |
-                                                                    Q(dron_name__contains='БПАК DJI MATRICE 4T') |
-                                                                    Q(dron_name__contains='DJi Mavic 3 PRO (DJI RS)') |
-                                                                    Q(dron_name__contains='DJI Mavic 3') |
-                                                                    Q(dron_name__contains='Autel EVO Max 4N')
-                                                                    ).count()
+                                                                                      Q(dron_name__contains='DJI Mavic 3 Thermal') |
+                                                                                      Q(dron_name__contains='DJI Mavic 3(Thermal)') |
+                                                                                      Q(dron_name__contains='DJI Matrice 4T') |
+                                                                                      Q(dron_name__contains='БпАК DJI MAvic 3T') |
+                                                                                      Q(dron_name__contains='Mavic 3E (Enterprise)') |
+                                                                                      Q(dron_name__contains='БпАК Autel EVO MAX 4T') |
+                                                                                      Q(dron_name__contains='Autel EVO MAX 4T') |
+                                                                                      Q(dron_name__contains='БПАК DJI MATRICE 4T') |
+                                                                                      Q(dron_name__contains='DJi Mavic 3 PRO (DJI RS)') |
+                                                                                      Q(dron_name__contains='DJI Mavic 3') |
+                                                                                      Q(dron_name__contains='Autel EVO Max 4N')
+                                                                                      ).count()
 
         all_destroy_mav = MavicAutelPositionFlow.objects.filter(
-                                                                Q(type='Mavic') &
-                                                                Q(status='0')
-                                                                ).count()
+            Q(type='Mavic') &
+            Q(status='0')
+        ).count()
 
         all_destroy_autel = MavicAutelPositionFlow.objects.filter(
-                                                                Q(type='Autel') &
-                                                                Q(status='0')
-                                                                ).count()
+            Q(type='Autel') &
+            Q(status='0')
+        ).count()
 
         data = {'in_storage': in_storage,
                 'in_position': in_position,
@@ -513,6 +512,32 @@ class StatisticsLogic:
                 'all_destroy_mav': all_destroy_mav,
                 'all_destroy_autel': all_destroy_autel
                 }
+        return data
+
+
+class StatisticsForMonthLogic:
+    """class for making logic for statistics_for_month.html"""
+
+    def __init__(self, rendering_period=None):
+        self.rendering_period = rendering_period
+
+    def create_data_set_for_month(self):
+        data_set = MavicAutelPositionFlow.objects.filter(dron_out__icontains=self.rendering_period).values('type')
+        full_mavic = 0
+        full_autel = 0
+
+        for el in data_set:
+            if el is not None:
+                if el['type'] == 'Mavic':
+                    full_mavic += 1
+                elif el['type'] == 'Autel':
+                    full_autel += 1
+
+        data = {'full_mavic': full_mavic,
+                'full_autel': full_autel,
+                'date_period': self.rendering_period
+                    }
+
         return data
 
 

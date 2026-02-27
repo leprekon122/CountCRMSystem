@@ -1,0 +1,39 @@
+{%extends 'main_app/layout_main.html'%}
+
+{%block title%}statistic page{%endblock%}
+
+{% block content%}
+<div class="container-fluid">
+    <div class="stat_page_main">
+        <div class="side_panel" id="side_panel">
+            <div class="filter_panel">
+                <form method="get">
+                    <div class="take_period">
+                        <h5>Chose rendering period</h5>
+                        <input type="date" class="form-control" name="rendering_period">
+                        <br>
+                        <button class="btn btn-warning text-light" type="submit" value="1"
+                                style="background-color: transparent; width: 100%;" name="build_order">build order
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <br>
+            <div class="rendering_data">
+                    <h5 class="text-light">Rendering data</h5>
+
+                <p class="text-light">quant_of_mavic: <span class="text-light" id="quant_of_mavic">{{full_mavic}}</span></p>
+                <p class="text-light">quant_of_autel: <span  class="text-light" id="quant_of_autel">{{full_autel}}</span></p>
+                <p class="text-light">quant_of_autel: <span  class="text-light" id="period">{{date_period}}</span></p>
+            </div>
+
+
+
+        </div>
+        <div class="diagram_div">
+            <canvas id="myChart" style="background-color: white;"></canvas>
+        </div>
+    </div>
+</div>
+<script src="static/main_app/js/statistics_per_period.js"></script>
+{%endblock%}
