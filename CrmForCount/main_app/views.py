@@ -458,14 +458,38 @@ class StatisticsForMonth(APIView):
     def get(request):
         """funct for rendering get requests from statistics_for_month.html"""
         build_order = request.GET.get('build_order')
+        build_order_period = request.GET.get('build_order_period')
+
+        if build_order_period:
+            rendering_period_1 = request.GET.get('rendering_period_1')
+            rendering_period_2 = request.GET.get('rendering_period_2')
+
+            date1 = datetime.strptime(rendering_period_1, "%Y-%m-%d")
+            date2 = datetime.strptime(rendering_period_2, "%Y-%m-%d")
+
+            month_difference = (date2.year - date1.year) * 12 + (date2.month - date1.month)
+
+            date_dataset = []
+            date_dataset.append(date1.strftime("%Y-%m-%d"))
+
+
+            for el in range(month_difference):
+                if date1.month == 12:
+                    new_date = date1.replace(year=date1.year + 1, month=el + 1)
+                    date_dataset.append(new_date.strftime("%Y-%m-%d"))
+                else:
+                    new_date = date1.replace(month=date1.month + el + 1)
+                    date_dataset.append(new_date.strftime("%Y-%m-%d"))
+
+            test = MavicAutelPositionFlow.objects.filter(dron_out__icontains='2026-02-03').values()
+
 
         if build_order:
             rendering_period = request.GET.get('rendering_period')[:7]
 
             logic = StatisticsForMonthLogic(rendering_period).create_data_set_for_month()
-            print(logic)
-            return render(request, 'main_app/statistics_for_month.html', logic)
 
+            return render(request, 'main_app/statistics_for_month.html', logic)
 
         return render(request, 'main_app/statistics_for_month.html')
 
