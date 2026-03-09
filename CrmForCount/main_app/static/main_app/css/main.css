@@ -244,6 +244,8 @@ body {
              padding: 2%;
              border: 1px solid yellow;
              margin-top: 10px;
+             height: 95vh;
+             overflow: auto;
     }
 
     .orders_block {

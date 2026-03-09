@@ -9,7 +9,7 @@
             <div class="filter_panel">
                 <form method="get">
                     <div class="take_period">
-                        <h5>Chose rendering month</h5>
+                        <h5 class="text-light">Chose rendering month</h5>
                         <input type="date" class="form-control" name="rendering_period">
                         <br>
                         <button class="btn btn-warning text-light" type="submit" value="1"
@@ -22,7 +22,7 @@
             <div class="filter_panel">
                 <form method="get">
                     <div class="take_period">
-                        <h5>Chose rendering period</h5>
+                        <h5 class="text-light">Chose rendering period</h5>
                         <div>
                             <input type="date" class="form-control" name="rendering_period_1">
                             <input type="date" class="form-control" name="rendering_period_2">
@@ -33,6 +33,66 @@
                             order
                         </button>
                     </div>
+                </form>
+            </div>
+            <br>
+            <div class="filter_panel">
+                <form method="get">
+                    <div class="take_period">
+                        <h5 class="text-light">Chose rendering period</h5>
+                        <div>
+                            <input type="date" class="form-control" name="rendering_period_by_position">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="Bangkok" value="Bangkok"
+                                       id="Bangkok">
+                                <label class="form-check-label text-light" for="Bangkok">
+                                    Bangkok
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="Shushanik" value="Shushanik"
+                                       id="Shushanik">
+                                <label class="form-check-label text-light" for="Shushanik">
+                                    Shushanik
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="Fog" value="Fog" id="Fog">
+                                <label class="form-check-label text-light" for="Fog">
+                                    Fog
+                                </label>
+                            </div>
+                        </div>
+                        <br>
+                        <button class="btn btn-warning text-light" type="submit" value="1"
+                                style="background-color: transparent; width: 100%;" name="build_order_by_position">build
+                            order
+                        </button>
+                    </div>
+                    <br>
+                    <div class="rendering_data">
+
+                        {% for key, values in model.items %}
+                        <p class="text-light">
+                            position name:
+                            <span class="text-light" id="position_name_{{ key }}">{{ key }}</span>
+                        </p>
+
+                        <p class="text-light">
+                            quant_of_mavic:
+                            <span class="text-light" id="mavic_on_pos_{{ key }}">{{ values.mavic }}</span>
+                        </p>
+
+                        <p class="text-light">
+                            quant_of_autel:
+                            <span class="text-light" id="autel_on_pos_{{ key }}">{{ values.autel }}</span>
+                        </p>
+
+                        {% endfor %}
+
+                    </div>
+
+
                 </form>
             </div>
             <br>
@@ -48,8 +108,11 @@
 
 
         </div>
+        <div></div>
         <div class="diagram_div">
             <canvas id="myChart" style="background-color: white;"></canvas>
+            <br>
+            <canvas id="myChartMavicPosition" style="background-color: white;"></canvas>
         </div>
     </div>
 </div>

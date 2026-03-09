@@ -1,44 +1,3 @@
-function mavic_autel_per_month() {
-
-    var ctx = document.getElementById('myChart');
-
-    var months = [document.getElementById('period').innerHTML]
-
-    var mavic_per_month = document.getElementById('quant_of_mavic').innerHTML;
-    var autel_per_month = document.getElementById('quant_of_autel').innerHTML;
-
-
-
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: months,
-            datasets: [
-                {
-                    label: 'Mavic',
-                    data: [Number(mavic_per_month)],
-                    borderWidth: 3
-                },
-                {
-                    label: 'Autel',
-                    data: [Number(autel_per_month)],
-                    borderWidth: 3
-                }
-            ]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-}
-
-mavic_autel_per_month();
-
-
 function mavic_autel_by_position() {
 
 
@@ -50,6 +9,7 @@ function mavic_autel_by_position() {
 
     var mav_on_position_Fog = document.getElementById('mavic_on_pos_Bangkok').innerHTML;
     var mav_aut_for_all_period_Fog = document.getElementById('autel_on_pos_Bangkok').innerHTML;
+
 
 
     const ctx = document.getElementById('myChartMavicPosition');
@@ -82,5 +42,3 @@ function mavic_autel_by_position() {
 
   }
 mavic_autel_by_position()
-
-

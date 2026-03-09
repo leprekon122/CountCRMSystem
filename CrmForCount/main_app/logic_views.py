@@ -518,8 +518,10 @@ class StatisticsLogic:
 class StatisticsForMonthLogic:
     """class for making logic for statistics_for_month.html"""
 
-    def __init__(self, rendering_period=None):
+    def __init__(self, rendering_period=None, rendering_period_by_position=None, position_condition=None):
         self.rendering_period = rendering_period
+        self.rendering_period_by_position = rendering_period_by_position
+        self.position_condition = position_condition
 
     def create_data_set_for_month(self):
         data_set = MavicAutelPositionFlow.objects.filter(dron_out__icontains=self.rendering_period).values('type')
@@ -536,8 +538,48 @@ class StatisticsForMonthLogic:
         data = {'full_mavic': full_mavic,
                 'full_autel': full_autel,
                 'date_period': self.rendering_period
-                    }
+                }
 
+        return data
+
+    def create_order_by_position(self):
+        """function for creating order by position and statistics"""
+        data_set = MavicAutelPositionFlow.objects.filter(dron_out__icontains=self.rendering_period_by_position).values(
+            'type', 'position_name')
+
+        final_dataset = {'Bangkok': {'mavic': 0,
+                                     'autel': 0},
+                         'Shushanik': {'mavic': 0,
+                                       'autel': 0},
+                         'Fog': {'mavic': 0,
+                                 'autel': 0}}
+
+        for el in self.position_condition:
+            if el == 'Bangkok':
+                for elem in data_set:
+                    if elem['position_name'] in ['Bangkok', 'Бангкок', 'бангкок', 'Банкок', 'банкок', 'bangkok']:
+                        if elem['type'] == 'Mavic':
+                            final_dataset['Bangkok']['mavic'] += 1
+                        if elem['type'] == 'Autel':
+                            final_dataset['Bangkok']['autel'] += 1
+
+            if el == 'Shushanik':
+                for elem in data_set:
+                    if elem['position_name'] in ['Shushanik', 'Шушаник', 'шушаник', 'Шушанік', 'шушанік']:
+                        if elem['type'] == 'Mavic':
+                            final_dataset['Shushanik']['mavic'] += 1
+                        if elem['type'] == 'Autel':
+                            final_dataset['Shushanik']['autel'] += 1
+
+            if el == 'Fog':
+                for elem in data_set:
+                    if elem['position_name'] in ['Fog', 'fog', 'Фох', 'фох', 'Фог', 'фог']:
+                        if elem['type'] == 'Mavic':
+                            final_dataset['Fog']['mavic'] += 1
+                        if elem['type'] == 'Autel':
+                            final_dataset['Fog']['autel'] += 1
+
+        data = {'model': final_dataset}
         return data
 
 

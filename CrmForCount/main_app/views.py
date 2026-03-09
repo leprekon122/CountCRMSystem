@@ -455,10 +455,30 @@ class StatisticsForMonth(APIView):
     """class for rendering statistics for month"""
 
     @staticmethod
-    def get(request):
+    def get(request, create_order_by_position=None):
         """funct for rendering get requests from statistics_for_month.html"""
         build_order = request.GET.get('build_order')
         build_order_period = request.GET.get('build_order_period')
+        build_order_by_position = request.GET.get('build_order_by_position')
+
+        if build_order_by_position:
+            Bangkok = request.GET.get('Bangkok')
+            Shushanik = request.GET.get('Shushanik')
+            Fog = request.GET.get('Fog')
+            rendering_period_by_position = request.GET.get('rendering_period_by_position')[:7]
+            position_condition = []
+
+            if Bangkok is not None:
+                position_condition.append(Bangkok)
+            if Shushanik is not None:
+                position_condition.append(Shushanik)
+            if Fog is not None:
+                position_condition.append(Fog)
+
+            logic = StatisticsForMonthLogic(
+                rendering_period_by_position=rendering_period_by_position,
+                position_condition=position_condition).create_order_by_position()
+            return render(request, 'main_app/statistics_for_month.html', logic)
 
         if build_order_period:
             rendering_period_1 = request.GET.get('rendering_period_1')
@@ -472,7 +492,6 @@ class StatisticsForMonth(APIView):
             date_dataset = []
             date_dataset.append(date1.strftime("%Y-%m-%d"))
 
-
             for el in range(month_difference):
                 if date1.month == 12:
                     new_date = date1.replace(year=date1.year + 1, month=el + 1)
@@ -482,7 +501,6 @@ class StatisticsForMonth(APIView):
                     date_dataset.append(new_date.strftime("%Y-%m-%d"))
 
             test = MavicAutelPositionFlow.objects.filter(dron_out__icontains='2026-02-03').values()
-
 
         if build_order:
             rendering_period = request.GET.get('rendering_period')[:7]
