@@ -80,7 +80,16 @@
                     <td style="background-color:green">
                         <input class="form-control" name="who_crash">
                     </td>
-                    <td style="background-color:green" class="table_column">{{el.position_name}}</td>
+                    <td style="background-color:green;" class="table_column">{{el.position_name}}
+                        <div>
+                            <input class="form-control" name="pos_name_{{el.id}}" placeholder="change name">
+                            <button class="btn btn-warning" style="width: 100%" name="change_pos" value="{{el.id}}"
+                                    type="submit" onclick="return confirm_function()">submit
+                            </button>
+                        </div>
+                    </td>
+
+
                     <td style="background-color:green"><input class="form-control" placeholder="xxx xx xxxxx xxxxx"
                                                               name="crash_coordinates"></td>
 
@@ -106,7 +115,8 @@
                     <td style="background-color:grey">{{el.dron_in}}</td>
                     <td style="background-color:grey">{{el.dron_out}}</td>
                     <td style="background-color:grey">{{el.who_took}}</td>
-                    <td style="background-color:grey">{{el.position_name}}</td>
+                    <td style="background-color:grey">{{el.position_name}}
+                    </td>
                     <td style="background-color:grey">{{el.crash_coordinates}}</td>
                 </tr>
                 {%else%}
@@ -116,10 +126,30 @@
                     <td style="background-color:red">{{el.dron_in}}</td>
                     <td style="background-color:red">{{el.dron_out}}</td>
                     <td style="background-color:red">{{el.who_took}}</td>
-                    <td style="background-color:red">{{el.position_name}}</td>
-                    <td style="background-color:red">{{el.crash_coordinates}}</td>
+                    <td style="background-color:red">{{el.position_name}}
+                        <div>
+                            <input class="form-control" name="pos_name_{{el.id}}" placeholder="change name">
+                            <button class="btn btn-warning" style="width: 100%" name="change_pos" value="{{el.id}}"
+                                    type="submit" onclick="return confirm_function()">submit
+                            </button>
+                        </div>
+                    </td>
+                    <td style="background-color:red">{{el.crash_coordinates}}
+                    <div>
+                            <input class="form-control" name="new_coordinates_{{el.id}}" placeholder="change coordinate">
+                            <button class="btn btn-warning" style="width: 100%" name="change_coordinates" value="{{el.id}}"
+                                    type="submit" onclick="return confirm_function()">submit
+                            </button>
+                        </div>
+                    </td>
                     <td style="background-color:red">
                         {{el.comment}}
+                        <div>
+                            <input class="form-control" name="new_comment_{{el.id}}" placeholder="change comment">
+                            <button class="btn btn-warning" style="width: 100%" name="change_comment" value="{{el.id}}"
+                                    type="submit" onclick="return confirm_function()">submit
+                            </button>
+                        </div>
                     </td>
                 </tr>
                 {%endif%}

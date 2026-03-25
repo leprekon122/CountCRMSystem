@@ -7,7 +7,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAutelStorageNotice, FpvFlowPage, \
     RadioOrderLogic, RifleOrderLogic, RadioSupplyPosition, StatisticsLogic, FilterForMAvicAutelPosition, \
-    BatteryStorageOrderLogic, BatteryPositionOrderLogic, PermissionOnView, StatisticsForMonthLogic
+    BatteryStorageOrderLogic, BatteryPositionOrderLogic, PermissionOnView, StatisticsForMonthLogic, \
+    UpdatePosNameMavicPosition, UpdateCommentMavicPosition, UpdateCoordinatesMavicPosition
 from .models import FpvFlowStorage, MavicAutelPositionFlow, MainFpvFlowOrder, MavicAutelStorage, RifleOrderModel, \
     BatteryPositionOrderModel, UserOrderPermission
 from datetime import datetime
@@ -290,6 +291,22 @@ class MavicAutelPostionFlow(APIView):
 
         destroy_pos_item = request.POST.get('destroy_pos_item')
         to_storage = request.POST.get("to_storage")
+        change_pos = request.POST.get('change_pos')
+        change_comment = request.POST.get('change_comment')
+        change_coordinates = request.POST.get('change_coordinates')
+
+        if change_coordinates:
+            new_coordinates = request.POST.get(f"new_coordinates_{change_coordinates}")
+            logic = UpdateCoordinatesMavicPosition(coordinates_id=change_coordinates,
+                                                   new_coordinates=new_coordinates).make_change()
+
+        if change_comment:
+            new_comment = request.POST.get(f"new_comment_{change_comment}")
+            logic = UpdateCommentMavicPosition(comment_id=change_comment, new_comment=new_comment).make_change_comment()
+
+        if change_pos:
+            pos_name = request.POST.get(f"pos_name_{change_pos}")
+            logic = UpdatePosNameMavicPosition(pos_id=change_pos, pos_name=pos_name).make_change()
 
         if to_storage:
             CreateMavicAutelStorageNotice(id=to_storage,

@@ -21,3 +21,15 @@ function move_filter_block(){
         console.log(count_click)
     }
 }
+
+
+
+function confirm_function() {
+    if (confirm("Are you sure?")) {
+        console.log("User pressed OK");
+        return true;
+    } else {
+        console.log("User canceled");
+        return false;
+    }
+}

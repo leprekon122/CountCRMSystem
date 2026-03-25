@@ -595,6 +595,44 @@ class FilterForMAvicAutelPosition:
         return data
 
 
+class UpdatePosNameMavicPosition:
+    """making change position name in Mavic/Autel position flow"""
+
+    def __init__(self, pos_id=None, pos_name=None):
+        self.pos_id = pos_id
+        self.pos_name = pos_name
+
+    def make_change(self):
+        model = MavicAutelPositionFlow.objects.get(id=self.pos_id)
+        model.position_name = self.pos_name
+        model.save()
+
+
+class UpdateCommentMavicPosition:
+    """update comment in Mavic?Autel position flow"""
+
+    def __init__(self, comment_id=None, new_comment=None):
+        self.comment_id = comment_id
+        self.new_comment = new_comment
+
+    def make_change_comment(self):
+        model = MavicAutelPositionFlow.objects.get(id=self.comment_id)
+        model.comment = self.new_comment
+        model.save()
+
+
+class UpdateCoordinatesMavicPosition:
+    """update coordinates in Mavic?Autel position flow"""
+
+    def __init__(self, coordinates_id=None, new_coordinates=None):
+        self.coordinates_id = coordinates_id
+        self.new_coordinates = new_coordinates
+
+    def make_change(self):
+        model = MavicAutelPositionFlow.objects.get(id=self.coordinates_id)
+        model.crash_coordinates = self.new_coordinates
+        model.save()
+
 class BatteryStorageOrderLogic:
     """class dor business logic in battery_storage_order.html"""
 
