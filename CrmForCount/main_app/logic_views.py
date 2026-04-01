@@ -633,6 +633,7 @@ class UpdateCoordinatesMavicPosition:
         model.crash_coordinates = self.new_coordinates
         model.save()
 
+
 class BatteryStorageOrderLogic:
     """class dor business logic in battery_storage_order.html"""
 
@@ -801,3 +802,15 @@ class PermissionOnView:
         username = User.objects.filter(username=self.username).values('id')[0]['id']
         data_set = UserOrderPermission.objects.filter(id=username).values('username_id')
         return data_set
+
+
+class CreateMAvicAutelUnknownNoticePosition:
+    """class for creating unknown status in mavic/autel_position_flow.html """
+
+    def __init__(self, notice_id):
+        self.notice_id = notice_id
+
+    def create_notice(self):
+        model = MavicAutelPositionFlow.objects.get(id=self.notice_id)
+        model.status = 3
+        model.save()

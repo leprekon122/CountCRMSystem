@@ -8,7 +8,8 @@ from django.contrib.auth import authenticate, login
 from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAutelStorageNotice, FpvFlowPage, \
     RadioOrderLogic, RifleOrderLogic, RadioSupplyPosition, StatisticsLogic, FilterForMAvicAutelPosition, \
     BatteryStorageOrderLogic, BatteryPositionOrderLogic, PermissionOnView, StatisticsForMonthLogic, \
-    UpdatePosNameMavicPosition, UpdateCommentMavicPosition, UpdateCoordinatesMavicPosition
+    UpdatePosNameMavicPosition, UpdateCommentMavicPosition, UpdateCoordinatesMavicPosition, \
+    CreateMAvicAutelUnknownNoticePosition
 from .models import FpvFlowStorage, MavicAutelPositionFlow, MainFpvFlowOrder, MavicAutelStorage, RifleOrderModel, \
     BatteryPositionOrderModel, UserOrderPermission
 from datetime import datetime
@@ -271,11 +272,14 @@ class MavicAutelPostionFlow(APIView):
         if status:
             on_position = request.GET.get('on_position')
             destroyed = request.GET.get('destroyed')
+            unknown_filter = request.GET.get('unknown_filter')
 
             if on_position:
                 logic = FilterForMAvicAutelPosition(status=on_position).status_on_position()
-            elif destroyed:
+            if destroyed:
                 logic = FilterForMAvicAutelPosition(status=destroyed).status_on_position()
+            if unknown_filter:
+                logic = FilterForMAvicAutelPosition(status=unknown_filter).status_on_position()
             else:
                 return render(request, 'main_app/mavic_autel_position_flow.html', logic)
 
@@ -292,8 +296,13 @@ class MavicAutelPostionFlow(APIView):
         destroy_pos_item = request.POST.get('destroy_pos_item')
         to_storage = request.POST.get("to_storage")
         change_pos = request.POST.get('change_pos')
+        unknown = request.POST.get('unknown')
         change_comment = request.POST.get('change_comment')
         change_coordinates = request.POST.get('change_coordinates')
+
+        if unknown:
+            CreateMAvicAutelUnknownNoticePosition(notice_id=unknown).create_notice()
+
 
         if change_coordinates:
             new_coordinates = request.POST.get(f"new_coordinates_{change_coordinates}")

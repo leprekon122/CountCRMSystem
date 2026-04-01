@@ -23,6 +23,13 @@
                             Destroyed
                         </label>
                     </div>
+                    <div class="form-check">
+                        <input class="form-check-input text-light" type="checkbox" value="3" id="unknown_filter"
+                               name="unknown_filter">
+                        <label class="form-check-label text-light" for="unknown_filter">
+                            unknown
+                        </label>
+                    </div>
                 </div>
 
                 <br>
@@ -104,6 +111,8 @@
                             </button>
                             <button class="btn btn-warning" type="submit" name="to_storage" value="{{el.id}}">to storage
                             </button>
+                            <button class="btn btn-light" name="unknown" value="{{el.id}}" type="submit">Unknown</button>
+
                         </div>
 
                     </td>
@@ -118,6 +127,17 @@
                     <td style="background-color:grey">{{el.position_name}}
                     </td>
                     <td style="background-color:grey">{{el.crash_coordinates}}</td>
+                </tr>
+                {%elif el.status == '3' %}
+                <tr>
+                    <td style="background-color: #0978b8">{{el.dron_name}}</td>
+                    <td style="background-color: #0978b8">{{el.dron_number}}</td>
+                    <td style="background-color: #0978b8">{{el.dron_in}}</td>
+                    <td style="background-color: #0978b8">{{el.dron_out}}</td>
+                    <td style="background-color: #0978b8">{{el.who_took}}</td>
+                    <td style="background-color: #0978b8">{{el.position_name}}
+                    </td>
+                    <td style="background-color:#0978b8"">{{el.crash_coordinates}}</td>
                 </tr>
                 {%else%}
                 <tr>
