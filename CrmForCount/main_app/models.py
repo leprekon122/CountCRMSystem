@@ -7,13 +7,13 @@ class FpvFlowStorage(models.Model):
     dron_name = models.CharField(max_length=255, null=True, blank=True)
     serial = models.CharField(max_length=255, blank=True, null=True)
     diagonal = models.IntegerField(null=True, blank=True)
-    dron_number = models.IntegerField(null=True, blank=True)
+    dron_number = models.CharField(max_length=255, null=True, blank=True)
     dron_in = models.DateField(null=True, blank=True)
     dron_out = models.DateField(null=True, blank=True)
     who_took = models.CharField(null=True, blank=True)
     position_name = models.CharField(max_length=255, null=True, blank=True)
     status = models.IntegerField(null=True, blank=True, default=1)
-    id_for_flow = models.IntegerField(null=True, blank=True)
+    id_for_flow = models.CharField(null=True, blank=True)
 
     class Meta:
         verbose_name = 'FpvFlowStorage'
@@ -26,7 +26,7 @@ class MainFpvFlowOrder(models.Model):
     dron_name = models.CharField(max_length=255, null=True, blank=True)
     serial = models.CharField(max_length=255, blank=True, null=True)
     diagonal = models.IntegerField(null=True, blank=True)
-    dron_number = models.IntegerField(null=True, blank=True)
+    dron_number = models.IntegerField(max_length=255, null=True, blank=True)
     dron_in = models.DateField(null=True, blank=True)
     dron_out = models.DateField(null=True, blank=True)
     position_name = models.CharField(max_length=255, null=True, blank=True)

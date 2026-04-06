@@ -4,25 +4,51 @@
 
 {%block content%}
 <div class="container-fluid order_main" style="width: 100%">
-    <div class="side_panel" id="side_panel">
-        <div class="filter_panel">
-            <div class="title_filter_panel">
-                <h5 class="text-light">Filter</h5>
-            </div>
-            <div>
-                <select class="form-control">
-                    <option>filter by operator</option>
-                    <option>filter by position</option>
-                    <option>filter by dron name</option>
-                </select>
-            </div>
-            <br>
-            <button class="btn btn-warning text-light" style="background: transparent; width: 100%">
-                filter
-            </button>
-            <br>
+     <div class="side_panel" id="side_panel">
+        <form method="get">
+            <div class="filter_panel">
+                <div class="title_filter_panel">
+                    <h5 class="text-light">Storage or Position</h5>
+                    <div class="form-check">
+                        <input class="form-check-input text-light" type="checkbox" value="1" id="on_position"
+                               name="on_position">
+                        <label class="form-check-label text-light" for="on_position">
+                            On Storage
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input text-light" type="checkbox" value="0" id="delete"
+                               name="delete">
+                        <label class="form-check-label text-light" for="delete">
+                            On position
+                        </label>
+                    </div>
+                </div>
 
-        </div>
+                <br>
+                <button class="btn btn-warning text-light" style="background: transparent; width: 100%" type="submit"
+                        name="status" value="1">
+                    filter
+                </button>
+                <br>
+            </div>
+
+            <div class="filter_panel">
+                <div class="title_filter_panel">
+                    <h5 class="text-light">Searching by drone name</h5>
+                </div>
+                <div>
+                    <input class="form-control" name="fpv_name" type="text" placeholder="drone name">
+                </div>
+                <br>
+                <button class="btn btn-warning text-light" style="background: transparent; width: 100%"
+                        name="search_drone_btn" type="submit" value="1">
+                    filter
+                </button>
+                <br>
+            </div>
+        </form>
+
     </div>
     <div class="orders_block">
         <table class="table table-dark table-bordered table-sm">
@@ -30,7 +56,6 @@
             <form method="get">
                 <tr>
                     <th scope="col">dron_name</th>
-                    <th scope="col">serial</th>
                     <th scope="col">diagonal</th>
                     <th scope="col">dron_number</th>
                     <th scope="col">
@@ -50,7 +75,6 @@
                         {%endif%}
 
                     </th>
-                    </button>
                     <th scope="col">dron_out</th>
                     <th scope="col">who_took</th>
                     <th scope="col">position_name</th>
@@ -64,38 +88,23 @@
                 {%if el.status == 1%}
                 <form method="post">
                     <td style="background-color: #23612f">{{el.dron_name}}</td>
-                    <td style="background-color: #23612f">{{el.serial}}</td>
                     <td style="background-color: #23612f">{{el.diagonal}}</td>
                     <td style="background-color: #23612f">{{el.dron_number}}</td>
                     <td style="background-color: #23612f">{{el.dron_in}}</td>
                     <td style="background-color: #23612f">{{el.dron_out}}</td>
-                    <td style="background-color: #23612f"><select class="form-control" name="who">
-                        <option>operator name</option>
-                        <option>ВАЙС</option>
-                        <option>ЗЄЛЯ</option>
-                        <option>ШАРА</option>
-                        <option>КОРСАР</option>
-                        <option>РІЧІ</option>
-                        <option>КАРА</option>
-                        <option>ФІКСІК</option>
-                        <option>ХАКЕР</option>
-                        <option>МАСЯНЯ</option>
-                        <option>МЕЛ</option>
-                        <option>ІЧІ</option>
-                    </select>
+                    <td style="background-color: #23612f"><input class="form-control" type="text" name="who">
                     </td>
                     <td style="background-color: green"><input class="form-control" placeholder="position" type="text"
                                                                name="position"></td>
                     <td>
                         {%csrf_token%}
-                        <button class="btn btn-danger" type="submit" name="delete_btn" value="{{el.id}}"
-                                style="background: transparent; ">delete
+                        <button class="btn btn-success" type="submit"  name="delete_btn" value="{{el.id}}"
+                                style="background: transparent; ">change gata
                         </button>
                     </td>
                 </form>
                 {%else%}
                 <td style="background-color: #451318">{{el.dron_name}}</td>
-                <td style="background-color: #451318">{{el.serial}}</td>
                 <td style="background-color: #451318">{{el.diagonal}}</td>
                 <td style="background-color: #451318">{{el.dron_number}}</td>
                 <td style="background-color: #451318">{{el.dron_in}}</td>

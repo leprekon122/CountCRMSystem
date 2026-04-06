@@ -9,7 +9,7 @@ from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAute
     RadioOrderLogic, RifleOrderLogic, RadioSupplyPosition, StatisticsLogic, FilterForMAvicAutelPosition, \
     BatteryStorageOrderLogic, BatteryPositionOrderLogic, PermissionOnView, StatisticsForMonthLogic, \
     UpdatePosNameMavicPosition, UpdateCommentMavicPosition, UpdateCoordinatesMavicPosition, \
-    CreateMAvicAutelUnknownNoticePosition
+    CreateMAvicAutelUnknownNoticePosition, AdaptiveFilterForFpvFlow, AdaptiveFilterForFpvStorage
 from .models import FpvFlowStorage, MavicAutelPositionFlow, MainFpvFlowOrder, MavicAutelStorage, RifleOrderModel, \
     BatteryPositionOrderModel, UserOrderPermission
 from datetime import datetime
@@ -78,11 +78,12 @@ class FirstPage(APIView):
                                           ).create_mavic_autel_storage()
 
         if add_fpv_storage:
-            logic = CreateFpvStorageNotice(dron_name=request.POST.get('dron_name'), serial=request.POST.get('serial'),
-                                           diagonal=request.POST.get('diagonal'),
-                                           dron_number=request.POST.get('dron_num'),
-                                           dron_in=request.POST.get('date_in'),
-                                           dron_out=datetime.now().date(), who_took=request.POST.get('who_took'),
+            logic = CreateFpvStorageNotice(dron_name=request.POST.get('dron_name_fpv'),
+                                           serial=request.POST.get('serial_fpv'),
+                                           diagonal=request.POST.get('diagonal_fpv'),
+                                           dron_number=request.POST.get('dron_num_fpv'),
+                                           dron_in=request.POST.get('date_in_fpv'),
+                                           dron_out=request.POST.get('date_in_fpv'),
                                            position_name=request.POST.get('position_name')).create_notice
 
         if add_fpv_main:
@@ -116,6 +117,22 @@ class FPVFlowInStorage(APIView):
         """function for rendering get requests"""
         date_low = request.GET.get('date_low')
         date_up = request.GET.get('date_up')
+        status = request.GET.get('status')
+        search_drone_btn = request.GET.get('search_drone_btn')
+        logic = CreateDatasets.CreateSetForFpvStorageOrder(self=None)
+
+        if search_drone_btn:
+            fpv_name = request.GET.get('fpv_name')
+            logic = AdaptiveFilterForFpvStorage(drone_name=fpv_name).filter_by_drone_name()
+            return render(request, "main_app/fpv_storage_page.html", logic)
+
+        if status:
+            on_position = request.GET.get('on_position')
+            delete = request.GET.get('delete')
+            if on_position:
+                logic = AdaptiveFilterForFpvStorage(status=on_position).search_by_status()
+            if delete:
+                logic = AdaptiveFilterForFpvStorage(status=delete).search_by_status()
 
         if date_up:
             logic = CreateDatasets.FilterByDateUp(self=None)
@@ -123,7 +140,7 @@ class FPVFlowInStorage(APIView):
         if date_low:
             logic = CreateDatasets.LowDateFilter(self=None)
             return render(request, "main_app/fpv_storage_page.html", logic)
-        logic = CreateDatasets.CreateSetForFpvStorageOrder(self=None)
+
         return render(request, "main_app/fpv_storage_page.html", logic)
 
     @staticmethod
@@ -155,6 +172,22 @@ class FpvMainFlowPage(APIView):
     def get(request):
         """function for rendering get requests"""
         logic = CreateDatasets.fpv_main_order_flow(self=None)
+        search_drone_btn = request.GET.get('search_drone_btn')
+        status = request.GET.get('status')
+
+        if status:
+            on_position = request.GET.get('on_position')
+            delete = request.GET.get('delete')
+            if on_position:
+                logic = AdaptiveFilterForFpvFlow(status=on_position).search_by_status()
+            if delete:
+                logic = AdaptiveFilterForFpvFlow(status=delete).search_by_status()
+
+        if search_drone_btn:
+            drone_name = request.GET.get('fpv_name')
+            logic = AdaptiveFilterForFpvFlow(drone_name=drone_name).filter_by_drone_name()
+            render(request, "main_app/fpv_main_order_flow.html", logic)
+
         return render(request, "main_app/fpv_main_order_flow.html", logic)
 
     @staticmethod
@@ -302,7 +335,6 @@ class MavicAutelPostionFlow(APIView):
 
         if unknown:
             CreateMAvicAutelUnknownNoticePosition(notice_id=unknown).create_notice()
-
 
         if change_coordinates:
             new_coordinates = request.POST.get(f"new_coordinates_{change_coordinates}")

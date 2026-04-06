@@ -814,3 +814,43 @@ class CreateMAvicAutelUnknownNoticePosition:
         model = MavicAutelPositionFlow.objects.get(id=self.notice_id)
         model.status = 3
         model.save()
+
+
+class AdaptiveFilterForFpvFlow:
+    """class for making filters on FpvFlow page"""
+
+    def __init__(self, drone_name=None, status=None):
+        self.drone_name = drone_name
+        self.status = status
+
+    def filter_by_drone_name(self):
+        """filter by drone name"""
+        data_set = MainFpvFlowOrder.objects.filter(dron_name__icontains=self.drone_name).values()
+        data = {'model': data_set}
+        return data
+
+    def search_by_status(self):
+        """searching by status in fpv flow"""
+        data_set = MainFpvFlowOrder.objects.filter(status=self.status).values()
+        data = {'model': data_set}
+        return data
+
+
+class AdaptiveFilterForFpvStorage:
+    """class for making filters on FpvFlow page"""
+
+    def __init__(self, drone_name=None, status=None):
+        self.drone_name = drone_name
+        self.status = status
+
+    def filter_by_drone_name(self):
+        """filter by drone name"""
+        data_set = FpvFlowStorage.objects.filter(dron_name__icontains=self.drone_name).values()
+        data = {'model': data_set}
+        return data
+
+    def search_by_status(self):
+        """searching by status in fpv flow"""
+        data_set = FpvFlowStorage.objects.filter(status=self.status).values()
+        data = {'model': data_set}
+        return data
