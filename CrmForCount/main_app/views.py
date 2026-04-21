@@ -9,7 +9,7 @@ from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAute
     RadioOrderLogic, RifleOrderLogic, RadioSupplyPosition, StatisticsLogic, FilterForMAvicAutelPosition, \
     BatteryStorageOrderLogic, BatteryPositionOrderLogic, PermissionOnView, StatisticsForMonthLogic, \
     UpdatePosNameMavicPosition, UpdateCommentMavicPosition, UpdateCoordinatesMavicPosition, \
-    CreateMAvicAutelUnknownNoticePosition, AdaptiveFilterForFpvFlow, AdaptiveFilterForFpvStorage
+    CreateMAvicAutelUnknownNoticePosition, AdaptiveFilterForFpvFlow, AdaptiveFilterForFpvStorage, DataForFpvStatistics
 from .models import FpvFlowStorage, MavicAutelPositionFlow, MainFpvFlowOrder, MavicAutelStorage, RifleOrderModel, \
     BatteryPositionOrderModel, UserOrderPermission
 from datetime import datetime
@@ -174,6 +174,11 @@ class FpvMainFlowPage(APIView):
         logic = CreateDatasets.fpv_main_order_flow(self=None)
         search_drone_btn = request.GET.get('search_drone_btn')
         status = request.GET.get('status')
+        search_drone_num_btn = request.GET.get('search_drone_num_btn')
+
+        if search_drone_num_btn:
+            fpv_number = request.GET.get('fpv_number')
+            logic = AdaptiveFilterForFpvFlow(drone_num=fpv_number).filter_by_drone_numbers()
 
         if status:
             on_position = request.GET.get('on_position')
@@ -567,7 +572,7 @@ class StatisticsForMonth(APIView):
 
             return render(request, 'main_app/statistics_for_month.html', logic)
 
-        return render(request, 'main_app/statistics_for_month.html')
+        return render(request, 'main_app/statistics_for_month.html', data)
 
 
 class BatteryStorageOrder(APIView):
@@ -658,3 +663,12 @@ class BatteryPositionOrder(APIView):
             return render(request, 'main_app/battery_position_order.html', logic)
 
         return render(request, 'main_app/battery_position_order.html', logic)
+
+
+class FpvStatisticsOrder(APIView):
+
+    @staticmethod
+    def get(request):
+        logic = DataForFpvStatistics.main_data(self=None)
+        print(logic)
+        return render(request, "main_app/fpv_statistics.html", logic)

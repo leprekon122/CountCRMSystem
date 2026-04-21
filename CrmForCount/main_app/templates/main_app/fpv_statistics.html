@@ -1,0 +1,39 @@
+{%extends 'main_app/layout_main.html'%}
+
+{%block title%}statistic page{%endblock%}
+
+{% block content%}
+<div class="container-fluid">
+    <div class="stat_page_main">
+        <div class="side_panel" id="side_panel">
+            <form method="get">
+                <div class="filter_panel">
+                    <div class="title_filter_panel">
+                        <h5 class="text-light">Data by parametrs</h5>
+                    </div>
+                    <div style="backdrop-filter: blur(10px);" class="filter_panel">
+                        <h5 class="text-light">Main info</h5>
+                        <p class="text-light">in storage: <span id="mav_on_storage">{{quant_in_storage}}</span></p>
+                        <p class="text-light">in position: <span id="mav_on_position">{{quant_in_position_aktive}}</span></p>
+                        <p class="text-light">in position: taking for all period <span
+                                id="mav_for_all_period">{{quant_all_period_taking}}</span></p>
+                        <p class="text-light">all_destroy: <span id="all_destroy">{{quant_in_position_no_aktive}}</span></p>
+                    </div>
+                </div>
+
+
+
+            </form>
+        </div>
+        <div class="diagram_div">
+            <div style="border-bottom: 1px solid yellow; ">
+                <div class="chart_title">
+                    <h5 class="text-light">Main data about all supply</h5>
+                </div>
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="static/main_app/js/statistics.js"></script>
+{%endblock%}

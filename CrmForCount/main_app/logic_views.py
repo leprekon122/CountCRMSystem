@@ -819,9 +819,10 @@ class CreateMAvicAutelUnknownNoticePosition:
 class AdaptiveFilterForFpvFlow:
     """class for making filters on FpvFlow page"""
 
-    def __init__(self, drone_name=None, status=None):
+    def __init__(self, drone_name=None, status=None, drone_num=None):
         self.drone_name = drone_name
         self.status = status
+        self.drone_num = drone_num
 
     def filter_by_drone_name(self):
         """filter by drone name"""
@@ -835,13 +836,21 @@ class AdaptiveFilterForFpvFlow:
         data = {'model': data_set}
         return data
 
+    def filter_by_drone_numbers(self):
+        """function for filtering by drone numbers"""
+
+        data_set = FpvFlowStorage.objects.filter(dron_number__icontains=self.drone_num).values()
+        data = {'model': data_set}
+        return data
+
 
 class AdaptiveFilterForFpvStorage:
     """class for making filters on FpvFlow page"""
 
-    def __init__(self, drone_name=None, status=None):
+    def __init__(self, drone_name=None, status=None, drone_num=None):
         self.drone_name = drone_name
         self.status = status
+        self.drone_num = drone_num
 
     def filter_by_drone_name(self):
         """filter by drone name"""
@@ -853,4 +862,30 @@ class AdaptiveFilterForFpvStorage:
         """searching by status in fpv flow"""
         data_set = FpvFlowStorage.objects.filter(status=self.status).values()
         data = {'model': data_set}
+        return data
+
+
+
+
+
+
+
+class DataForFpvStatistics:
+    """class for routings data in fpv statistics page"""
+
+    def __init__(self):
+        pass
+
+    def main_data(self):
+        quant_in_storage = FpvFlowStorage.objects.filter(status=1).count()
+        quant_all_period_taking = FpvFlowStorage.objects.filter(status=0).count()
+        quant_in_position_aktive = MainFpvFlowOrder.objects.filter(status=1).count()
+        quant_in_position_no_aktive = MainFpvFlowOrder.objects.filter(status=0).count()
+
+        data = {'quant_in_storage': quant_in_storage,
+                'quant_all_period_taking': quant_all_period_taking,
+                'quant_in_position_aktive': quant_in_position_aktive,
+                'quant_in_position_no_aktive': quant_in_position_no_aktive
+                }
+
         return data
