@@ -528,6 +528,7 @@ class StatisticsForMonth(APIView):
             Bangkok = request.GET.get('Bangkok')
             Shushanik = request.GET.get('Shushanik')
             Fog = request.GET.get('Fog')
+            Falcon = request.GET.get('Falcon')
             rendering_period_by_position = request.GET.get('rendering_period_by_position')[:7]
             position_condition = []
 
@@ -537,10 +538,13 @@ class StatisticsForMonth(APIView):
                 position_condition.append(Shushanik)
             if Fog is not None:
                 position_condition.append(Fog)
-
+            if Falcon is not None:
+                position_condition.append(Falcon)
+            print(position_condition)
             logic = StatisticsForMonthLogic(
                 rendering_period_by_position=rendering_period_by_position,
                 position_condition=position_condition).create_order_by_position()
+
             return render(request, 'main_app/statistics_for_month.html', logic)
 
         if build_order_period:
@@ -572,7 +576,7 @@ class StatisticsForMonth(APIView):
 
             return render(request, 'main_app/statistics_for_month.html', logic)
 
-        return render(request, 'main_app/statistics_for_month.html', data)
+        return render(request, 'main_app/statistics_for_month.html')
 
 
 class BatteryStorageOrder(APIView):

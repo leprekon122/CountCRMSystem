@@ -552,7 +552,10 @@ class StatisticsForMonthLogic:
                          'Shushanik': {'mavic': 0,
                                        'autel': 0},
                          'Fog': {'mavic': 0,
-                                 'autel': 0}}
+                                 'autel': 0},
+                         'Falcon': {'mavic': 0,
+                                    'autel': 0}
+                         }
 
         for el in self.position_condition:
             if el == 'Bangkok':
@@ -578,6 +581,15 @@ class StatisticsForMonthLogic:
                             final_dataset['Fog']['mavic'] += 1
                         if elem['type'] == 'Autel':
                             final_dataset['Fog']['autel'] += 1
+
+            if el == 'Falcon':
+                for elem in data_set:
+                    if elem['position_name'] in ['Falcon', 'falcon', 'сокол', 'Сокол', 'Сокіл', 'сокіл', 'sokol',
+                                                 'Sokil', 'Sokol', 'sokil']:
+                        if elem['type'] == 'Mavic':
+                            final_dataset['Falcon']['mavic'] += 1
+                        if elem['type'] == 'Autel':
+                            final_dataset['Falcon']['autel'] += 1
 
         data = {'model': final_dataset}
         return data
@@ -863,11 +875,6 @@ class AdaptiveFilterForFpvStorage:
         data_set = FpvFlowStorage.objects.filter(status=self.status).values()
         data = {'model': data_set}
         return data
-
-
-
-
-
 
 
 class DataForFpvStatistics:
