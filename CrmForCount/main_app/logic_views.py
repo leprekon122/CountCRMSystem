@@ -305,7 +305,7 @@ class FpvFlowPage:
 
     def __init__(self, dron_id=None, dron_name=None, serial=None, diagonal=None, dron_number=None, dron_in=None,
                  dron_out=None,
-                 who_took=None, position_name=None, operator_name=None):
+                 who_took=None, position_name=None, operator_name=None, comment=None):
         self.dron_id = dron_id
         self.dron_name = dron_name
         self.serial = serial
@@ -315,12 +315,15 @@ class FpvFlowPage:
         self.dron_out = dron_out
         self.who_took = who_took
         self.position_name = position_name
+        self.operator_name = operator_name
+        self.comment = comment
 
     def delet_fpv_flow_notice(self):
         data_set = MainFpvFlowOrder.objects.filter(id=self.dron_id)
         data_set.update(status=0,
                         position_name=self.position_name,
-                        operator_name=self.who_took
+                        operator_name=self.who_took,
+                        comment=self.comment
                         )
 
     def to_storage_return(self):

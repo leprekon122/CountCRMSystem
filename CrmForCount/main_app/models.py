@@ -31,6 +31,7 @@ class MainFpvFlowOrder(models.Model):
     dron_out = models.DateField(null=True, blank=True)
     position_name = models.CharField(max_length=255, null=True, blank=True)
     operator_name = models.CharField(max_length=100, null=True, blank=True)
+    comment = models.TextField(null=True, blank=True)
     crash_coordinates = models.CharField(max_length=50, null=True, blank=True)
     id_for_storage = models.IntegerField(null=True, blank=True)
     status = models.IntegerField(null=True, blank=True, default=1)

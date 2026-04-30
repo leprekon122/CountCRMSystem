@@ -210,7 +210,7 @@ class FpvMainFlowPage(APIView):
 
         if delete_fpv_flow:
             FpvFlowPage(dron_id=delete_fpv_flow, position_name=request.POST.get('fpv_flow_pos'),
-                        who_took=request.POST.get('who')).delet_fpv_flow_notice()
+                        who_took=request.POST.get('who'), comment=request.POST.get('comment')).delet_fpv_flow_notice()
 
         return render(request, "main_app/fpv_main_order_flow.html", logic)
 
@@ -540,7 +540,6 @@ class StatisticsForMonth(APIView):
                 position_condition.append(Fog)
             if Falcon is not None:
                 position_condition.append(Falcon)
-            print(position_condition)
             logic = StatisticsForMonthLogic(
                 rendering_period_by_position=rendering_period_by_position,
                 position_condition=position_condition).create_order_by_position()

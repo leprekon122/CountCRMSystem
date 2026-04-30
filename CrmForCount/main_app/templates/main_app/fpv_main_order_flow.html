@@ -78,6 +78,7 @@
                 <th scope="col">dron_out</th>
                 <th scope="col">position_name</th>
                 <th scope="col">operator_name</th>
+                <th scope="col">Comment</th>
                 <th scope="col"></th>
             </tr>
             </thead>
@@ -95,6 +96,7 @@
                     <td style="background-color: red">{{el.dron_out}}</td>
                     <td style="background-color: red">{{el.position_name}}</td>
                     <td style="background-color: red">{{el.operator_name}}</td>
+                    <td style="background-color: red">{{el.comment}}</td>
                 </tr>
                 {% elif el.status == 1%}
                 <tr>
@@ -110,6 +112,7 @@
                         <input class="form-control" placeholder="operator name" name="who">
 
                     </td>
+                    <td style="background-color: #23612f"><textarea rows="3" name="comment"></textarea></td>
                     <td style="background-color: #23612f">
                         <div class="table_button">
                             <button class="btn btn-danger" type="submit" name="delete_fpv_flow" value="{{el.id}}">delete
