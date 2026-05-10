@@ -10,7 +10,7 @@ from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAute
     BatteryStorageOrderLogic, BatteryPositionOrderLogic, PermissionOnView, StatisticsForMonthLogic, \
     UpdatePosNameMavicPosition, UpdateCommentMavicPosition, UpdateCoordinatesMavicPosition, \
     CreateMAvicAutelUnknownNoticePosition, AdaptiveFilterForFpvFlow, AdaptiveFilterForFpvStorage, DataForFpvStatistics, \
-    CreateMavicAutelFlowLinkAdd, FilterByDroneNAmeMavicFlow
+    CreateMavicAutelFlowLinkAdd, FilterByDroneNAmeMavicFlow, FilterByOperatorMavicFlow
 from .models import FpvFlowStorage, MavicAutelPositionFlow, MainFpvFlowOrder, MavicAutelStorage, RifleOrderModel, \
     BatteryPositionOrderModel, UserOrderPermission
 from datetime import datetime
@@ -308,6 +308,11 @@ class MavicAutelPostionFlow(APIView):
         dron_num_search = request.GET.get('dron_num_search')
         status = request.GET.get('status')
         drone_name_btn = request.GET.get('drone_name_btn')
+        searching_by_operator_name = request.GET.get('searching_by_operator_name')
+
+        if searching_by_operator_name:
+            logic = FilterByOperatorMavicFlow(operator_name=searching_by_operator_name).make_search()
+            return render(request, 'main_app/mavic_autel_position_flow.html', logic)
 
         if drone_name_btn:
             dron_name = request.GET.get('dron_name')

@@ -844,6 +844,19 @@ class FilterByDroneNAmeMavicFlow:
         return data
 
 
+class FilterByOperatorMavicFlow:
+    """class for seraching by operator name """
+
+    def __init__(self, operator_name):
+        self.operator_name = operator_name
+
+    def make_search(self):
+        """making searching"""
+        mod = MavicAutelPositionFlow.objects.filter(who_took__icontains=self.operator_name).values()
+        data = {'model': mod}
+        return data
+
+
 class CreateMavicAutelFlowLinkAdd:
     """cls for crating link of doc in MavicAutel  flow order  """
 
