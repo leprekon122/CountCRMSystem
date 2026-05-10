@@ -9,7 +9,8 @@ from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAute
     RadioOrderLogic, RifleOrderLogic, RadioSupplyPosition, StatisticsLogic, FilterForMAvicAutelPosition, \
     BatteryStorageOrderLogic, BatteryPositionOrderLogic, PermissionOnView, StatisticsForMonthLogic, \
     UpdatePosNameMavicPosition, UpdateCommentMavicPosition, UpdateCoordinatesMavicPosition, \
-    CreateMAvicAutelUnknownNoticePosition, AdaptiveFilterForFpvFlow, AdaptiveFilterForFpvStorage, DataForFpvStatistics
+    CreateMAvicAutelUnknownNoticePosition, AdaptiveFilterForFpvFlow, AdaptiveFilterForFpvStorage, DataForFpvStatistics, \
+    CreateMavicAutelFlowLinkAdd
 from .models import FpvFlowStorage, MavicAutelPositionFlow, MainFpvFlowOrder, MavicAutelStorage, RifleOrderModel, \
     BatteryPositionOrderModel, UserOrderPermission
 from datetime import datetime
@@ -337,6 +338,12 @@ class MavicAutelPostionFlow(APIView):
         unknown = request.POST.get('unknown')
         change_comment = request.POST.get('change_comment')
         change_coordinates = request.POST.get('change_coordinates')
+        link_btn = request.POST.get('link_btn')
+
+        if link_btn:
+            doc_links = request.POST.getlist('doc_link')
+            doc_link = next((link for link in doc_links if link.strip()), None)
+            CreateMavicAutelFlowLinkAdd(notice_id=link_btn, doc_link=doc_link).add_link()
 
         if unknown:
             CreateMAvicAutelUnknownNoticePosition(notice_id=unknown).create_notice()

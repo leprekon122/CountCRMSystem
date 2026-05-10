@@ -71,6 +71,7 @@
                 <th scope="col">position_name</th>
                 <th scope="col">crash_coordinates</th>
                 <th scope="col">Comment</th>
+                <th scope="col" >Dokument link</th>
                 <th scope="col">change data</th>
             </tr>
             </thead>
@@ -127,6 +128,7 @@
                     <td style="background-color:grey">{{el.position_name}}
                     </td>
                     <td style="background-color:grey">{{el.crash_coordinates}}</td>
+                    <td style="background-color:grey">{{el.dokument_link}}</td>
                 </tr>
                 {%elif el.status == '3' %}
                 <tr>
@@ -137,7 +139,19 @@
                     <td style="background-color: #0978b8">{{el.who_took}}</td>
                     <td style="background-color: #0978b8">{{el.position_name}}
                     </td>
-                    <td style="background-color:#0978b8"">{{el.crash_coordinates}}</td>
+                    <td style="background-color:#0978b8">{{el.crash_coordinates}}</td>
+                    <td style="background-color:#0978b8">{{el.dokument_link}}</td>
+                    <td>
+                        <div class="table_button">
+                            <button class="btn btn-danger" type="submit" value="{{el.id}}" name="destroy_pos_item">
+                                destroy
+                            </button>
+                            <button class="btn btn-warning" type="submit" name="to_storage" value="{{el.id}}">to storage
+                            </button>
+                        </div>
+
+                    </td>
+
                 </tr>
                 {%else%}
                 <tr>
@@ -161,6 +175,17 @@
                                     type="submit" onclick="return confirm_function()">submit
                             </button>
                         </div>
+                    </td>
+                    <td style="background-color:red">
+                        {% if el.dokument_link  %}
+                        <a style="color: white " href="{{el.dokument_link}}">push that</a>
+                        {%else%}
+                        <div class="dok_link">
+                            <input type="url" name="doc_link" class="form_control" placeholder="doc link">
+                            <br>
+                            <button class="btn btn-warning" style="width: 100%" name="link_btn" value="{{el.id}}" type="submit">add link</button>
+                        </div>
+                        {%endif%}
                     </td>
                     <td style="background-color:red">
                         {{el.comment}}

@@ -831,6 +831,20 @@ class CreateMAvicAutelUnknownNoticePosition:
         model.save()
 
 
+class CreateMavicAutelFlowLinkAdd:
+    """cls for crating link of doc in MavicAutel  flow order  """
+
+    def __init__(self, doc_link=None, notice_id=None):
+        self.doc_link = doc_link
+        self.notice_id = notice_id
+
+    def add_link(self):
+        """creating func"""
+        model = MavicAutelPositionFlow.objects.get(id=self.notice_id)
+        model.dokument_link = self.doc_link
+        model.save()
+
+
 class AdaptiveFilterForFpvFlow:
     """class for making filters on FpvFlow page"""
 
