@@ -30,6 +30,8 @@
                             unknown
                         </label>
                     </div>
+
+
                 </div>
 
                 <br>
@@ -56,6 +58,22 @@
                 </button>
                 <br>
             </div>
+
+
+            <div class="filter_panel">
+                <div class="title_filter_panel">
+                    <h5 class="text-light">Searching by dron name</h5>
+                </div>
+                <div>
+                    <input class="form-control" type="text" name="dron_name" placeholder="search by dron number">
+                </div>
+                <br>
+                <button class="btn btn-warning text-light" style="background: transparent; width: 100%" type="submit"
+                        name="drone_name_btn" value="1">
+                    filter
+                </button>
+                <br>
+            </div>
         </form>
     </div>
 
@@ -70,8 +88,8 @@
                 <th scope="col">who_crash</th>
                 <th scope="col">position_name</th>
                 <th scope="col">crash_coordinates</th>
+                <th scope="col">Dokument link</th>
                 <th scope="col">Comment</th>
-                <th scope="col" >Dokument link</th>
                 <th scope="col">change data</th>
             </tr>
             </thead>
@@ -112,7 +130,8 @@
                             </button>
                             <button class="btn btn-warning" type="submit" name="to_storage" value="{{el.id}}">to storage
                             </button>
-                            <button class="btn btn-light" name="unknown" value="{{el.id}}" type="submit">Unknown</button>
+                            <button class="btn btn-light" name="unknown" value="{{el.id}}" type="submit">Unknown
+                            </button>
 
                         </div>
 
@@ -169,21 +188,25 @@
                         </div>
                     </td>
                     <td style="background-color:red">{{el.crash_coordinates}}
-                    <div>
-                            <input class="form-control" name="new_coordinates_{{el.id}}" placeholder="change coordinate">
-                            <button class="btn btn-warning" style="width: 100%" name="change_coordinates" value="{{el.id}}"
+                        <div>
+                            <input class="form-control" name="new_coordinates_{{el.id}}"
+                                   placeholder="change coordinate">
+                            <button class="btn btn-warning" style="width: 100%" name="change_coordinates"
+                                    value="{{el.id}}"
                                     type="submit" onclick="return confirm_function()">submit
                             </button>
                         </div>
                     </td>
                     <td style="background-color:red">
-                        {% if el.dokument_link  %}
+                        {% if el.dokument_link %}
                         <a style="color: white " href="{{el.dokument_link}}">push that</a>
                         {%else%}
                         <div class="dok_link">
                             <input type="url" name="doc_link" class="form_control" placeholder="doc link">
                             <br>
-                            <button class="btn btn-warning" style="width: 100%" name="link_btn" value="{{el.id}}" type="submit">add link</button>
+                            <button class="btn btn-warning" style="width: 100%" name="link_btn" value="{{el.id}}"
+                                    type="submit">add link
+                            </button>
                         </div>
                         {%endif%}
                     </td>

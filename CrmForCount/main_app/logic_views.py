@@ -831,6 +831,19 @@ class CreateMAvicAutelUnknownNoticePosition:
         model.save()
 
 
+class FilterByDroneNAmeMavicFlow:
+    """class for rendering by drone name in MAvic/Autel flow"""
+
+    def __init__(self, drone_name=None):
+        self.drone_name = drone_name
+
+    def making_searsch(self):
+        """making searching"""
+        mod = MavicAutelPositionFlow.objects.filter(dron_name__icontains=self.drone_name).values()
+        data = {'model': mod}
+        return data
+
+
 class CreateMavicAutelFlowLinkAdd:
     """cls for crating link of doc in MavicAutel  flow order  """
 
