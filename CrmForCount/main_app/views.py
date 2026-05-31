@@ -472,9 +472,10 @@ class RadioServiceSupply(APIView):
         radio_to_flow = reqeust.POST.get('radio_to_flow')
 
         if radio_to_flow:
-            who_took = reqeust.POST.get('who_took')
-            position_name = reqeust.POST.get('position_name')
-            RadioSupplyPosition(storage_id=radio_to_flow, notice_id=radio_to_flow, who_took=who_took,
+            print(reqeust.POST)
+            who_took = reqeust.POST.get(f'who_took_{radio_to_flow}', '').strip()
+            position_name = reqeust.POST.get(f'position_name_{radio_to_flow}', '').strip()
+            RadioSupplyPosition(storage_id=radio_to_flow, notice_id=radio_to_flow, who_took=str(who_took),
                                 position_name=position_name).create_article()
             return render(reqeust, 'main_app/radio_servise_supply.html', logic)
 
@@ -511,8 +512,9 @@ class RadioSupply(APIView):
             RadioSupplyPosition(storage_id=radio_to_storage).return_to_storage()
 
         if del_radio:
-            who_crash = request.POST.get('who_crash')
-            coordinates = request.POST.get('coordinates')
+            print(request.POST)
+            who_crash = request.POST.get(f'who_crash_{del_radio}')
+            coordinates = request.POST.get(f'coordinates_{del_radio}')
             RadioSupplyPosition(notice_id=del_radio, who_took=who_crash, coordinates=coordinates).delete_article()
 
         return render(request, 'main_app/Radio_supply_positon_flow.html', logic)

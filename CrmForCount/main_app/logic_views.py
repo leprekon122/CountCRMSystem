@@ -400,7 +400,7 @@ class RadioSupplyPosition:
         self.serial_number = serial_number
         self.date_in = date_in
         self.storage_id = int(storage_id) if storage_id is not None else None
-        self.who_took = who_took,
+        self.who_took = who_took
         self.position_name = position_name
         self.coordinates = coordinates
 

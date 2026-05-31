@@ -71,9 +71,9 @@
                     <th style="background-color: #1d5718">{{el.date_in}}</th>
                     <th style="background-color: #1d5718">{{el.date_out}}</th>
                     <th style="background-color: #1d5718"><input class="form-control" placeholder="who_crash"
-                                                                 name="who_crash"></th>
+                                                                 name="who_crash_{{el.id}}"></th>
                     <th style="background-color: #1d5718"><input class="form-control" placeholder="x xx xxxxx xxxxx"
-                                                                 name="coordinates"></th>
+                                                                 name="coordinates_{{el.id}}"></th>
                     <th style="display: flex; flex-direction: column;">
                         <button style="background: transparent" class="btn btn-warning text-light" type="submit"
                                 value="{{el.id}}" name="radio_to_storage">to storage
