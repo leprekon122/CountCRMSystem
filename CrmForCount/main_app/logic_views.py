@@ -318,13 +318,25 @@ class FpvFlowPage:
         self.operator_name = operator_name
         self.comment = comment
 
-    def delet_fpv_flow_notice(self):
-        data_set = MainFpvFlowOrder.objects.filter(id=self.dron_id)
-        data_set.update(status=0,
-                        position_name=self.position_name,
-                        operator_name=self.who_took,
-                        comment=self.comment
-                        )
+    def delete_fpv_flow_notice(self):
+
+        try:
+
+            obj = MainFpvFlowOrder.objects.get(id=self.dron_id)
+
+            obj.status = 0
+
+            obj.position_name = self.position_name
+
+            obj.operator_name = self.who_took
+
+            obj.comment = self.comment
+
+            obj.save()
+
+        except MainFpvFlowOrder.DoesNotExist:
+
+            print("Object not found")
 
     def to_storage_return(self):
         data_set = MainFpvFlowOrder.objects.filter(id=self.dron_id).values()[0]
