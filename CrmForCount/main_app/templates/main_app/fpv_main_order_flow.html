@@ -106,13 +106,13 @@
                     <td style="background-color: #23612f">{{el.dron_number}}</td>
                     <td style="background-color: #23612f">{{el.dron_in}}</td>
                     <td style="background-color: #23612f">{{el.dron_out}}</td>
-                    <td style="background-color: #23612f"><input class="form-control" name="fpv_flow_pos"
+                    <td style="background-color: #23612f"><input class="form-control" name="fpv_flow_pos_{{el.id}}"
                                                                  placeholder="position_name"></td>
                     <td style="background-color: #23612f">
-                        <input class="form-control" placeholder="operator name" name="who">
+                        <input class="form-control" placeholder="operator name" name="who_{{el.id}}">
 
                     </td>
-                    <td style="background-color: #23612f"><textarea rows="3" name="comment"></textarea></td>
+                    <td style="background-color: #23612f"><textarea rows="3" name="comment_{{el.id}}"></textarea></td>
                     <td style="background-color: #23612f">
                         <div class="table_button">
                             <button class="btn btn-danger" type="submit" name="delete_fpv_flow" value="{{el.id}}">delete

@@ -210,9 +210,9 @@ class FpvMainFlowPage(APIView):
                         ).to_storage_return()
 
         if delete_fpv_flow:
-            FpvFlowPage(dron_id=delete_fpv_flow, position_name=request.POST.get('fpv_flow_pos'),
-                        who_took=request.POST.get('who'), comment=request.POST.get('comment')).delete_fpv_flow_notice()
-            print(request.POST.get('fpv_flow_pos'), request.POST.get('comment'), request.POST.get('who'))
+            FpvFlowPage(dron_id=delete_fpv_flow, position_name=request.POST.get(f'fpv_flow_pos_{delete_fpv_flow}'),
+                        who_took=request.POST.get(f'who_{delete_fpv_flow}'),
+                        comment=request.POST.get(f'comment_{delete_fpv_flow}')).delete_fpv_flow_notice()
 
         return render(request, "main_app/fpv_main_order_flow.html", logic)
 
