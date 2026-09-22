@@ -951,3 +951,17 @@ class DataForFpvStatistics:
                 }
 
         return data
+
+
+class PermissionOrderClass:
+    """ class for checking roles """
+
+    def __init__(self, username, method, current_url):
+        self.username = username
+        self.method = method
+        self.current_url = current_url
+
+    def making_check(self):
+        permission = UserOrderPermission.objects.filter(username=self.username, permission_pages=self.current_url,
+                                                        permission_class=self.method).exists()
+        return permission

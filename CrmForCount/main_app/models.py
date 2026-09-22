@@ -187,8 +187,37 @@ class BatteryTrash(models.Model):
 
 class UserOrderPermission(models.Model):
     """model for render permission"""
-    username = models.ForeignKey(User, on_delete=models.CASCADE)
+    permission_list = (
+        ('get', 'get'),
+        ('post', 'post'),
+        ('none', 'none')
+    )
+
+    pages_list = (
+        ('first_page', 'first_page'),
+        ('fpv_storage', 'fpv_storage'),
+        ('fpv_main_order', 'fpv_main_order'),
+        ('mavic_autel_storage', 'mavic_autel_storage'),
+        ('mavic_autel_position_flow', 'mavic_autel_position_flow'),
+        ('rifle_order', 'rifle_order'),
+        ('radio_service', 'radio_service'),
+        ('radio_position_flow', 'radio_position_flow'),
+        ('statistic_page', 'statistic_page'),
+        ('battery_storage', 'battery_storage'),
+        ('battery_position', 'battery_position'),
+        ('statistics_for_month', 'statistics_for_month'),
+        ('fpv_statistics_page', 'fpv_statistics_page'),
+    )
+
+    username = models.ForeignKey(User, on_delete=models.CASCADE,
+                                 related_name='order_permissions')
+    permission_class = models.CharField(max_length=10, choices=permission_list, null=True, blank=True)
+
+    permission_pages = models.CharField(max_length=50, choices=pages_list, null=True, blank=True)
 
     class Meta:
         verbose_name = 'UserOrderPermission',
         verbose_name_plural = 'UserOrderPermission'
+
+    def __str__(self):
+        return f'{self.username} - {self.permission_class}'

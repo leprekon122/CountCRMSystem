@@ -1,21 +1,18 @@
-from django.contrib.auth.models import User
-from django.db.models import Q
 from rest_framework.permissions import DjangoModelPermissions
+from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import permissions
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAutelStorageNotice, FpvFlowPage, \
     RadioOrderLogic, RifleOrderLogic, RadioSupplyPosition, StatisticsLogic, FilterForMAvicAutelPosition, \
-    BatteryStorageOrderLogic, BatteryPositionOrderLogic, PermissionOnView, StatisticsForMonthLogic, \
+    BatteryStorageOrderLogic, BatteryPositionOrderLogic, StatisticsForMonthLogic, \
     UpdatePosNameMavicPosition, UpdateCommentMavicPosition, UpdateCoordinatesMavicPosition, \
     CreateMAvicAutelUnknownNoticePosition, AdaptiveFilterForFpvFlow, AdaptiveFilterForFpvStorage, DataForFpvStatistics, \
-    CreateMavicAutelFlowLinkAdd, FilterByDroneNAmeMavicFlow, FilterByOperatorMavicFlow
-from .models import FpvFlowStorage, MavicAutelPositionFlow, MainFpvFlowOrder, MavicAutelStorage, RifleOrderModel, \
-    BatteryPositionOrderModel, UserOrderPermission
+    CreateMavicAutelFlowLinkAdd, FilterByDroneNAmeMavicFlow, FilterByOperatorMavicFlow, PermissionOrderClass
+from .models import FpvFlowStorage, MavicAutelPositionFlow, RifleOrderModel, \
+    BatteryPositionOrderModel
 from datetime import datetime
-
-from django.core.exceptions import PermissionDenied
 
 
 def login_page(request):
@@ -40,71 +37,87 @@ class FirstPage(APIView):
 
     @staticmethod
     def get(request):
+        """first page get req"""
 
         return render(request, "main_app/first_page.html")
 
     @staticmethod
     def post(request):
-        add_fpv_main = request.POST.get('add_fpv_main')
-        add_fpv_storage = request.POST.get('add_fpv_storage')
-        add_autel_mavic_storage = request.POST.get('add_autel_mavic_storage')
-        add_radio_supply = request.POST.get('add_radio_supply')
-        add_rifle = request.POST.get('add_rifle')
-        add_battery_storage = request.POST.get('add_battery_storage')
+        """add data func"""
+        user = request.user.id
+        current_url = request.path.split('/')[1]
+        current_method = 'post'
+        check_sum = PermissionOrderClass(username=user, method=current_method, current_url=current_url).making_check()
 
-        if add_battery_storage:
-            BatteryStorageOrderLogic(battery_type=request.POST.get('battery_name'),
-                                     price=request.POST.get('battery_price'),
-                                     quantities=request.POST.get('quantities'),
-                                     date_in=request.POST.get('bat_date_in'),
-                                     doc_num=request.POST.get('bat_doc_num')).create_notice()
+        if check_sum:
 
-        if add_rifle:
-            logic = RifleOrderLogic(nickname=request.POST.get('nickname'), type_rifle=request.POST.get('type_rifle'),
-                                    rifle_number=request.POST.get('Rifle_number'),
-                                    date_in_rifle=request.POST.get('date_in_rifle'),
-                                    produced_date=request.POST.get('produced_date'))
-            logic.add_notice()
-        if add_autel_mavic_storage:
-            CreateMavicAutelStorageNotice(dron_name=request.POST.get('dron_name1'),
-                                          dron_number=request.POST.get('dron_num1'),
-                                          dron_in=request.POST.get('date_in1'),
-                                          dron_out=datetime.now().date(),
-                                          document_num=request.POST.get('dok_num'),
-                                          who_took=request.POST.get('who_took1'),
-                                          drone_value=request.POST.get('dron_value'),
-                                          position_name=request.POST.get(
-                                              'position_name2'),
-                                          drone_type=request.POST.get('drone_type')
-                                          ).create_mavic_autel_storage()
+            add_fpv_main = request.POST.get('add_fpv_main')
+            add_fpv_storage = request.POST.get('add_fpv_storage')
+            add_autel_mavic_storage = request.POST.get('add_autel_mavic_storage')
+            add_radio_supply = request.POST.get('add_radio_supply')
+            add_rifle = request.POST.get('add_rifle')
+            add_battery_storage = request.POST.get('add_battery_storage')
 
-        if add_fpv_storage:
-            logic = CreateFpvStorageNotice(dron_name=request.POST.get('dron_name_fpv'),
-                                           serial=request.POST.get('serial_fpv'),
-                                           diagonal=request.POST.get('diagonal_fpv'),
-                                           dron_number=request.POST.get('dron_num_fpv'),
-                                           dron_in=request.POST.get('date_in_fpv'),
-                                           dron_out=request.POST.get('date_in_fpv'),
-                                           position_name=request.POST.get('position_name')).create_notice
+            if add_battery_storage:
+                BatteryStorageOrderLogic(battery_type=request.POST.get('battery_name'),
+                                         price=request.POST.get('battery_price'),
+                                         quantities=request.POST.get('quantities'),
+                                         date_in=request.POST.get('bat_date_in'),
+                                         doc_num=request.POST.get('bat_doc_num')).create_notice()
 
-        if add_fpv_main:
-            CreateFpvStorageNotice(dron_name=request.POST.get('dron_name2'), serial=request.POST.get('serial2'),
-                                   diagonal=request.POST.get('diagonal2'),
-                                   dron_number=request.POST.get('dron_num2'),
-                                   dron_in=request.POST.get('date_in2'),
-                                   dron_out=datetime.now().date(),
-                                   position_name=request.POST.get(
-                                       'position_name1'),
-                                   operator_name=(request.POST.get(
-                                       'operator_name1'))).creation_dataset_for_fpv_main_order()
+            if add_rifle:
+                logic = RifleOrderLogic(nickname=request.POST.get('nickname'),
+                                        type_rifle=request.POST.get('type_rifle'),
+                                        rifle_number=request.POST.get('Rifle_number'),
+                                        date_in_rifle=request.POST.get('date_in_rifle'),
+                                        produced_date=request.POST.get('produced_date'))
+                logic.add_notice()
+            if add_autel_mavic_storage:
+                CreateMavicAutelStorageNotice(dron_name=request.POST.get('dron_name1'),
+                                              dron_number=request.POST.get('dron_num1'),
+                                              dron_in=request.POST.get('date_in1'),
+                                              dron_out=datetime.now().date(),
+                                              document_num=request.POST.get('dok_num'),
+                                              who_took=request.POST.get('who_took1'),
+                                              drone_value=request.POST.get('dron_value'),
+                                              position_name=request.POST.get(
+                                                  'position_name2'),
+                                              drone_type=request.POST.get('drone_type')
+                                              ).create_mavic_autel_storage()
 
-        if add_radio_supply:
-            RadioOrderLogic(supply_name=request.POST.get('supply_name'),
-                            supply_price=request.POST.get('supply_price'),
-                            serial_number=request.POST.get('serial_number'),
-                            date_in=request.POST.get('date_in')).create_radio_note()
+            if add_fpv_storage:
+                logic = CreateFpvStorageNotice(dron_name=request.POST.get('dron_name_fpv'),
+                                               serial=request.POST.get('serial_fpv'),
+                                               diagonal=request.POST.get('diagonal_fpv'),
+                                               dron_number=request.POST.get('dron_num_fpv'),
+                                               dron_in=request.POST.get('date_in_fpv'),
+                                               dron_out=request.POST.get('date_in_fpv'),
+                                               position_name=request.POST.get('position_name')).create_notice
 
-        return render(request, "main_app/first_page.html")
+            if add_fpv_main:
+                CreateFpvStorageNotice(dron_name=request.POST.get('dron_name2'), serial=request.POST.get('serial2'),
+                                       diagonal=request.POST.get('diagonal2'),
+                                       dron_number=request.POST.get('dron_num2'),
+                                       dron_in=request.POST.get('date_in2'),
+                                       dron_out=datetime.now().date(),
+                                       position_name=request.POST.get(
+                                           'position_name1'),
+                                       operator_name=(request.POST.get(
+                                           'operator_name1'))).creation_dataset_for_fpv_main_order()
+
+            if add_radio_supply:
+                RadioOrderLogic(supply_name=request.POST.get('supply_name'),
+                                supply_price=request.POST.get('supply_price'),
+                                serial_number=request.POST.get('serial_number'),
+                                date_in=request.POST.get('date_in')).create_radio_note()
+
+            return render(request, "main_app/first_page.html")
+
+        return Response(
+            {'detail': 'Permission denied',
+
+             },
+        )
 
 
 class FPVFlowInStorage(APIView):
@@ -116,49 +129,75 @@ class FPVFlowInStorage(APIView):
     @staticmethod
     def get(request):
         """function for rendering get requests"""
-        date_low = request.GET.get('date_low')
-        date_up = request.GET.get('date_up')
-        status = request.GET.get('status')
-        search_drone_btn = request.GET.get('search_drone_btn')
-        logic = CreateDatasets.CreateSetForFpvStorageOrder(self=None)
+        user = request.user.id
+        current_url = request.path.split('/')[1]
+        current_method = 'get'
+        check_sum = PermissionOrderClass(username=user, method=current_method, current_url=current_url).making_check()
 
-        if search_drone_btn:
-            fpv_name = request.GET.get('fpv_name')
-            logic = AdaptiveFilterForFpvStorage(drone_name=fpv_name).filter_by_drone_name()
+        if check_sum:
+
+            date_low = request.GET.get('date_low')
+            date_up = request.GET.get('date_up')
+            status = request.GET.get('status')
+            search_drone_btn = request.GET.get('search_drone_btn')
+            logic = CreateDatasets.CreateSetForFpvStorageOrder(self=None)
+
+            if search_drone_btn:
+                fpv_name = request.GET.get('fpv_name')
+                logic = AdaptiveFilterForFpvStorage(drone_name=fpv_name).filter_by_drone_name()
+                return render(request, "main_app/fpv_storage_page.html", logic)
+
+            if status:
+                on_position = request.GET.get('on_position')
+                delete = request.GET.get('delete')
+                if on_position:
+                    logic = AdaptiveFilterForFpvStorage(status=on_position).search_by_status()
+                if delete:
+                    logic = AdaptiveFilterForFpvStorage(status=delete).search_by_status()
+
+            if date_up:
+                logic = CreateDatasets.FilterByDateUp(self=None)
+                return render(request, "main_app/fpv_storage_page.html", logic)
+            if date_low:
+                logic = CreateDatasets.LowDateFilter(self=None)
+                return render(request, "main_app/fpv_storage_page.html", logic)
+
             return render(request, "main_app/fpv_storage_page.html", logic)
+        return Response(
+            {'detail': 'Permission denied',
 
-        if status:
-            on_position = request.GET.get('on_position')
-            delete = request.GET.get('delete')
-            if on_position:
-                logic = AdaptiveFilterForFpvStorage(status=on_position).search_by_status()
-            if delete:
-                logic = AdaptiveFilterForFpvStorage(status=delete).search_by_status()
-
-        if date_up:
-            logic = CreateDatasets.FilterByDateUp(self=None)
-            return render(request, "main_app/fpv_storage_page.html", logic)
-        if date_low:
-            logic = CreateDatasets.LowDateFilter(self=None)
-            return render(request, "main_app/fpv_storage_page.html", logic)
-
-        return render(request, "main_app/fpv_storage_page.html", logic)
+             },
+        )
 
     @staticmethod
     def post(request):
         """function for rendering post requests"""
-        delete_btn = request.POST.get('delete_btn')
 
-        if delete_btn:
-            dron_out = datetime.now().date()
-            who_took = request.POST.get('who')
-            position_name = request.POST.get('position')
-            id = delete_btn
-            logik = CreateDatasets(id=id, dron_out=dron_out, who_took=who_took, position_name=position_name)
-            logik.DeleteNoticeFpvStorage()
+        user = request.user.id
+        current_url = request.path.split('/')[1]
+        current_method = 'post'
+        check_sum = PermissionOrderClass(username=user, method=current_method, current_url=current_url).making_check()
 
-            return render(request, "main_app/fpv_storage_page.html", logik.CreateSetForFpvStorageOrder())
-        return render(request, "main_app/fpv_storage_page.html", {'model': FpvFlowStorage.objects.all().values()})
+        if check_sum:
+
+            delete_btn = request.POST.get('delete_btn')
+
+            if delete_btn:
+                dron_out = datetime.now().date()
+                who_took = request.POST.get('who')
+                position_name = request.POST.get('position')
+                id = delete_btn
+                logik = CreateDatasets(id=id, dron_out=dron_out, who_took=who_took, position_name=position_name)
+                logik.DeleteNoticeFpvStorage()
+
+                return render(request, "main_app/fpv_storage_page.html", logik.CreateSetForFpvStorageOrder())
+            return render(request, "main_app/fpv_storage_page.html", {'model': FpvFlowStorage.objects.all().values()})
+
+        return Response(
+            {'detail': 'Permission denied',
+             'status': 403,
+             },
+        )
 
 
 class FpvMainFlowPage(APIView):
@@ -172,49 +211,74 @@ class FpvMainFlowPage(APIView):
     @staticmethod
     def get(request):
         """function for rendering get requests"""
-        logic = CreateDatasets.fpv_main_order_flow(self=None)
-        search_drone_btn = request.GET.get('search_drone_btn')
-        status = request.GET.get('status')
-        search_drone_num_btn = request.GET.get('search_drone_num_btn')
 
-        if search_drone_num_btn:
-            fpv_number = request.GET.get('fpv_number')
-            logic = AdaptiveFilterForFpvFlow(drone_num=fpv_number).filter_by_drone_numbers()
+        user = request.user.id
+        current_url = request.path.split('/')[1]
+        current_method = 'get'
+        check_sum = PermissionOrderClass(username=user, method=current_method, current_url=current_url).making_check()
 
-        if status:
-            on_position = request.GET.get('on_position')
-            delete = request.GET.get('delete')
-            if on_position:
-                logic = AdaptiveFilterForFpvFlow(status=on_position).search_by_status()
-            if delete:
-                logic = AdaptiveFilterForFpvFlow(status=delete).search_by_status()
+        if check_sum:
+            logic = CreateDatasets.fpv_main_order_flow(self=None)
+            search_drone_btn = request.GET.get('search_drone_btn')
+            status = request.GET.get('status')
+            search_drone_num_btn = request.GET.get('search_drone_num_btn')
 
-        if search_drone_btn:
-            drone_name = request.GET.get('fpv_name')
-            logic = AdaptiveFilterForFpvFlow(drone_name=drone_name).filter_by_drone_name()
-            render(request, "main_app/fpv_main_order_flow.html", logic)
+            if search_drone_num_btn:
+                fpv_number = request.GET.get('fpv_number')
+                logic = AdaptiveFilterForFpvFlow(drone_num=fpv_number).filter_by_drone_numbers()
 
-        return render(request, "main_app/fpv_main_order_flow.html", logic)
+            if status:
+                on_position = request.GET.get('on_position')
+                delete = request.GET.get('delete')
+                if on_position:
+                    logic = AdaptiveFilterForFpvFlow(status=on_position).search_by_status()
+                if delete:
+                    logic = AdaptiveFilterForFpvFlow(status=delete).search_by_status()
+
+            if search_drone_btn:
+                drone_name = request.GET.get('fpv_name')
+                logic = AdaptiveFilterForFpvFlow(drone_name=drone_name).filter_by_drone_name()
+                render(request, "main_app/fpv_main_order_flow.html", logic)
+
+            return render(request, "main_app/fpv_main_order_flow.html", logic)
+        return Response(
+            {'detail': 'Permission denied',
+             'status': 403,
+             },
+        )
 
     @staticmethod
     def post(request):
         """function for rendering post requests"""
-        logic = CreateDatasets.fpv_main_order_flow(self=None)
-        delete_fpv_flow = request.POST.get('delete_fpv_flow')
-        to_storage = request.POST.get('to_storage')
+        user = request.user.id
+        current_url = request.path.split('/')[1]
+        current_method = 'post'
+        check_sum = PermissionOrderClass(username=user, method=current_method, current_url=current_url).making_check()
 
-        if to_storage:
-            FpvFlowPage(position_name=request.POST.get('fpv_flow_pos'),
-                        who_took=request.POST.get('who'),
-                        dron_id=to_storage
-                        ).to_storage_return()
+        if check_sum:
 
-        if delete_fpv_flow:
-            FpvFlowPage(dron_id=delete_fpv_flow, position_name=request.POST.get(f'fpv_flow_pos_{delete_fpv_flow}'),
-                        who_took=request.POST.get(f'who_{delete_fpv_flow}'),
-                        comment=request.POST.get(f'comment_{delete_fpv_flow}')).delete_fpv_flow_notice()
+            logic = CreateDatasets.fpv_main_order_flow(self=None)
+            delete_fpv_flow = request.POST.get('delete_fpv_flow')
+            to_storage = request.POST.get('to_storage')
 
-        return render(request, "main_app/fpv_main_order_flow.html", logic)
+            if to_storage:
+                FpvFlowPage(position_name=request.POST.get('fpv_flow_pos'),
+                            who_took=request.POST.get('who'),
+                            dron_id=to_storage
+                            ).to_storage_return()
+
+            if delete_fpv_flow:
+                FpvFlowPage(dron_id=delete_fpv_flow, position_name=request.POST.get(f'fpv_flow_pos_{delete_fpv_flow}'),
+                            who_took=request.POST.get(f'who_{delete_fpv_flow}'),
+                            comment=request.POST.get(f'comment_{delete_fpv_flow}')).delete_fpv_flow_notice()
+
+            return render(request, "main_app/fpv_main_order_flow.html", logic)
+
+        return Response(
+            {'detail': 'Permission denied',
+             'status': 403,
+             },
+        )
 
 
 class MavicAutelInStorage(APIView):
@@ -230,12 +294,12 @@ class MavicAutelInStorage(APIView):
     def get(request):
         """function for rendering get requests"""
 
-        logic_perm = PermissionOnView(request.user).render_username()
+        user = request.user.id
+        current_url = request.path.split('/')[1]
+        current_method = 'get'
+        check_sum = PermissionOrderClass(username=user, method=current_method, current_url=current_url).making_check()
 
-        if logic_perm == 2:
-            raise PermissionDenied
-
-        else:
+        if check_sum:
             logic = CreateDatasets.mavic_autel_storage_set()
             adaptive_search = request.GET.get('adaptive_search')
             start_num = request.GET.get('start_num')
@@ -271,26 +335,45 @@ class MavicAutelInStorage(APIView):
                 logic = CreateDatasets(adaptive_mavic=adaptive_search).create_adaptive_mavic_autel()
                 return render(request, "main_app/mavic_autel_storage.html", logic)
             return render(request, "main_app/mavic_autel_storage.html", logic)
+        return Response(
+            {'detail': 'Permission denied',
+             'status': 403,
+             },
+        )
 
     @staticmethod
     def post(request):
         """function for rendering post requests"""
-        mavic_change = request.POST.get('mavic_change')
-        document_num = request.POST.get('document_num')
 
-        if document_num:
-            CreateMavicAutelStorageNotice(id=int(request.POST.get('dok_btn')),
-                                          document_num=document_num).update_document_num()
+        user = request.user.id
+        current_url = request.path.split('/')[1]
+        current_method = 'post'
+        check_sum = PermissionOrderClass(username=user, method=current_method, current_url=current_url).making_check()
 
-        if mavic_change:
-            CreateMavicAutelStorageNotice(id=mavic_change,
-                                          who_took=request.POST.get('whot_took_change'),
-                                          position_name=request.POST.get('postion_name_change'),
-                                          dron_out=datetime.now().date()
-                                          ).update_notice()
+        if check_sum:
 
-        logic = CreateDatasets.mavic_autel_storage_set(self=None)
-        return render(request, "main_app/mavic_autel_storage.html", logic)
+            mavic_change = request.POST.get('mavic_change')
+            document_num = request.POST.get('document_num')
+
+            if document_num:
+                CreateMavicAutelStorageNotice(id=int(request.POST.get('dok_btn')),
+                                              document_num=document_num).update_document_num()
+
+            if mavic_change:
+                CreateMavicAutelStorageNotice(id=mavic_change,
+                                              who_took=request.POST.get('whot_took_change'),
+                                              position_name=request.POST.get('postion_name_change'),
+                                              dron_out=datetime.now().date()
+                                              ).update_notice()
+
+            logic = CreateDatasets.mavic_autel_storage_set(self=None)
+            return render(request, "main_app/mavic_autel_storage.html", logic)
+
+        return Response(
+            {'detail': 'Permission denied',
+             'status': 403,
+             },
+        )
 
 
 class MavicAutelPostionFlow(APIView):
@@ -305,92 +388,120 @@ class MavicAutelPostionFlow(APIView):
     @staticmethod
     def get(request):
         """function for rendering get requests"""
-        logic = CreateDatasets.mavic_autel_flow_position(self=None)
-        dron_num_search = request.GET.get('dron_num_search')
-        status = request.GET.get('status')
-        drone_name_btn = request.GET.get('drone_name_btn')
-        searching_by_operator_name = request.GET.get('searching_by_operator_name')
 
-        if searching_by_operator_name:
-            logic = FilterByOperatorMavicFlow(operator_name=searching_by_operator_name).make_search()
-            return render(request, 'main_app/mavic_autel_position_flow.html', logic)
+        user = request.user.id
+        current_url = request.path.split('/')[1]
+        current_method = 'get'
+        check_sum = PermissionOrderClass(username=user, method=current_method, current_url=current_url).making_check()
 
-        if drone_name_btn:
-            dron_name = request.GET.get('dron_name')
-            logic = FilterByDroneNAmeMavicFlow(drone_name=dron_name).making_searsch()
-            return render(request, 'main_app/mavic_autel_position_flow.html', logic)
+        if check_sum:
 
-        if status:
-            on_position = request.GET.get('on_position')
-            destroyed = request.GET.get('destroyed')
-            unknown_filter = request.GET.get('unknown_filter')
+            logic = CreateDatasets.mavic_autel_flow_position(self=None)
+            dron_num_search = request.GET.get('dron_num_search')
+            status = request.GET.get('status')
+            drone_name_btn = request.GET.get('drone_name_btn')
+            searching_by_operator_name = request.GET.get('searching_by_operator_name')
 
-            if on_position:
-                logic = FilterForMAvicAutelPosition(status=on_position).status_on_position()
-            if destroyed:
-                logic = FilterForMAvicAutelPosition(status=destroyed).status_on_position()
-            if unknown_filter:
-                logic = FilterForMAvicAutelPosition(status=unknown_filter).status_on_position()
-            else:
+            if searching_by_operator_name:
+                logic = FilterByOperatorMavicFlow(operator_name=searching_by_operator_name).make_search()
                 return render(request, 'main_app/mavic_autel_position_flow.html', logic)
 
-        if dron_num_search:
-            logic = CreateDatasets(dron_num=dron_num_search).adaptive_search_by_dron_num_flow_order()
-            return render(request, 'main_app/mavic_autel_position_flow.html', logic)
+            if drone_name_btn:
+                dron_name = request.GET.get('dron_name')
+                logic = FilterByDroneNAmeMavicFlow(drone_name=dron_name).making_searsch()
+                return render(request, 'main_app/mavic_autel_position_flow.html', logic)
 
-        return render(request, 'main_app/mavic_autel_position_flow.html', logic)
+            if status:
+                on_position = request.GET.get('on_position')
+                destroyed = request.GET.get('destroyed')
+                unknown_filter = request.GET.get('unknown_filter')
+
+                if on_position:
+                    logic = FilterForMAvicAutelPosition(status=on_position).status_on_position()
+                if destroyed:
+                    logic = FilterForMAvicAutelPosition(status=destroyed).status_on_position()
+                if unknown_filter:
+                    logic = FilterForMAvicAutelPosition(status=unknown_filter).status_on_position()
+                else:
+                    return render(request, 'main_app/mavic_autel_position_flow.html', logic)
+
+            if dron_num_search:
+                logic = CreateDatasets(dron_num=dron_num_search).adaptive_search_by_dron_num_flow_order()
+                return render(request, 'main_app/mavic_autel_position_flow.html', logic)
+
+            return render(request, 'main_app/mavic_autel_position_flow.html', logic)
+        return Response(
+            {'detail': 'Permission denied',
+             'status': 403,
+             },
+        )
 
     @staticmethod
     def post(request):
         """function for rendering post requests"""
 
-        destroy_pos_item = request.POST.get('destroy_pos_item')
-        to_storage = request.POST.get("to_storage")
-        change_pos = request.POST.get('change_pos')
-        unknown = request.POST.get('unknown')
-        change_comment = request.POST.get('change_comment')
-        change_coordinates = request.POST.get('change_coordinates')
-        link_btn = request.POST.get('link_btn')
+        user = request.user.id
+        current_url = request.path.split('/')[1]
+        current_method = 'post'
+        check_sum = PermissionOrderClass(username=user, method=current_method, current_url=current_url).making_check()
 
-        if link_btn:
-            doc_links = request.POST.getlist('doc_link')
-            doc_link = next((link for link in doc_links if link.strip()), None)
-            CreateMavicAutelFlowLinkAdd(notice_id=link_btn, doc_link=doc_link).add_link()
+        if check_sum:
 
-        if unknown:
-            CreateMAvicAutelUnknownNoticePosition(notice_id=unknown).create_notice()
+            destroy_pos_item = request.POST.get('destroy_pos_item')
+            to_storage = request.POST.get("to_storage")
+            change_pos = request.POST.get('change_pos')
+            unknown = request.POST.get('unknown')
+            change_comment = request.POST.get('change_comment')
+            change_coordinates = request.POST.get('change_coordinates')
+            link_btn = request.POST.get('link_btn')
 
-        if change_coordinates:
-            new_coordinates = request.POST.get(f"new_coordinates_{change_coordinates}")
-            logic = UpdateCoordinatesMavicPosition(coordinates_id=change_coordinates,
-                                                   new_coordinates=new_coordinates).make_change()
+            if link_btn:
+                doc_links = request.POST.getlist('doc_link')
+                doc_link = next((link for link in doc_links if link.strip()), None)
+                CreateMavicAutelFlowLinkAdd(notice_id=link_btn, doc_link=doc_link).add_link()
 
-        if change_comment:
-            new_comment = request.POST.get(f"new_comment_{change_comment}")
-            logic = UpdateCommentMavicPosition(comment_id=change_comment, new_comment=new_comment).make_change_comment()
+            if unknown:
+                CreateMAvicAutelUnknownNoticePosition(notice_id=unknown).create_notice()
 
-        if change_pos:
-            pos_name = request.POST.get(f"pos_name_{change_pos}")
-            logic = UpdatePosNameMavicPosition(pos_id=change_pos, pos_name=pos_name).make_change()
+            if change_coordinates:
+                new_coordinates = request.POST.get(f"new_coordinates_{change_coordinates}")
+                logic = UpdateCoordinatesMavicPosition(coordinates_id=change_coordinates,
+                                                       new_coordinates=new_coordinates).make_change()
 
-        if to_storage:
-            CreateMavicAutelStorageNotice(id=to_storage,
-                                          dron_out=datetime.now().date(),
-                                          who_took=request.POST.get('who_crash')
-                                          ).updat_notice_in_flow_page()
+            if change_comment:
+                new_comment = request.POST.get(f"new_comment_{change_comment}")
+                logic = UpdateCommentMavicPosition(comment_id=change_comment,
+                                                   new_comment=new_comment).make_change_comment()
 
-        if destroy_pos_item:
-            MavicAutelPositionFlow.objects.filter(id=destroy_pos_item).update(dron_out=datetime.now().date(),
-                                                                              who_took=request.POST.get('who_crash'),
-                                                                              status=0,
-                                                                              crash_coordinates=request.POST.get(
-                                                                                  'crash_coordinates'),
-                                                                              comment=request.POST.get('comment')
+            if change_pos:
+                pos_name = request.POST.get(f"pos_name_{change_pos}")
+                logic = UpdatePosNameMavicPosition(pos_id=change_pos, pos_name=pos_name).make_change()
 
-                                                                              )
+            if to_storage:
+                CreateMavicAutelStorageNotice(id=to_storage,
+                                              dron_out=datetime.now().date(),
+                                              who_took=request.POST.get('who_crash')
+                                              ).updat_notice_in_flow_page()
 
-        logic = CreateDatasets.mavic_autel_flow_position(self=None)
-        return render(request, 'main_app/mavic_autel_position_flow.html', logic)
+            if destroy_pos_item:
+                MavicAutelPositionFlow.objects.filter(id=destroy_pos_item).update(dron_out=datetime.now().date(),
+                                                                                  who_took=request.POST.get(
+                                                                                      'who_crash'),
+                                                                                  status=0,
+                                                                                  crash_coordinates=request.POST.get(
+                                                                                      'crash_coordinates'),
+                                                                                  comment=request.POST.get('comment')
+
+                                                                                  )
+
+            logic = CreateDatasets.mavic_autel_flow_position(self=None)
+            return render(request, 'main_app/mavic_autel_position_flow.html', logic)
+
+        return Response(
+            {'detail': 'Permission denied',
+             'status': 403,
+             },
+        )
 
 
 class RifleOrderPage(APIView):
@@ -405,30 +516,55 @@ class RifleOrderPage(APIView):
     @staticmethod
     def get(request):
         """function for rendering get requests"""
-        logic = CreateDatasets.RifleDataSetMAin(self=None)
-        del_rifle = request.GET.get('del_rifle')
+        user = request.user.id
+        current_url = request.path.split('/')[1]
+        current_method = 'get'
+        check_sum = PermissionOrderClass(username=user, method=current_method, current_url=current_url).making_check()
 
-        if del_rifle:
-            RifleOrderLogic(notice_id=del_rifle).delete_notice()
+        if check_sum:
+            logic = CreateDatasets.RifleDataSetMAin(self=None)
+            del_rifle = request.GET.get('del_rifle')
 
-        return render(request, 'main_app/rifle_order.html', logic)
+            if del_rifle:
+                RifleOrderLogic(notice_id=del_rifle).delete_notice()
+
+            return render(request, 'main_app/rifle_order.html', logic)
+        return Response(
+            {'detail': 'Permission denied',
+             'status': 403,
+             },
+        )
 
     @staticmethod
     def post(request):
         """function for rendering post requests"""
-        logic = CreateDatasets.RifleDataSetMAin(self=None)
-        change_username_btn = request.POST.get('change_username_btn')
-        username_data = request.POST.get('change_username')
-        test = RifleOrderModel.objects.filter(id=change_username_btn).values()
-        test[0]['Nickname'] = username_data
 
-        if change_username_btn:
-            # RifleOrderLogic(notice_id=change_username_btn, nickname=username_data).change_name()
-            test = RifleOrderModel.objects.get(id=int(change_username_btn))
-            test.Nickname = username_data
-            test.save()
+        user = request.user.id
+        current_url = request.path.split('/')[1]
+        current_method = 'post'
+        check_sum = PermissionOrderClass(username=user, method=current_method, current_url=current_url).making_check()
 
-        return render(request, 'main_app/rifle_order.html', logic)
+        if check_sum:
+
+            logic = CreateDatasets.RifleDataSetMAin(self=None)
+            change_username_btn = request.POST.get('change_username_btn')
+            username_data = request.POST.get('change_username')
+            test = RifleOrderModel.objects.filter(id=change_username_btn).values()
+            test[0]['Nickname'] = username_data
+
+            if change_username_btn:
+                # RifleOrderLogic(notice_id=change_username_btn, nickname=username_data).change_name()
+                test = RifleOrderModel.objects.get(id=int(change_username_btn))
+                test.Nickname = username_data
+                test.save()
+
+            return render(request, 'main_app/rifle_order.html', logic)
+
+        return Response(
+            {'detail': 'Permission denied',
+             'status': 403,
+             },
+        )
 
 
 class RadioServiceSupply(APIView):
@@ -443,46 +579,73 @@ class RadioServiceSupply(APIView):
     @staticmethod
     def get(request):
         """function for rendering get requests"""
-        logic = CreateDatasets.RadioServiceSetMain(self=None)
-        adaptive_search = request.GET.get('adaptive_search')
-        status = request.GET.get('status')
 
-        if status:
-            on_storage = request.GET.get('on_storage')
-            on_position = request.GET.get('on_position')
+        user = request.user.id
+        current_url = request.path.split('/')[1]
+        current_method = 'get'
+        check_sum = PermissionOrderClass(username=user, method=current_method, current_url=current_url).making_check()
 
-            if on_storage:
-                logic = RadioOrderLogic(status=on_storage).order_by_status()
+        if check_sum:
 
-            elif on_position:
-                logic = RadioOrderLogic(status=on_position).order_by_status()
+            logic = CreateDatasets.RadioServiceSetMain(self=None)
+            adaptive_search = request.GET.get('adaptive_search')
+            status = request.GET.get('status')
 
-            return render(request, "main_app/radio_servise_supply.html", logic)
+            if status:
+                on_storage = request.GET.get('on_storage')
+                on_position = request.GET.get('on_position')
 
-        if adaptive_search:
-            logic = CreateDatasets(adaptive_mavic=adaptive_search).create_radio_adaptive()
-            render(request, 'main_app/radio_servise_supply.html', logic)
-        return render(request, 'main_app/radio_servise_supply.html', logic)
+                if on_storage:
+                    logic = RadioOrderLogic(status=on_storage).order_by_status()
+
+                elif on_position:
+                    logic = RadioOrderLogic(status=on_position).order_by_status()
+
+                return render(request, "main_app/radio_servise_supply.html", logic)
+
+            if adaptive_search:
+                logic = CreateDatasets(adaptive_mavic=adaptive_search).create_radio_adaptive()
+                render(request, 'main_app/radio_servise_supply.html', logic)
+            return render(request, 'main_app/radio_servise_supply.html', logic)
+
+        return Response(
+            {'detail': 'Permission denied',
+             'status': 403,
+             },
+        )
 
     @staticmethod
-    def post(reqeust):
+    def post(request):
         """function for rendering post requests"""
-        logic = CreateDatasets.RadioServiceSetMain(self=None)
-        del_radio = reqeust.POST.get('del_radio')
-        radio_to_flow = reqeust.POST.get('radio_to_flow')
 
-        if radio_to_flow:
-            print(reqeust.POST)
-            who_took = reqeust.POST.get(f'who_took_{radio_to_flow}', '').strip()
-            position_name = reqeust.POST.get(f'position_name_{radio_to_flow}', '').strip()
-            RadioSupplyPosition(storage_id=radio_to_flow, notice_id=radio_to_flow, who_took=str(who_took),
-                                position_name=position_name).create_article()
-            return render(reqeust, 'main_app/radio_servise_supply.html', logic)
+        user = request.user.id
+        current_url = request.path.split('/')[1]
+        current_method = 'post'
+        check_sum = PermissionOrderClass(username=user, method=current_method, current_url=current_url).making_check()
 
-        if del_radio:
-            RadioOrderLogic(notice_id=del_radio).delete_notice()
-            return render(reqeust, 'main_app/radio_servise_supply.html', logic)
-        return render(reqeust, 'main_app/radio_servise_supply.html', logic)
+        if check_sum:
+
+            logic = CreateDatasets.RadioServiceSetMain(self=None)
+            del_radio = request.POST.get('del_radio')
+            radio_to_flow = request.POST.get('radio_to_flow')
+
+            if radio_to_flow:
+                who_took = request.POST.get(f'who_took_{radio_to_flow}', '').strip()
+                position_name = request.POST.get(f'position_name_{radio_to_flow}', '').strip()
+                RadioSupplyPosition(storage_id=radio_to_flow, notice_id=radio_to_flow, who_took=str(who_took),
+                                    position_name=position_name).create_article()
+                return render(request, 'main_app/radio_servise_supply.html', logic)
+
+            if del_radio:
+                RadioOrderLogic(notice_id=del_radio).delete_notice()
+                return render(request, 'main_app/radio_servise_supply.html', logic)
+            return render(request, 'main_app/radio_servise_supply.html', logic)
+
+        return Response(
+            {'detail': 'Permission denied',
+             'status': 403,
+             },
+        )
 
 
 class RadioSupply(APIView):
@@ -497,27 +660,53 @@ class RadioSupply(APIView):
     @staticmethod
     def get(request):
         """function for rendering get requests"""
-        logic = RadioSupplyPosition.create_dataset_main(self=None)
 
-        return render(request, 'main_app/Radio_supply_positon_flow.html', logic)
+        user = request.user.id
+        current_url = request.path.split('/')[1]
+        current_method = 'get'
+        check_sum = PermissionOrderClass(username=user, method=current_method, current_url=current_url).making_check()
+
+        if check_sum:
+            logic = RadioSupplyPosition.create_dataset_main(self=None)
+
+            return render(request, 'main_app/Radio_supply_positon_flow.html', logic)
+
+        return Response(
+            {'detail': 'Permission denied',
+             'status': 403,
+             },
+        )
 
     @staticmethod
     def post(request):
         """function for rendering post requests"""
-        logic = RadioSupplyPosition.create_dataset_main(self=None)
-        radio_to_storage = request.POST.get('radio_to_storage')
-        del_radio = request.POST.get('del_radio')
 
-        if radio_to_storage:
-            RadioSupplyPosition(storage_id=radio_to_storage).return_to_storage()
+        user = request.user.id
+        current_url = request.path.split('/')[1]
+        current_method = 'post'
+        check_sum = PermissionOrderClass(username=user, method=current_method, current_url=current_url).making_check()
 
-        if del_radio:
-            print(request.POST)
-            who_crash = request.POST.get(f'who_crash_{del_radio}')
-            coordinates = request.POST.get(f'coordinates_{del_radio}')
-            RadioSupplyPosition(notice_id=del_radio, who_took=who_crash, coordinates=coordinates).delete_article()
+        if check_sum:
 
-        return render(request, 'main_app/Radio_supply_positon_flow.html', logic)
+            logic = RadioSupplyPosition.create_dataset_main(self=None)
+            radio_to_storage = request.POST.get('radio_to_storage')
+            del_radio = request.POST.get('del_radio')
+
+            if radio_to_storage:
+                RadioSupplyPosition(storage_id=radio_to_storage).return_to_storage()
+
+            if del_radio:
+                who_crash = request.POST.get(f'who_crash_{del_radio}')
+                coordinates = request.POST.get(f'coordinates_{del_radio}')
+                RadioSupplyPosition(notice_id=del_radio, who_took=who_crash, coordinates=coordinates).delete_article()
+
+            return render(request, 'main_app/Radio_supply_positon_flow.html', logic)
+
+        return Response(
+            {'detail': 'Permission denied',
+             'status': 403,
+             },
+        )
 
 
 class StatisticsPage(APIView):
@@ -530,9 +719,21 @@ class StatisticsPage(APIView):
     @staticmethod
     def get(request):
         """function for rendering get requests"""
-        logic = StatisticsLogic.stat_data_mavic_autel(self=None)
+        user = request.user.id
+        current_url = request.path.split('/')[1]
+        current_method = 'get'
+        check_sum = PermissionOrderClass(username=user, method=current_method, current_url=current_url).making_check()
 
-        return render(request, 'main_app/statistics_page.html', logic)
+        if check_sum:
+            logic = StatisticsLogic.stat_data_mavic_autel(self=None)
+
+            return render(request, 'main_app/statistics_page.html', logic)
+
+        return Response(
+            {'detail': 'Permission denied',
+
+             },
+        )
 
 
 class StatisticsForMonth(APIView):
@@ -541,62 +742,76 @@ class StatisticsForMonth(APIView):
     @staticmethod
     def get(request, create_order_by_position=None):
         """funct for rendering get requests from statistics_for_month.html"""
-        build_order = request.GET.get('build_order')
-        build_order_period = request.GET.get('build_order_period')
-        build_order_by_position = request.GET.get('build_order_by_position')
 
-        if build_order_by_position:
-            Bangkok = request.GET.get('Bangkok')
-            Shushanik = request.GET.get('Shushanik')
-            Fog = request.GET.get('Fog')
-            Falcon = request.GET.get('Falcon')
-            rendering_period_by_position = request.GET.get('rendering_period_by_position')[:7]
-            position_condition = []
+        user = request.user.id
+        current_url = request.path.split('/')[1]
+        current_method = 'get'
+        check_sum = PermissionOrderClass(username=user, method=current_method, current_url=current_url).making_check()
 
-            if Bangkok is not None:
-                position_condition.append(Bangkok)
-            if Shushanik is not None:
-                position_condition.append(Shushanik)
-            if Fog is not None:
-                position_condition.append(Fog)
-            if Falcon is not None:
-                position_condition.append(Falcon)
-            logic = StatisticsForMonthLogic(
-                rendering_period_by_position=rendering_period_by_position,
-                position_condition=position_condition).create_order_by_position()
+        if check_sum:
 
-            return render(request, 'main_app/statistics_for_month.html', logic)
+            build_order = request.GET.get('build_order')
+            build_order_period = request.GET.get('build_order_period')
+            build_order_by_position = request.GET.get('build_order_by_position')
 
-        if build_order_period:
-            rendering_period_1 = request.GET.get('rendering_period_1')
-            rendering_period_2 = request.GET.get('rendering_period_2')
+            if build_order_by_position:
+                Bangkok = request.GET.get('Bangkok')
+                Shushanik = request.GET.get('Shushanik')
+                Fog = request.GET.get('Fog')
+                Falcon = request.GET.get('Falcon')
+                rendering_period_by_position = request.GET.get('rendering_period_by_position')[:7]
+                position_condition = []
 
-            date1 = datetime.strptime(rendering_period_1, "%Y-%m-%d")
-            date2 = datetime.strptime(rendering_period_2, "%Y-%m-%d")
+                if Bangkok is not None:
+                    position_condition.append(Bangkok)
+                if Shushanik is not None:
+                    position_condition.append(Shushanik)
+                if Fog is not None:
+                    position_condition.append(Fog)
+                if Falcon is not None:
+                    position_condition.append(Falcon)
+                logic = StatisticsForMonthLogic(
+                    rendering_period_by_position=rendering_period_by_position,
+                    position_condition=position_condition).create_order_by_position()
 
-            month_difference = (date2.year - date1.year) * 12 + (date2.month - date1.month)
+                return render(request, 'main_app/statistics_for_month.html', logic)
 
-            date_dataset = []
-            date_dataset.append(date1.strftime("%Y-%m-%d"))
+            if build_order_period:
+                rendering_period_1 = request.GET.get('rendering_period_1')
+                rendering_period_2 = request.GET.get('rendering_period_2')
 
-            for el in range(month_difference):
-                if date1.month == 12:
-                    new_date = date1.replace(year=date1.year + 1, month=el + 1)
-                    date_dataset.append(new_date.strftime("%Y-%m-%d"))
-                else:
-                    new_date = date1.replace(month=date1.month + el + 1)
-                    date_dataset.append(new_date.strftime("%Y-%m-%d"))
+                date1 = datetime.strptime(rendering_period_1, "%Y-%m-%d")
+                date2 = datetime.strptime(rendering_period_2, "%Y-%m-%d")
 
-            test = MavicAutelPositionFlow.objects.filter(dron_out__icontains='2026-02-03').values()
+                month_difference = (date2.year - date1.year) * 12 + (date2.month - date1.month)
 
-        if build_order:
-            rendering_period = request.GET.get('rendering_period')[:7]
+                date_dataset = []
+                date_dataset.append(date1.strftime("%Y-%m-%d"))
 
-            logic = StatisticsForMonthLogic(rendering_period).create_data_set_for_month()
+                for el in range(month_difference):
+                    if date1.month == 12:
+                        new_date = date1.replace(year=date1.year + 1, month=el + 1)
+                        date_dataset.append(new_date.strftime("%Y-%m-%d"))
+                    else:
+                        new_date = date1.replace(month=date1.month + el + 1)
+                        date_dataset.append(new_date.strftime("%Y-%m-%d"))
 
-            return render(request, 'main_app/statistics_for_month.html', logic)
 
-        return render(request, 'main_app/statistics_for_month.html')
+
+            if build_order:
+                rendering_period = request.GET.get('rendering_period')[:7]
+
+                logic = StatisticsForMonthLogic(rendering_period).create_data_set_for_month()
+
+                return render(request, 'main_app/statistics_for_month.html', logic)
+
+            return render(request, 'main_app/statistics_for_month.html')
+        else:
+            return Response(
+                {'detail': 'Permission denied',
+
+                 },
+            )
 
 
 class BatteryStorageOrder(APIView):
@@ -611,32 +826,60 @@ class BatteryStorageOrder(APIView):
     @staticmethod
     def get(request):
         """function rendering GET requests"""
-        logic = BatteryStorageOrderLogic.create_main_data_set(self=None)
-        battery_type = request.GET.get('battery_type')
 
-        if battery_type:
-            bat_name = request.GET.get('bat_type_search')
-            logic = BatteryStorageOrderLogic(battery_type=bat_name).filter_by_name()
+        user = request.user.id
+        current_url = request.path.split('/')[1]
+        current_method = 'get'
+        check_sum = PermissionOrderClass(username=user, method=current_method, current_url=current_url).making_check()
+
+        if check_sum:
+
+            logic = BatteryStorageOrderLogic.create_main_data_set(self=None)
+            battery_type = request.GET.get('battery_type')
+
+            if battery_type:
+                bat_name = request.GET.get('bat_type_search')
+                logic = BatteryStorageOrderLogic(battery_type=bat_name).filter_by_name()
+                return render(request, 'main_app/battery_storage_order.html', logic)
+
             return render(request, 'main_app/battery_storage_order.html', logic)
 
-        return render(request, 'main_app/battery_storage_order.html', logic)
+        return Response(
+            {'detail': 'Permission denied',
+             'status': 403,
+             },
+        )
 
     @staticmethod
     def post(request):
         """function for rendering post requests"""
-        logic = BatteryStorageOrderLogic.create_main_data_set(self=None)
-        to_pos = request.POST.get('to_pos')
 
-        if to_pos:
-            who_took = request.POST.get('who_took')
-            position_name = request.POST.get('position_name')
-            notice_id = request.POST.get('to_pos')
-            calculator = request.POST.get('calculator')
+        user = request.user.id
+        current_url = request.path.split('/')[1]
+        current_method = 'post'
+        check_sum = PermissionOrderClass(username=user, method=current_method, current_url=current_url).making_check()
 
-            BatteryStorageOrderLogic(notice_id=notice_id, who_took=who_took, position_name=position_name,
-                                     quantities=calculator).send_to_position()
+        if check_sum:
 
-        return render(request, 'main_app/battery_storage_order.html', logic)
+            logic = BatteryStorageOrderLogic.create_main_data_set(self=None)
+            to_pos = request.POST.get('to_pos')
+
+            if to_pos:
+                who_took = request.POST.get('who_took')
+                position_name = request.POST.get('position_name')
+                notice_id = request.POST.get('to_pos')
+                calculator = request.POST.get('calculator')
+
+                BatteryStorageOrderLogic(notice_id=notice_id, who_took=who_took, position_name=position_name,
+                                         quantities=calculator).send_to_position()
+
+            return render(request, 'main_app/battery_storage_order.html', logic)
+
+        return Response(
+            {'detail': 'Permission denied',
+             'status': 403,
+             },
+        )
 
 
 class BatteryPositionOrder(APIView):
@@ -652,47 +895,87 @@ class BatteryPositionOrder(APIView):
     @staticmethod
     def get(request):
         """function for rendering get requests"""
-        logic = BatteryPositionOrderLogic.create_main_data_set(self=None)
-        battery_type = request.GET.get('battery_type')
-        status = request.GET.get('status')
 
-        if status:
-            on_position = request.GET.get('on_position1')
-            destroyed = request.GET.get('destroyed')
-            if on_position is not None:
-                logic = BatteryPositionOrderLogic(status=status).filter_by_status()
-                return render(request, 'main_app/battery_position_order.html', logic)
-            elif destroyed is not None:
-                logic = BatteryPositionOrderLogic(status=status).filter_by_status()
+        user = request.user.id
+        current_url = request.path.split('/')[1]
+        current_method = 'get'
+        check_sum = PermissionOrderClass(username=user, method=current_method, current_url=current_url).making_check()
+
+        if check_sum:
+
+            logic = BatteryPositionOrderLogic.create_main_data_set(self=None)
+            battery_type = request.GET.get('battery_type')
+            status = request.GET.get('status')
+
+            if status:
+                on_position = request.GET.get('on_position1')
+                destroyed = request.GET.get('destroyed')
+                if on_position is not None:
+                    logic = BatteryPositionOrderLogic(status=status).filter_by_status()
+                    return render(request, 'main_app/battery_position_order.html', logic)
+                elif destroyed is not None:
+                    logic = BatteryPositionOrderLogic(status=status).filter_by_status()
+                    return render(request, 'main_app/battery_position_order.html', logic)
+
+            if battery_type:
+                bat_type_search = request.GET.get('bat_type_search')
+                logic = BatteryPositionOrderLogic(battery_type=bat_type_search).filter_by_batt_type()
                 return render(request, 'main_app/battery_position_order.html', logic)
 
-        if battery_type:
-            bat_type_search = request.GET.get('bat_type_search')
-            logic = BatteryPositionOrderLogic(battery_type=bat_type_search).filter_by_batt_type()
             return render(request, 'main_app/battery_position_order.html', logic)
 
-        return render(request, 'main_app/battery_position_order.html', logic)
+        return Response(
+            {'detail': 'Permission denied',
+             'status': 403,
+             },
+        )
 
     @staticmethod
     def post(request):
         """function for rendering post requests"""
-        logic = BatteryPositionOrderLogic.create_main_data_set(self=None)
 
-        destroy = request.POST.get('destroy')
+        user = request.user.id
+        current_url = request.path.split('/')[1]
+        current_method = 'post'
+        check_sum = PermissionOrderClass(username=user, method=current_method, current_url=current_url).making_check()
 
-        if destroy:
+        if check_sum:
+
             logic = BatteryPositionOrderLogic.create_main_data_set(self=None)
-            calculator = request.POST.get('calculator')
-            BatteryPositionOrderLogic(notice_id=destroy, quantities=calculator).destroy_logic()
+
+            destroy = request.POST.get('destroy')
+
+            if destroy:
+                logic = BatteryPositionOrderLogic.create_main_data_set(self=None)
+                calculator = request.POST.get('calculator')
+                BatteryPositionOrderLogic(notice_id=destroy, quantities=calculator).destroy_logic()
+                return render(request, 'main_app/battery_position_order.html', logic)
+
             return render(request, 'main_app/battery_position_order.html', logic)
 
-        return render(request, 'main_app/battery_position_order.html', logic)
+        return Response(
+            {'detail': 'Permission denied',
+             'status': 403,
+             },
+        )
 
 
 class FpvStatisticsOrder(APIView):
+    permission_classes = [permissions.IsAuthenticated]
 
     @staticmethod
     def get(request):
-        logic = DataForFpvStatistics.main_data(self=None)
-        print(logic)
-        return render(request, "main_app/fpv_statistics.html", logic)
+        user = request.user.id
+        current_url = request.path.split('/')[1]
+        current_method = 'get'
+        check_sum = PermissionOrderClass(username=user, method=current_method, current_url=current_url).making_check()
+
+        if check_sum:
+            logic = DataForFpvStatistics.main_data(self=None)
+            return render(request, "main_app/fpv_statistics.html", logic)
+
+        return Response(
+            {'detail': 'Permission denied',
+             'status': 403,
+             },
+        )
