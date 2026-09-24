@@ -159,6 +159,41 @@
                 {%endif%}
                 <td>
                     <button class="btn btn-success" name="mavic_change" value="{{el.id}}">change data</button>
+                    <button class="btn btn-danger" name="total_destroy" value="{{el.id}}">total destroy</button>
+                </td>
+
+                </tr>
+                </tbody>
+            </form>
+            {% elif el.status == '2' %}
+            <form method="post">
+                {%csrf_token%}
+                <tbody>
+                <td style="background-color: #392f61">{{el.dron_name}}</td>
+                <td style="background-color: #392f61">{{el.dron_number}}</td>
+                <td style="background-color: #392f61">{{el.dron_in}}</td>
+                <td style="background-color: #392f61">{{el.dron_out}}</td>
+                <td style="background-color: #392f61">
+                    <input class="form-control" name="whot_took_change">
+                </td>
+                <td style="background-color: #392f61"><input class="form-control" placeholder="position name"
+                                                           name="postion_name_change"></td>
+                <td style="background-color: #392f61">{{el.supply_value}}</td>
+
+                {%if el.number_of_document == 0%}
+                <form method="post">
+                    {%csrf_token%}
+                    <td style="background-color: #23612f"><input class="form-control" type="text" name="document_num">
+                        <button class="btn btn-success" style="width: 100%;" type="submit" value="{{el.id}}"
+                                name="dok_btn">change data
+                        </button>
+                    </td>
+                </form>
+                {%else%}
+                <td style="background-color: #392f61">{{el.number_of_document}}</td>
+                {%endif%}
+                <td>
+                    <button class="btn btn-success" name="return_to_storage" value="{{el.id}}">return to storage</button>
                 </td>
 
                 </tr>

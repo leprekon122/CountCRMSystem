@@ -23,6 +23,15 @@ class CreateMavicAutelStorageNotice:
         self.drone_value = int(drone_value or 0)
         self.drone_type = drone_type
 
+
+    def return_to_storage(self):
+        """function for return out tec repair to storage """
+        MavicAutelStorage.objects.filter(id=self.id).update(status=1)
+
+    def update_current_status(self):
+        """push to repair from storage"""
+        MavicAutelStorage.objects.filter(id=self.id).update(status=2)
+
     def update_document_num(self):
         MavicAutelStorage.objects.filter(id=self.id).update(
             number_of_document=self.document_num)

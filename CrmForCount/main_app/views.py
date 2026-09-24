@@ -354,6 +354,15 @@ class MavicAutelInStorage(APIView):
 
             mavic_change = request.POST.get('mavic_change')
             document_num = request.POST.get('document_num')
+            total_destroy = request.POST.get('total_destroy')
+            return_to_storage = request.POST.get('return_to_storage')
+
+
+            if return_to_storage:
+                CreateMavicAutelStorageNotice(id=return_to_storage).return_to_storage()
+
+            if total_destroy:
+                CreateMavicAutelStorageNotice(id=total_destroy).update_current_status()
 
             if document_num:
                 CreateMavicAutelStorageNotice(id=int(request.POST.get('dok_btn')),
