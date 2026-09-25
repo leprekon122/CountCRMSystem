@@ -3,16 +3,17 @@ var mav_on_storage = document.getElementById('mav_on_storage').innerHTML
 var mav_on_position = document.getElementById('mav_on_position').innerHTML
 var mav_for_all_period  = document.getElementById('mav_for_all_period').innerHTML
 var all_destroy = document.getElementById('all_destroy').innerHTML
+var in_repairing = document.getElementById('in_repairing').innerHTML
 
 
-var data_set = [mav_on_storage, mav_on_position, mav_for_all_period, all_destroy]
+var data_set = [mav_on_storage, mav_on_position, mav_for_all_period, all_destroy, in_repairing]
 
 const ctx = document.getElementById('myChart');
 
   new Chart(ctx, {
     type: 'doughnut',
     data: {
-      labels: ['in storage','mav_on_position', 'mav_for_all_period', 'all_destroy'],
+      labels: ['in storage','mav_on_position', 'mav_for_all_period', 'all_destroy', 'in_repairing'],
       datasets: [{
         label: 'data',
         data: data_set,
@@ -42,7 +43,6 @@ function mavic_autel_report() {
     var all_mav_aut_destroy = document.getElementById('all_mav_aut_destroy').innerHTML;
     var all_autel_aut_destroy = document.getElementById('all_destroy_autel').innerHTML;
 
-    console.log(mav_aut_for_all_period)
 
 
     const ctx = document.getElementById('myChartMavic');

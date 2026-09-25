@@ -4,12 +4,14 @@ from rest_framework.views import APIView
 from rest_framework import permissions
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAutelStorageNotice, FpvFlowPage, \
-    RadioOrderLogic, RifleOrderLogic, RadioSupplyPosition, StatisticsLogic, FilterForMAvicAutelPosition, \
-    BatteryStorageOrderLogic, BatteryPositionOrderLogic, StatisticsForMonthLogic, \
-    UpdatePosNameMavicPosition, UpdateCommentMavicPosition, UpdateCoordinatesMavicPosition, \
-    CreateMAvicAutelUnknownNoticePosition, AdaptiveFilterForFpvFlow, AdaptiveFilterForFpvStorage, DataForFpvStatistics, \
-    CreateMavicAutelFlowLinkAdd, FilterByDroneNAmeMavicFlow, FilterByOperatorMavicFlow, PermissionOrderClass
+from .logic_views import CreateFpvStorageNotice, CreateDatasets, CreateMavicAutelStorageNotice,\
+    FpvFlowPage, RadioOrderLogic, RifleOrderLogic, RadioSupplyPosition, StatisticsLogic,\
+    FilterForMAvicAutelPosition, BatteryStorageOrderLogic, BatteryPositionOrderLogic,\
+    StatisticsForMonthLogic, UpdatePosNameMavicPosition,\
+    UpdateCommentMavicPosition,UpdateCoordinatesMavicPosition,\
+    CreateMAvicAutelUnknownNoticePosition, AdaptiveFilterForFpvFlow,\
+    AdaptiveFilterForFpvStorage, DataForFpvStatistics, CreateMavicAutelFlowLinkAdd,\
+    FilterByDroneNAmeMavicFlow, FilterByOperatorMavicFlow, PermissionOrderClass
 from .models import FpvFlowStorage, MavicAutelPositionFlow, RifleOrderModel, \
     BatteryPositionOrderModel
 from datetime import datetime
@@ -28,6 +30,7 @@ def login_page(request):
 
 
 class FirstPage(APIView):
+    """class for render first page"""
     queryset = BatteryPositionOrderModel.objects.all()
 
     permission_classes = [
@@ -356,7 +359,6 @@ class MavicAutelInStorage(APIView):
             document_num = request.POST.get('document_num')
             total_destroy = request.POST.get('total_destroy')
             return_to_storage = request.POST.get('return_to_storage')
-
 
             if return_to_storage:
                 CreateMavicAutelStorageNotice(id=return_to_storage).return_to_storage()
@@ -804,8 +806,6 @@ class StatisticsForMonth(APIView):
                     else:
                         new_date = date1.replace(month=date1.month + el + 1)
                         date_dataset.append(new_date.strftime("%Y-%m-%d"))
-
-
 
             if build_order:
                 rendering_period = request.GET.get('rendering_period')[:7]

@@ -491,6 +491,7 @@ class StatisticsLogic:
         in_position = MavicAutelPositionFlow.objects.exclude(status=0).filter(status=1).count()
         all_period_taking = MavicAutelStorage.objects.exclude(status=1).filter(status=0).count()
         all_destroy = MavicAutelPositionFlow.objects.exclude(status=1).filter(status=0).count()
+        all_repair = MavicAutelStorage.objects.filter(status=2).count()
 
         in_storage_mav = MavicAutelStorage.objects.filter(
             type__in=['Autel', 'Mavic'],
@@ -534,7 +535,8 @@ class StatisticsLogic:
                 'in_position_mav': in_position_mav,
                 'taking_for_all_per_mavic': taking_for_all_per_mavic,
                 'all_destroy_mav': all_destroy_mav,
-                'all_destroy_autel': all_destroy_autel
+                'all_destroy_autel': all_destroy_autel,
+                'all_repair': all_repair
                 }
         return data
 
