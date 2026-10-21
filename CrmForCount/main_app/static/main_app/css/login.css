@@ -1,34 +1,326 @@
-body {
-      background-image: url('static/main_app/img/COUNT.png');
-}
-.login_block {
-              height: 95vh;
-              width: 100%;
-              display: flex;
-              flex-direction: center;
-              justify-content:center;
-              align-items: center;
+/* ==========================================================
+   COUNT CRM SYSTEM
+   PREMIUM DARK LOGIN PAGE
+   ========================================================== */
+
+/* =========================
+   DESIGN SYSTEM
+========================= */
+
+:root {
+    --bg-main: #080d14;
+    --bg-panel: #111923;
+    --bg-card: #18222f;
+    --bg-elevated: #1d2a39;
+
+    --border: #263445;
+    --border-hover: #3b5066;
+
+    --text-primary: #edf3fa;
+    --text-secondary: #96a5b7;
+    --text-muted: #64758a;
+
+    --accent: #00d4a1;
+    --accent-hover: #00b88b;
+    --accent-blue: #4c9aff;
+
+    --radius-lg: 16px;
+    --radius-md: 11px;
+    --radius-sm: 7px;
+
+    --shadow-panel: 0 12px 45px rgba(0, 0, 0, 0.35);
+    --transition: 0.2s ease;
 }
 
+
+/* =========================
+   GLOBAL
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+
+    background: var(--bg-main) !important;
+    background-image: none !important;
+
+    color: var(--text-primary);
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+
+/* =========================
+   LOGIN CONTAINER
+========================= */
+
+.login_block {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 24px;
+
+    background: var(--bg-main);
+}
+
+
+/* =========================
+   LOGIN PANEL
+========================= */
 
 .user_and_pass {
-               border: 0.5px solid #fff;
-               padding: 1%;
+    width: 100%;
+    max-width: 420px;
 
+    display: flex;
+    flex-direction: column;
+
+    padding: 36px;
+
+    background: var(--bg-panel);
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-panel);
+
+    transition:
+        border-color var(--transition),
+        box-shadow var(--transition);
 }
 
-.user_and_pass  button {
-                        width: 100%;
-                        margin-top: 15px;
-                        background: transparent;
-                        }
-
-.user_and_pass  input {
-                       margin-top: 10px;
+.user_and_pass:hover {
+    border-color: var(--border-hover);
 }
 
-.user_and_pass  button:hover {
-                              background-color: #255e1e;
-                              transition-delay: 1s;
 
+/* =========================
+   LOGIN HEADINGS
+========================= */
+
+.user_and_pass h1,
+.user_and_pass h2,
+.user_and_pass h3,
+.user_and_pass h4 {
+    margin: 0 0 24px;
+
+    color: var(--text-primary);
+
+    font-size: 22px;
+    font-weight: 700;
+
+    letter-spacing: 0.4px;
+    text-align: center;
+}
+
+
+/* =========================
+   LABELS
+========================= */
+
+.user_and_pass label {
+    display: block;
+
+    margin-top: 14px;
+    margin-bottom: 6px;
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+/* =========================
+   INPUTS
+========================= */
+
+.user_and_pass input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]) {
+    width: 100%;
+    min-height: 44px;
+
+    margin-top: 10px;
+    padding: 11px 14px;
+
+    background: var(--bg-card);
+    color: var(--text-primary);
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+
+    font-size: 13px;
+
+    outline: none;
+
+    transition:
+        background var(--transition),
+        border-color var(--transition),
+        box-shadow var(--transition);
+}
+
+.user_and_pass input:focus {
+    background: var(--bg-elevated);
+
+    border-color: var(--accent-blue);
+
+    box-shadow: 0 0 0 3px rgba(76, 154, 255, 0.12);
+}
+
+.user_and_pass input::placeholder {
+    color: var(--text-muted);
+}
+
+
+/* =========================
+   LOGIN BUTTON
+========================= */
+
+.user_and_pass button {
+    width: 100%;
+    min-height: 44px;
+
+    margin-top: 24px;
+    padding: 12px 18px;
+
+    background: var(--accent);
+
+    color: #07130f;
+
+    border: 1px solid var(--accent);
+    border-radius: var(--radius-sm);
+
+    font-size: 13px;
+    font-weight: 800;
+
+    letter-spacing: 0.5px;
+
+    cursor: pointer;
+
+    transition:
+        background var(--transition),
+        transform var(--transition),
+        box-shadow var(--transition);
+}
+
+.user_and_pass button:hover {
+    background: #13e6b4;
+
+    color: #07130f;
+
+    border-color: #13e6b4;
+
+    transform: translateY(-1px);
+
+    box-shadow: 0 6px 20px rgba(0, 212, 161, 0.18);
+}
+
+.user_and_pass button:active {
+    transform: translateY(0);
+}
+
+
+/* =========================
+   LINKS
+========================= */
+
+.user_and_pass a {
+    color: var(--accent);
+
+    font-size: 12px;
+
+    text-decoration: none;
+
+    transition: color var(--transition);
+}
+
+.user_and_pass a:hover {
+    color: #13e6b4;
+    text-decoration: underline;
+}
+
+
+/* =========================
+   ERROR MESSAGES
+========================= */
+
+.user_and_pass .errorlist,
+.user_and_pass .alert-danger {
+    margin-top: 12px;
+    padding: 12px;
+
+    background: rgba(255, 92, 112, 0.08);
+
+    color: #ff8190;
+
+    border: 1px solid rgba(255, 92, 112, 0.25);
+    border-radius: var(--radius-sm);
+
+    font-size: 12px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media screen and (max-width: 600px) {
+
+    .login_block {
+        min-height: 100dvh;
+        padding: 16px;
+    }
+
+    .user_and_pass {
+        max-width: 100%;
+        padding: 24px 20px;
+    }
+
+    .user_and_pass h1,
+    .user_and_pass h2,
+    .user_and_pass h3,
+    .user_and_pass h4 {
+        font-size: 20px;
+    }
+
+    .user_and_pass input,
+    .user_and_pass button {
+        font-size: 14px;
+    }
+}
+
+
+/* =========================
+   ACCESSIBILITY
+========================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
 }

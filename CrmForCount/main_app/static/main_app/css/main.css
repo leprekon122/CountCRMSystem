@@ -1,265 +1,1315 @@
-body {
-      background-color: black;
+/* ==========================================================
+   COUNT CRM SYSTEM
+   PREMIUM DARK OPERATIONS DASHBOARD
+   ========================================================== */
+
+
+/* =========================
+   DESIGN SYSTEM
+========================= */
+
+:root {
+    --bg-main: #080d14;
+    --bg-panel: #111923;
+    --bg-card: #18222f;
+    --bg-elevated: #1d2a39;
+
+    --border: #263445;
+    --border-hover: #3b5066;
+
+    --text-primary: #edf3fa;
+    --text-secondary: #96a5b7;
+    --text-muted: #64758a;
+
+    --accent: #00d4a1;
+    --accent-hover: #00b88b;
+    --accent-blue: #4c9aff;
+
+    --positive: #00d4a1;
+    --negative: #ff5c70;
+    --warning: #f5b942;
+
+    --radius-lg: 16px;
+    --radius-md: 11px;
+    --radius-sm: 7px;
+
+    --shadow-panel: 0 8px 32px rgba(0, 0, 0, 0.22);
+    --transition: 0.2s ease;
 }
 
-.dropdown-item:hover {
-  background-color: #9c8a06; /* Change this to your desired color */
-  color: red;              /* Optional: change text color on hover */
-    }
+
+/* =========================
+   GLOBAL
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    background: var(--bg-main) !important;
+}
+
+body {
+    margin: 0;
+
+    background: var(--bg-main) !important;
+    background-image: none !important;
+
+    color: var(--text-primary);
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    font-size: 13px;
+
+    -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: 2px;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
 
 .navbar-custom {
-  background-color: #2b1417);
-    }
+    background: #11161d !important;
+    background-image: none !important;
 
-.main {width: 100%;
-       height: 95vh;
-       padding: 3%;
-            }
+    border-bottom: 1px solid var(--border);
+
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+
+    min-height: 64px;
+}
+
+.navbar-custom .navbar-brand {
+    color: var(--accent);
+
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 0.7px;
+}
+
+.navbar-custom .navbar-brand:hover {
+    color: #13e6b4;
+}
+
+.navbar-custom .nav-link {
+    color: var(--text-secondary);
+
+    padding: 10px 14px;
+
+    border-radius: var(--radius-sm);
+
+    font-size: 12px;
+    font-weight: 600;
+
+    transition:
+        background var(--transition),
+        color var(--transition);
+}
+
+.navbar-custom .nav-link:hover {
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+}
+
+.navbar-custom .nav-link.active {
+    background: rgba(0, 212, 161, 0.09);
+    color: var(--accent);
+}
+
+
+/* =========================
+   DROPDOWN
+========================= */
+
+.dropdown-menu {
+    padding: 6px;
+
+    background: var(--bg-panel) !important;
+    background-image: none !important;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+
+    box-shadow: var(--shadow-panel);
+}
+
+.dropdown-item {
+    padding: 10px 12px;
+
+    color: var(--text-secondary);
+
+    border-radius: 6px;
+
+    font-size: 12px;
+
+    transition:
+        background var(--transition),
+        color var(--transition);
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    background: var(--bg-elevated);
+    color: var(--accent);
+
+    transform: none;
+}
+
+.dropdown-item.active {
+    background: rgba(0, 212, 161, 0.12);
+    color: var(--accent);
+}
+
+.dropdown-divider {
+    border-top-color: var(--border);
+}
+
+
+/* =========================
+   MAIN PAGE
+========================= */
+
+.main {
+    width: 100%;
+
+    min-height: calc(100vh - 64px);
+    height: auto;
+
+    padding: 24px;
+
+    background: var(--bg-main) !important;
+    background-image: none !important;
+}
+
+
+/* =========================
+   ADD DATA CONTAINER
+========================= */
 
 .add_data_block {
-                 width: 100%;
-                 height: 90vh;
-                 overflow: auto;
-                 padding: 3%;
-                 display:flex;
-                 flex-direction: row;
-                 justify-content: space-between;
-                 flex-wrap: wrap;
+    width: 100%;
+
+    min-height: 85vh;
+    height: auto;
+
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+
+    gap: 20px;
+    padding: 24px;
+
+    background: var(--bg-main) !important;
+    background-image: none !important;
+
+    overflow: auto;
 }
 
-.add_fpv_total {
-                width: 35%;
 
-                display: flex;
-                flex-wrap: wrap;
-                border: .5px solid yellow;
-                padding: 1%;
-                }
+/* =========================
+   SHARED FORM CARDS
+========================= */
 
+.add_fpv_total,
+.add_mavic_total,
+.add_radio_service,
+.rifle_add {
+    width: calc(50% - 10px);
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    gap: 14px;
+
+    padding: 22px;
+
+    background: var(--bg-panel) !important;
+    background-image: none !important;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-panel);
+
+    transition:
+        border-color var(--transition),
+        box-shadow var(--transition);
+}
+
+.add_fpv_total:hover,
+.add_mavic_total:hover,
+.add_radio_service:hover,
+.rifle_add:hover {
+    border-color: var(--border-hover);
+}
+
+
+/* =========================
+   FPV FORM
+========================= */
 
 .add_fpv_title {
-                width: 100%;
-                display: flex;
-                justify-content: center;
+    width: 100%;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding-bottom: 14px;
+
+    color: var(--text-primary);
+
+    border-bottom: 1px solid var(--border);
+
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
-.add_fpv_operator_name {
-                        display: flex;
-                        flex-direction: column;
+.add_fpv_operator_name,
+.add_fpv_total_mini_div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+
+    min-width: 0;
 }
 
-.add_fpv_total_mini_div{
-                        display: flex;
-                        flex-direction: column
+
+/* =========================
+   FORM INPUT WRAPPERS
+========================= */
+
+.input_form_div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+
+    min-width: 0;
 }
 
-.title_filter_panel_sum_filter{
-                               display: flex;
-                               flex-direction: row;
-                               justify-content: space-between;
+
+/* =========================
+   BOOTSTRAP FORMS
+========================= */
+
+.form-control,
+.form-select,
+.input_form_div input,
+.input_form_div select,
+.input_form_div textarea {
+    max-width: 100%;
+
+    background: var(--bg-card);
+    color: var(--text-primary);
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+
+    font-size: 12px;
+
+    transition:
+        background var(--transition),
+        border-color var(--transition),
+        box-shadow var(--transition);
 }
 
-.total_value {
-              border: .5px solid yellow;
-              width: 25%;
-              display: flex;
-              justify-content: center;
-              backdrop-filter: blur(6px);
+.form-control:focus,
+.form-select:focus,
+.input_form_div input:focus,
+.input_form_div select:focus,
+.input_form_div textarea:focus {
+    background: var(--bg-elevated);
+    color: var(--text-primary);
 
+    border-color: var(--accent-blue);
 
-
+    box-shadow: 0 0 0 3px rgba(76, 154, 255, 0.12);
 }
 
-.add_mavic_total{
-                width: 35%;
-
-                display: flex;
-                flex-wrap: wrap;
-                border: .5px solid yellow;
-                padding: 1%;
+.form-control::placeholder,
+.input_form_div input::placeholder,
+.input_form_div textarea::placeholder {
+    color: var(--text-muted);
 }
 
-.order_main {
-             width: 100%;
-             display: flex;
-             flex-direction: row;
+.form-label,
+label {
+    color: var(--text-secondary);
+
+    font-size: 12px;
+    font-weight: 500;
 }
 
-.side_panel {
-             width: 25%;
-             height: 95vh;
-             overflow: auto;
-             padding: 2%;
-             border-right: 1px solid yellow;
-
-
+.form-check-input {
+    background-color: var(--bg-elevated);
+    border-color: var(--border-hover);
 }
 
-.orders_block {
-               width: 75%;
-               height: 95vh;
-               overflow: auto;
-               padding: 2%;
+.form-check-input:checked {
+    background-color: var(--accent);
+    border-color: var(--accent);
 }
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn {
+    border-radius: var(--radius-sm);
+
+    font-size: 12px;
+    font-weight: 600;
+
+    transition:
+        background var(--transition),
+        border-color var(--transition),
+        color var(--transition),
+        box-shadow var(--transition);
+}
+
+.btn-success {
+    background: var(--accent);
+    color: #07130f;
+
+    border-color: var(--accent);
+}
+
+.btn-success:hover {
+    background: #13e6b4;
+    color: #07130f;
+
+    border-color: #13e6b4;
+
+    box-shadow: 0 4px 14px rgba(0, 212, 161, 0.15);
+}
+
+.btn-primary {
+    background: #347dd8;
+    border-color: #347dd8;
+}
+
+.btn-primary:hover {
+    background: #4c9aff;
+    border-color: #4c9aff;
+}
+
+.btn-danger {
+    background: #c83f52;
+    border-color: #c83f52;
+}
+
+.btn-danger:hover {
+    background: var(--negative);
+    border-color: var(--negative);
+}
+
+.btn-warning {
+    background: var(--warning);
+    color: #111923;
+
+    border-color: var(--warning);
+}
+
+.btn-outline-light {
+    color: var(--text-primary);
+    border-color: var(--border-hover);
+}
+
+.btn-outline-light:hover {
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+
+    border-color: var(--accent-blue);
+}
+
+
+/* =========================
+   FILTER PANEL
+========================= */
 
 .filter_panel {
-               padding: 3%;
-               border-bottom: .5px solid yellow;
+    padding: 20px;
+
+    background: var(--bg-panel) !important;
+    background-image: none !important;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+
+    box-shadow: var(--shadow-panel);
 }
 
+
+/* =========================
+   TITLE + FILTERS + SUMMARY
+========================= */
+
+.title_filter_panel_sum_filter {
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 16px;
+
+    margin-bottom: 18px;
+}
+
+
+/* =========================
+   TOTAL VALUE
+========================= */
+
+.total_value {
+    width: 25%;
+    min-width: 0;
+    min-height: 60px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 14px 18px;
+
+    background: var(--bg-panel) !important;
+    background-image: none !important;
+
+    border: 1px solid rgba(0, 212, 161, 0.25);
+    border-radius: var(--radius-md);
+
+    color: var(--text-primary);
+
+    font-variant-numeric: tabular-nums;
+}
+
+
+/* =========================
+   ORDER PAGE
+========================= */
+
+.order_main {
+    width: 100%;
+
+    min-height: calc(100vh - 64px);
+
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+
+    gap: 0;
+
+    background: var(--bg-main) !important;
+    background-image: none !important;
+}
+
+
+/* =========================
+   ORDER SIDE PANEL
+========================= */
+
+.side_panel {
+    width: 25%;
+    min-width: 240px;
+
+    height: calc(100vh - 64px);
+
+    padding: 20px;
+
+    background: var(--bg-panel) !important;
+    background-image: none !important;
+
+    border-right: 1px solid var(--border);
+
+    overflow: auto;
+}
+
+
+/* =========================
+   ORDERS CONTENT
+========================= */
+
+.orders_block {
+    width: 75%;
+    min-width: 0;
+
+    height: calc(100vh - 64px);
+
+    padding: 24px;
+
+    background: var(--bg-main) !important;
+    background-image: none !important;
+
+    overflow: auto;
+}
 
 .main_fpv_order {
-
+    width: 100%;
+    min-width: 0;
 }
 
-.table_button  button{
-                        margin-top: 2%;
-                        width: 100%;
-                        background-color: transparent;
-                        color: #fff
+
+/* =========================
+   TABLE ACTION BUTTONS
+========================= */
+
+.table_button button {
+    width: 100%;
+    min-height: 36px;
+
+    margin-top: 8px;
+
+    background: var(--bg-card);
+    color: var(--text-primary);
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+
+    font-size: 12px;
+    font-weight: 600;
 }
 
-.add_radio_service {
-                    width: 35%;
-                    display: flex;
-                    flex-wrap: wrap;
-                    border: .5px solid yellow;
-                    padding: 1%;
-                }
+.table_button button:hover {
+    background: var(--bg-elevated);
+    color: var(--accent);
+
+    border-color: var(--accent);
+}
 
 
-.rifle_add {
-            width: 35%;
-            display: flex;
-            flex-wrap: wrap;
-            border: .5px solid yellow;
-            padding: 1%;
+/* =========================
+   TABLES
+========================= */
 
-            }
+.table {
+    width: 100%;
 
+    color: var(--text-primary);
+
+    border-color: var(--border);
+
+    font-size: 12px;
+}
+
+.table th {
+    padding: 12px 14px;
+
+    background: #1b2633;
+    color: var(--text-secondary);
+
+    border-bottom: 1px solid var(--border);
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+
+    white-space: nowrap;
+}
+
+.table td {
+    padding: 11px 14px;
+
+    background: var(--bg-panel);
+    color: var(--text-primary);
+
+    border-bottom: 1px solid var(--border);
+
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+
+    vertical-align: middle;
+}
+
+.table tbody tr:hover td {
+    background: var(--bg-card);
+}
+
+
+/* =========================
+   BOOTSTRAP DARK TABLE
+========================= */
+
+.table-dark {
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--text-primary);
+    --bs-table-border-color: var(--border);
+
+    --bs-table-striped-bg: #17212d;
+    --bs-table-striped-color: var(--text-primary);
+
+    --bs-table-hover-bg: #233142;
+    --bs-table-hover-color: var(--text-primary);
+}
+
+
+/* =========================
+   STATISTICS PAGE
+========================= */
 
 .stat_page_main {
-                 display: flex;
-                 flex-direction: row;
-                 width: 100%
+    width: 100%;
 
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+
+    gap: 20px;
+
+    padding: 20px;
+
+    background: var(--bg-main) !important;
+    background-image: none !important;
 }
+
+
+/* =========================
+   DIAGRAM
+========================= */
 
 .diagram_div {
-              width: 60%;,
-              display: flex;
-              justify-content: center;
-              height: 95vh;
-              overflow: auto;
+    width: 60%;
+    min-width: 0;
+
+    height: calc(100vh - 100px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+
+    gap: 16px;
+
+    padding: 22px;
+
+    background: var(--bg-panel) !important;
+    background-image: none !important;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-panel);
+
+    overflow: auto;
 }
+
+.diagram_div canvas {
+    max-width: 100%;
+}
+
+
+/* =========================
+   CHART TITLE
+========================= */
 
 .chart_title {
-              display: flex;
-              justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding-bottom: 14px;
+
+    border-bottom: 1px solid var(--border);
+
+    color: var(--text-primary);
+
+    font-size: 14px;
+    font-weight: 700;
 }
 
-.calculator {
-             display: flex;
-             justify-content: space-around;
 
+/* =========================
+   CALCULATOR
+========================= */
+
+.calculator {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    flex-wrap: wrap;
+    gap: 12px;
+
+    padding: 16px;
+
+    background: var(--bg-panel) !important;
+    background-image: none !important;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
 }
 
 .calculator input {
-                   width: 15%;
+    width: 15%;
+    min-width: 90px;
 }
+
+
+/* =========================
+   BATTERY FOOTER
+========================= */
 
 .battery_position_footer {
-                          width: 100%;
-                          display: flex;
-                          flex-direction: row;
-                          justify-content: space-between;
+    width: 100%;
 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    flex-wrap: wrap;
+    gap: 14px;
+
+    padding: 16px;
+
+    background: var(--bg-panel) !important;
+    background-image: none !important;
+
+    border-top: 1px solid var(--border);
 }
+
+
+/* =========================
+   MAIN SHIELD
+========================= */
 
 .main_schield {
-               border: .5px solid yellow;
-               width: 100%;
+    width: 100%;
+    min-width: 0;
 
+    padding: 20px;
 
+    background: var(--bg-panel) !important;
+    background-image: none !important;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-panel);
 }
-.dropdown-item:hover {border-bottom: .5px solid yellow;
-                      background-color: #869977;;
-                      transform: scale(1.15)
+
+
+/* =========================
+   MODAL WINDOWS
+========================= */
+
+.modal-content {
+    background: var(--bg-panel) !important;
+    background-image: none !important;
+
+    color: var(--text-primary);
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+
+    box-shadow: 0 16px 60px rgba(0, 0, 0, 0.45);
 }
 
-@media screen and (max-width: 430px){
+.modal-header {
+    border-bottom: 1px solid var(--border);
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border);
+}
+
+.modal-title {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.modal-body {
+    color: var(--text-secondary);
+}
+
+
+/* =========================
+   BADGES
+========================= */
+
+.badge {
+    padding: 5px 8px;
+
+    border-radius: 5px;
+
+    font-size: 10px;
+    font-weight: 700;
+}
+
+
+/* =========================
+   SCROLLBARS
+========================= */
+
+.add_data_block,
+.side_panel,
+.orders_block,
+.diagram_div {
+    scrollbar-width: thin;
+    scrollbar-color: #34465a var(--bg-main);
+}
+
+.add_data_block::-webkit-scrollbar,
+.side_panel::-webkit-scrollbar,
+.orders_block::-webkit-scrollbar,
+.diagram_div::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+.add_data_block::-webkit-scrollbar-track,
+.side_panel::-webkit-scrollbar-track,
+.orders_block::-webkit-scrollbar-track,
+.diagram_div::-webkit-scrollbar-track {
+    background: var(--bg-main);
+}
+
+.add_data_block::-webkit-scrollbar-thumb,
+.side_panel::-webkit-scrollbar-thumb,
+.orders_block::-webkit-scrollbar-thumb,
+.diagram_div::-webkit-scrollbar-thumb {
+    background: #34465a;
+    border-radius: 10px;
+}
+
+.add_data_block::-webkit-scrollbar-thumb:hover,
+.side_panel::-webkit-scrollbar-thumb:hover,
+.orders_block::-webkit-scrollbar-thumb:hover,
+.diagram_div::-webkit-scrollbar-thumb:hover {
+    background: #4b6178;
+}
+
+
+/* =========================
+   LAPTOP
+========================= */
+
+@media screen and (max-width: 1200px) {
+
+    .main {
+        padding: 16px;
+    }
+
     .add_data_block {
-                 width: 100%;
+        padding: 16px;
+        gap: 16px;
+    }
 
-                 overflow: auto;
-                 height: 97vh;
-                 padding: 3%;
-                 display:flex;
-                 flex-direction: column;
-                 justify-content: space-between;
-                 flex-wrap: wrap;
-            }
-
-    .add_fpv_total {
-                width: 97%;
-                display: flex;
-                flex-wrap: wrap;
-                border: .5px solid yellow;
-                padding: 1%;
-                margin-top: 15px;
-                }
-
-    .add_mavic_total{
-                width: 97%;
-
-                display: flex;
-                flex-wrap: wrap;
-                border: .5px solid yellow;
-                padding: 1%;
-                margin-top: 15px;
-            }
-    .input_form_div {
-                     width: 100%;
-                     display: flex;
-                     flex-direction: column;
-                    }
-    .input_form_div input{
-                     width: 100%;
-                    }
-
-    .add_fpv_total_mini_div {
-                              width: 100%;
-                            }
-
-    .add_fpv_operator_name {
-                            width: 100%;
-                            }
-
-    .order_main {
-             width: 100%;
-             display: flex;
-             flex-direction: column;
+    .add_fpv_total,
+    .add_mavic_total,
+    .add_radio_service,
+    .rifle_add {
+        width: calc(50% - 8px);
+        padding: 18px;
     }
 
     .side_panel {
-             display: none;`
-             width: 97%;
-             height: 45vh;
-             overflow: auto;
-             padding: 2%;
-             border: 1px solid yellow;
-             margin-top: 10px;
-             height: 95vh;
-             overflow: auto;
+        width: 30%;
+        min-width: 220px;
     }
 
     .orders_block {
-               width: 100%;
-               height: 95vh;
-               overflow: auto;
-               padding: 2%;
+        width: 70%;
+        padding: 16px;
+    }
+
+    .title_filter_panel_sum_filter {
+        flex-wrap: wrap;
+    }
+
+    .total_value {
+        width: auto;
+        min-width: 180px;
+    }
 }
 
 
+/* =========================
+   TABLET
+========================= */
+
+@media screen and (max-width: 900px) {
+
+    .add_fpv_total,
+    .add_mavic_total,
+    .add_radio_service,
+    .rifle_add {
+        width: 100%;
+    }
+
+    .order_main {
+        flex-direction: column;
+    }
+
+    .side_panel {
+        width: 100%;
+        min-width: 0;
+
+        height: auto;
+        max-height: 35vh;
+
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .orders_block {
+        width: 100%;
+        height: auto;
+        min-height: 60vh;
+    }
+
+    .stat_page_main {
+        flex-direction: column;
+    }
+
+    .diagram_div {
+        width: 100%;
+        height: 60vh;
+    }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media screen and (max-width: 600px) {
+
+    .main {
+        padding: 10px;
+    }
+
+    .add_data_block {
+        width: 100%;
+
+        height: auto;
+        min-height: 0;
+
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+
+        gap: 14px;
+        padding: 10px;
+
+        overflow: visible;
+    }
+
+    .add_fpv_total,
+    .add_mavic_total,
+    .add_radio_service,
+    .rifle_add {
+        width: 100%;
+
+        padding: 16px;
+        margin: 0;
+    }
+
+    .input_form_div,
+    .add_fpv_total_mini_div,
+    .add_fpv_operator_name {
+        width: 100%;
+    }
+
+    .input_form_div input {
+        width: 100%;
+    }
+
+    .title_filter_panel_sum_filter {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .total_value {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .order_main {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .side_panel {
+        display: none;
+    }
+
+    .orders_block {
+        width: 100%;
+
+        height: auto;
+        min-height: 80vh;
+
+        padding: 12px;
+
+        overflow-x: auto;
+    }
+
+    .filter_panel {
+        padding: 14px;
+    }
+
+    .stat_page_main {
+        padding: 10px;
+    }
+
+    .diagram_div {
+        width: 100%;
+        height: 50vh;
+
+        padding: 14px;
+    }
+
+    .calculator {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .calculator input {
+        width: 100%;
+    }
+
+    .battery_position_footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .main_schield {
+        padding: 14px;
+    }
+}
+
+
+/* =========================
+   REMOVE BACKGROUND IMAGES
+========================= */
+
+html,
+body,
+.main,
+.add_data_block,
+.order_main,
+.side_panel,
+.orders_block,
+.filter_panel,
+.stat_page_main,
+.diagram_div,
+.main_schield,
+.add_fpv_total,
+.add_mavic_total,
+.add_radio_service,
+.rifle_add,
+.total_value,
+.calculator,
+.battery_position_footer,
+.navbar-custom,
+.dropdown-menu,
+.modal-content {
+    background-image: none !important;
+}
+
+
+/* =========================
+   ACCESSIBILITY
+========================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
+
+/* =========================
+   REMOVE TOOLBAR BACKGROUND
+========================= */
+
+.navbar,
+.navbar-custom,
+.navbar-expand-lg,
+.navbar-collapse,
+.navbar-nav,
+.toolbar,
+.header,
+header {
+    background-image: none !important;
+}
+
+.navbar,
+.navbar-custom,
+.toolbar,
+.header,
+header {
+    background-color: #111923 !important;
+}
+
+/* Remove background images from pseudo-elements */
+
+.navbar::before,
+.navbar::after,
+.navbar-custom::before,
+.navbar-custom::after,
+.toolbar::before,
+.toolbar::after {
+    background-image: none !important;
+}
+
+/* Dropdown menu */
+
+.navbar .dropdown-menu {
+    background: #18222f !important;
+    background-image: none !important;
+}
+
+/* ==========================================
+   COUNT CRM — TEXT AND BUTTON COLOR FIX
+========================================== */
+
+/* Основной текст */
+body,
+.main,
+.add_data_block,
+.order_main,
+.orders_block,
+.side_panel,
+.filter_panel,
+.main_schield,
+.stat_page_main,
+.diagram_div {
+    color: #ffffff !important;
+}
+
+/* Заголовки и подписи */
+h1, h2, h3, h4, h5, h6,
+p,
+label,
+.form-label,
+.form-check-label,
+small,
+span,
+strong,
+.add_fpv_title,
+.chart_title,
+.col-form-label {
+    color: #ffffff !important;
+}
+
+/* Кнопки */
+button,
+.btn,
+.btn-primary,
+.btn-secondary,
+.btn-success,
+.btn-danger,
+.btn-warning,
+.btn-info,
+.btn-outline-primary,
+.btn-outline-secondary,
+.btn-outline-light,
+.table_button button {
+    color: #ffffff !important;
+}
+
+/* Текст кнопок при наведении */
+button:hover,
+.btn:hover,
+.table_button button:hover {
+    color: #ffffff !important;
+}
+
+/* Поля ввода */
+input,
+select,
+textarea,
+.form-control,
+.form-select {
+    color: #ffffff !important;
+    background-color: #18222f;
+}
+
+/* Подсказки в полях */
+input::placeholder,
+textarea::placeholder {
+    color: #96a5b7 !important;
+}
+
+/* Выпадающие списки */
+option,
+.dropdown-item,
+.dropdown-toggle {
+    color: #ffffff !important;
+}
+
+/* Навигация */
+.navbar,
+.navbar-custom,
+.navbar-brand,
+.nav-link,
+.navbar-nav .nav-link {
+    color: #ffffff !important;
+}
+
+/* Таблицы */
+.table,
+.table th,
+.table td,
+.table-dark,
+.table-dark th,
+.table-dark td {
+    color: #ffffff !important;
+}
+
+/* Bootstrap 5 — цвет текста таблиц */
+.table {
+    --bs-table-color: #ffffff;
+    --bs-table-striped-color: #ffffff;
+    --bs-table-hover-color: #ffffff;
+}
+
+/* Ссылки */
+a {
+    color: #ffffff;
+}
+
+a:hover {
+    color: #00d4a1;
 }
